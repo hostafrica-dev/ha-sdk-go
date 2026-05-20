@@ -1,6 +1,5 @@
 # Go API client for hasdk
 
-
 HostAfrica API
 
 ## Overview
