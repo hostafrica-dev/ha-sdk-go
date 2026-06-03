@@ -405,6 +405,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/InvalidStateErrorResponseContent"
           description: InvalidStateError 409 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -1916,6 +1922,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
           description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -2001,6 +2013,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/InvalidStateErrorResponseContent"
           description: InvalidStateError 409 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -2086,6 +2104,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/InvalidStateErrorResponseContent"
           description: InvalidStateError 409 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -2165,6 +2189,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
           description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -2245,6 +2275,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
           description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -2325,6 +2361,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
           description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -2404,6 +2446,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
           description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -2484,6 +2532,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
           description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -2638,6 +2692,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
           description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -2718,6 +2778,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
           description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -2797,6 +2863,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
           description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -3116,6 +3188,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
           description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:

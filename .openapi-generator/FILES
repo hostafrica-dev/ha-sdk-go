@@ -238,8 +238,6 @@ docs/VpsServiceInfo.md
 docs/VpsSimpleActionResponseData.md
 docs/VpsVmInfo.md
 git_push.sh
-go.mod
-go.sum
 model_backup_create_response_data.go
 model_backup_creation_info.go
 model_backup_item.go
