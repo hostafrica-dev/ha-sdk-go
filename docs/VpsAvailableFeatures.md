@@ -18,13 +18,12 @@ Name | Type | Description | Notes
 **ChangeIsoImage** | **bool** | Can change ISO image | 
 **NetworkStats** | **bool** | Has network statistics feature | 
 **Graphs** | **bool** | Has graphs feature | 
-**OsTemplates** | **[]string** | List of available OS templates | 
 
 ## Methods
 
 ### NewVpsAvailableFeatures
 
-`func NewVpsAvailableFeatures(powerStart bool, powerStop bool, powerReboot bool, powerShutdown bool, novncConsole bool, backups bool, backupJobs bool, backupSchedule bool, firewall bool, reinstall bool, changeHostname bool, changeIsoImage bool, networkStats bool, graphs bool, osTemplates []string, ) *VpsAvailableFeatures`
+`func NewVpsAvailableFeatures(powerStart bool, powerStop bool, powerReboot bool, powerShutdown bool, novncConsole bool, backups bool, backupJobs bool, backupSchedule bool, firewall bool, reinstall bool, changeHostname bool, changeIsoImage bool, networkStats bool, graphs bool, ) *VpsAvailableFeatures`
 
 NewVpsAvailableFeatures instantiates a new VpsAvailableFeatures object
 This constructor will assign default values to properties that have it defined,
@@ -317,26 +316,6 @@ and a boolean to check if the value has been set.
 `func (o *VpsAvailableFeatures) SetGraphs(v bool)`
 
 SetGraphs sets Graphs field to given value.
-
-
-### GetOsTemplates
-
-`func (o *VpsAvailableFeatures) GetOsTemplates() []string`
-
-GetOsTemplates returns the OsTemplates field if non-nil, zero value otherwise.
-
-### GetOsTemplatesOk
-
-`func (o *VpsAvailableFeatures) GetOsTemplatesOk() (*[]string, bool)`
-
-GetOsTemplatesOk returns a tuple with the OsTemplates field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetOsTemplates
-
-`func (o *VpsAvailableFeatures) SetOsTemplates(v []string)`
-
-SetOsTemplates sets OsTemplates field to given value.
 
 
 

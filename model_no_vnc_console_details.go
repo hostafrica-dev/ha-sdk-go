@@ -21,16 +21,8 @@ var _ MappedNullable = &NoVncConsoleDetails{}
 
 // NoVncConsoleDetails noVNC console connection details
 type NoVncConsoleDetails struct {
-	// VNC port number
-	Port string `json:"port"`
-	// Proxmox Unique Process ID for the VNC proxy
-	Upid string `json:"upid"`
-	// Proxmox user for authentication
-	User string `json:"user"`
-	// Authentication ticket for VNC connection
-	Ticket string `json:"ticket"`
-	// Certificate for secure connection
-	Cert string `json:"cert"`
+	// Redirect URL for the noVNC console
+	NovncRedirectUrl string `json:"novnc_redirect_url"`
 }
 
 type _NoVncConsoleDetails NoVncConsoleDetails
@@ -39,13 +31,9 @@ type _NoVncConsoleDetails NoVncConsoleDetails
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewNoVncConsoleDetails(port string, upid string, user string, ticket string, cert string) *NoVncConsoleDetails {
+func NewNoVncConsoleDetails(novncRedirectUrl string) *NoVncConsoleDetails {
 	this := NoVncConsoleDetails{}
-	this.Port = port
-	this.Upid = upid
-	this.User = user
-	this.Ticket = ticket
-	this.Cert = cert
+	this.NovncRedirectUrl = novncRedirectUrl
 	return &this
 }
 
@@ -57,124 +45,28 @@ func NewNoVncConsoleDetailsWithDefaults() *NoVncConsoleDetails {
 	return &this
 }
 
-// GetPort returns the Port field value
-func (o *NoVncConsoleDetails) GetPort() string {
+// GetNovncRedirectUrl returns the NovncRedirectUrl field value
+func (o *NoVncConsoleDetails) GetNovncRedirectUrl() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.Port
+	return o.NovncRedirectUrl
 }
 
-// GetPortOk returns a tuple with the Port field value
+// GetNovncRedirectUrlOk returns a tuple with the NovncRedirectUrl field value
 // and a boolean to check if the value has been set.
-func (o *NoVncConsoleDetails) GetPortOk() (*string, bool) {
+func (o *NoVncConsoleDetails) GetNovncRedirectUrlOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Port, true
+	return &o.NovncRedirectUrl, true
 }
 
-// SetPort sets field value
-func (o *NoVncConsoleDetails) SetPort(v string) {
-	o.Port = v
-}
-
-// GetUpid returns the Upid field value
-func (o *NoVncConsoleDetails) GetUpid() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Upid
-}
-
-// GetUpidOk returns a tuple with the Upid field value
-// and a boolean to check if the value has been set.
-func (o *NoVncConsoleDetails) GetUpidOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Upid, true
-}
-
-// SetUpid sets field value
-func (o *NoVncConsoleDetails) SetUpid(v string) {
-	o.Upid = v
-}
-
-// GetUser returns the User field value
-func (o *NoVncConsoleDetails) GetUser() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.User
-}
-
-// GetUserOk returns a tuple with the User field value
-// and a boolean to check if the value has been set.
-func (o *NoVncConsoleDetails) GetUserOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.User, true
-}
-
-// SetUser sets field value
-func (o *NoVncConsoleDetails) SetUser(v string) {
-	o.User = v
-}
-
-// GetTicket returns the Ticket field value
-func (o *NoVncConsoleDetails) GetTicket() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Ticket
-}
-
-// GetTicketOk returns a tuple with the Ticket field value
-// and a boolean to check if the value has been set.
-func (o *NoVncConsoleDetails) GetTicketOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Ticket, true
-}
-
-// SetTicket sets field value
-func (o *NoVncConsoleDetails) SetTicket(v string) {
-	o.Ticket = v
-}
-
-// GetCert returns the Cert field value
-func (o *NoVncConsoleDetails) GetCert() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Cert
-}
-
-// GetCertOk returns a tuple with the Cert field value
-// and a boolean to check if the value has been set.
-func (o *NoVncConsoleDetails) GetCertOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Cert, true
-}
-
-// SetCert sets field value
-func (o *NoVncConsoleDetails) SetCert(v string) {
-	o.Cert = v
+// SetNovncRedirectUrl sets field value
+func (o *NoVncConsoleDetails) SetNovncRedirectUrl(v string) {
+	o.NovncRedirectUrl = v
 }
 
 func (o NoVncConsoleDetails) MarshalJSON() ([]byte, error) {
@@ -187,11 +79,7 @@ func (o NoVncConsoleDetails) MarshalJSON() ([]byte, error) {
 
 func (o NoVncConsoleDetails) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["port"] = o.Port
-	toSerialize["upid"] = o.Upid
-	toSerialize["user"] = o.User
-	toSerialize["ticket"] = o.Ticket
-	toSerialize["cert"] = o.Cert
+	toSerialize["novnc_redirect_url"] = o.NovncRedirectUrl
 	return toSerialize, nil
 }
 
@@ -200,11 +88,7 @@ func (o *NoVncConsoleDetails) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"port",
-		"upid",
-		"user",
-		"ticket",
-		"cert",
+		"novnc_redirect_url",
 	}
 
 	allProperties := make(map[string]interface{})

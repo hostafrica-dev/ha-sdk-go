@@ -27,7 +27,6 @@ type VpsDetailsResponse struct {
 	Cpu VpsCpuInfo `json:"cpu"`
 	Memory VpsMemoryInfo `json:"memory"`
 	Disk VpsDiskInfo `json:"disk"`
-	Bandwidth VpsBandwidthInfo `json:"bandwidth"`
 	NetworkRate *VpsNetworkRate `json:"network_rate,omitempty"`
 	// List of IP addresses assigned to the VPS
 	IpAddresses []string `json:"ip_addresses"`
@@ -42,14 +41,13 @@ type _VpsDetailsResponse VpsDetailsResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewVpsDetailsResponse(message string, vmInfo VpsVmInfo, cpu VpsCpuInfo, memory VpsMemoryInfo, disk VpsDiskInfo, bandwidth VpsBandwidthInfo, ipAddresses []string, credentials VpsCredentials, availableFeatures VpsAvailableFeatures) *VpsDetailsResponse {
+func NewVpsDetailsResponse(message string, vmInfo VpsVmInfo, cpu VpsCpuInfo, memory VpsMemoryInfo, disk VpsDiskInfo, ipAddresses []string, credentials VpsCredentials, availableFeatures VpsAvailableFeatures) *VpsDetailsResponse {
 	this := VpsDetailsResponse{}
 	this.Message = message
 	this.VmInfo = vmInfo
 	this.Cpu = cpu
 	this.Memory = memory
 	this.Disk = disk
-	this.Bandwidth = bandwidth
 	this.IpAddresses = ipAddresses
 	this.Credentials = credentials
 	this.AvailableFeatures = availableFeatures
@@ -182,30 +180,6 @@ func (o *VpsDetailsResponse) GetDiskOk() (*VpsDiskInfo, bool) {
 // SetDisk sets field value
 func (o *VpsDetailsResponse) SetDisk(v VpsDiskInfo) {
 	o.Disk = v
-}
-
-// GetBandwidth returns the Bandwidth field value
-func (o *VpsDetailsResponse) GetBandwidth() VpsBandwidthInfo {
-	if o == nil {
-		var ret VpsBandwidthInfo
-		return ret
-	}
-
-	return o.Bandwidth
-}
-
-// GetBandwidthOk returns a tuple with the Bandwidth field value
-// and a boolean to check if the value has been set.
-func (o *VpsDetailsResponse) GetBandwidthOk() (*VpsBandwidthInfo, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Bandwidth, true
-}
-
-// SetBandwidth sets field value
-func (o *VpsDetailsResponse) SetBandwidth(v VpsBandwidthInfo) {
-	o.Bandwidth = v
 }
 
 // GetNetworkRate returns the NetworkRate field value if set, zero value otherwise.
@@ -359,7 +333,6 @@ func (o VpsDetailsResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["cpu"] = o.Cpu
 	toSerialize["memory"] = o.Memory
 	toSerialize["disk"] = o.Disk
-	toSerialize["bandwidth"] = o.Bandwidth
 	if !IsNil(o.NetworkRate) {
 		toSerialize["network_rate"] = o.NetworkRate
 	}
@@ -382,7 +355,6 @@ func (o *VpsDetailsResponse) UnmarshalJSON(data []byte) (err error) {
 		"cpu",
 		"memory",
 		"disk",
-		"bandwidth",
 		"ip_addresses",
 		"credentials",
 		"available_features",

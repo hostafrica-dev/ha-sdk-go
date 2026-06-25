@@ -28,18 +28,12 @@ tags:
     \ power tasks. Start, stop, reboot, or gracefully shut down a VPS, and create\
     \ or manage recurring power schedules."
   name: Power Management
-- description: "Manage OS-level credentials and SSH key access for your VPS instances,\
-    \ including password changes and SSH key rotation."
-  name: Security
 - description: "Browse the service catalogue, validate pricing, place orders, and\
     \ manage existing subscriptions including cancellation and payment retries."
   name: Service Management
 - description: "Capture point-in-time snapshots of a VPS disk, update snapshot metadata,\
     \ roll back to a previous snapshot, and delete snapshots you no longer need."
   name: Snapshots
-- description: Manage account-level user settings such as updating the password for
-    the authenticated user.
-  name: User Management
 - description: "Manage your VPS instances — list services, retrieve configuration\
     \ details, update settings, mount ISO images, and reinstall the operating system."
   name: VPS Management
@@ -278,86 +272,6 @@ paths:
               style: simple
       tags:
       - DNS
-  /user/change-password:
-    post:
-      description: Changes the authenticated user's password. All active sessions
-        will be revoked and the user must login again.
-      operationId: UserChangePassword
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UserChangePasswordRequestContent"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UserChangePasswordResponseContent"
-          description: UserChangePassword 200 response
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BadRequestErrorResponseContent"
-          description: BadRequestError 400 response
-        "401":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
-          description: UnauthorizedError 401 response
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
-          description: ForbiddenError 403 response
-        "422":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ValidationErrorResponseContent"
-          description: ValidationError 422 response
-        "429":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
-          description: TooManyRequestsError 429 response
-          headers:
-            Retry-After:
-              description: Number of seconds to wait before retrying
-              explode: false
-              schema:
-                description: Number of seconds to wait before retrying
-                format: int32
-                type: integer
-              style: simple
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
-          description: InternalServiceError 500 response
-        "503":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
-          description: ServiceUnavailableError 503 response
-          headers:
-            Retry-After:
-              description: Number of seconds to wait before retrying
-              explode: false
-              schema:
-                description: Number of seconds to wait before retrying
-                format: int32
-                type: integer
-              style: simple
-      tags:
-      - User Management
   /vps/cancel:
     post:
       description: Cancels a VPS service through WHMCS. This action is irreversible
@@ -449,91 +363,6 @@ paths:
               style: simple
       tags:
       - Service Management
-  /vps/change-password:
-    post:
-      description: Change the root password for a VPS service
-      operationId: ChangePassword
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ChangePasswordRequestContent"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ChangePasswordResponseContent"
-          description: ChangePassword 200 response
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BadRequestErrorResponseContent"
-          description: BadRequestError 400 response
-        "401":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
-          description: UnauthorizedError 401 response
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
-          description: ForbiddenError 403 response
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
-          description: ResourceNotFoundError 404 response
-        "422":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ValidationErrorResponseContent"
-          description: ValidationError 422 response
-        "429":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
-          description: TooManyRequestsError 429 response
-          headers:
-            Retry-After:
-              description: Number of seconds to wait before retrying
-              explode: false
-              schema:
-                description: Number of seconds to wait before retrying
-                format: int32
-                type: integer
-              style: simple
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
-          description: InternalServiceError 500 response
-        "503":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
-          description: ServiceUnavailableError 503 response
-          headers:
-            Retry-After:
-              description: Number of seconds to wait before retrying
-              explode: false
-              schema:
-                description: Number of seconds to wait before retrying
-                format: int32
-                type: integer
-              style: simple
-      tags:
-      - Security
   /vps/create-backup:
     post:
       description: Creates a new backup for a VPS service
@@ -1966,188 +1795,6 @@ paths:
               style: simple
       tags:
       - VPS Management
-  /vps/get-private-ssh-keys:
-    post:
-      description: Retrieves the private SSH key configured for a VPS service
-      operationId: GetPrivateSshKey
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/GetPrivateSshKeyRequestContent"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/GetPrivateSshKeyResponseContent"
-          description: GetPrivateSshKey 200 response
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BadRequestErrorResponseContent"
-          description: BadRequestError 400 response
-        "401":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
-          description: UnauthorizedError 401 response
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
-          description: ForbiddenError 403 response
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
-          description: ResourceNotFoundError 404 response
-        "409":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InvalidStateErrorResponseContent"
-          description: InvalidStateError 409 response
-        "422":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ValidationErrorResponseContent"
-          description: ValidationError 422 response
-        "429":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
-          description: TooManyRequestsError 429 response
-          headers:
-            Retry-After:
-              description: Number of seconds to wait before retrying
-              explode: false
-              schema:
-                description: Number of seconds to wait before retrying
-                format: int32
-                type: integer
-              style: simple
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
-          description: InternalServiceError 500 response
-        "503":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
-          description: ServiceUnavailableError 503 response
-          headers:
-            Retry-After:
-              description: Number of seconds to wait before retrying
-              explode: false
-              schema:
-                description: Number of seconds to wait before retrying
-                format: int32
-                type: integer
-              style: simple
-      tags:
-      - Security
-  /vps/get-public-ssh-keys:
-    post:
-      description: Retrieves the public SSH key configured for a VPS service
-      operationId: GetPublicSshKey
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/GetPublicSshKeyRequestContent"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/GetPublicSshKeyResponseContent"
-          description: GetPublicSshKey 200 response
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BadRequestErrorResponseContent"
-          description: BadRequestError 400 response
-        "401":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
-          description: UnauthorizedError 401 response
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
-          description: ForbiddenError 403 response
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
-          description: ResourceNotFoundError 404 response
-        "409":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InvalidStateErrorResponseContent"
-          description: InvalidStateError 409 response
-        "422":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ValidationErrorResponseContent"
-          description: ValidationError 422 response
-        "429":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
-          description: TooManyRequestsError 429 response
-          headers:
-            Retry-After:
-              description: Number of seconds to wait before retrying
-              explode: false
-              schema:
-                description: Number of seconds to wait before retrying
-                format: int32
-                type: integer
-              style: simple
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
-          description: InternalServiceError 500 response
-        "503":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
-          description: ServiceUnavailableError 503 response
-          headers:
-            Retry-After:
-              description: Number of seconds to wait before retrying
-              explode: false
-              schema:
-                description: Number of seconds to wait before retrying
-                format: int32
-                type: integer
-              style: simple
-      tags:
-      - Security
   /vps/list-backup-schedules:
     post:
       description: Retrieves the list of backup schedules for a VPS service
@@ -4348,97 +3995,6 @@ paths:
               style: simple
       tags:
       - Snapshots
-  /vps/update-ssh-keys:
-    post:
-      description: Updates SSH public keys for a VPS service for root access.
-      operationId: UpdateSshKeys
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UpdateSshKeysRequestContent"
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UpdateSshKeysResponseContent"
-          description: UpdateSshKeys 200 response
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BadRequestErrorResponseContent"
-          description: BadRequestError 400 response
-        "401":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
-          description: UnauthorizedError 401 response
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
-          description: ForbiddenError 403 response
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
-          description: ResourceNotFoundError 404 response
-        "409":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InvalidStateErrorResponseContent"
-          description: InvalidStateError 409 response
-        "422":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ValidationErrorResponseContent"
-          description: ValidationError 422 response
-        "429":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
-          description: TooManyRequestsError 429 response
-          headers:
-            Retry-After:
-              description: Number of seconds to wait before retrying
-              explode: false
-              schema:
-                description: Number of seconds to wait before retrying
-                format: int32
-                type: integer
-              style: simple
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
-          description: InternalServiceError 500 response
-        "503":
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
-          description: ServiceUnavailableError 503 response
-          headers:
-            Retry-After:
-              description: Number of seconds to wait before retrying
-              explode: false
-              schema:
-                description: Number of seconds to wait before retrying
-                format: int32
-                type: integer
-              style: simple
-      tags:
-      - Security
   /vps/validate-pricing:
     post:
       description: "Validates pricing for one or more products, returning per-product\
@@ -5435,37 +4991,6 @@ components:
       - requires_hostname
       - type
       - use_plans
-      type: object
-    ChangePasswordRequestContent:
-      example:
-        password: password
-        service_id: service_id
-      properties:
-        service_id:
-          description: Service ID - must be sent as a string
-          type: string
-        password:
-          description: New root password for the VPS
-          maxLength: 128
-          minLength: 16
-          type: string
-      required:
-      - password
-      - service_id
-      type: object
-    ChangePasswordResponseContent:
-      example:
-        data:
-          message: message
-        status: success
-      properties:
-        status:
-          $ref: "#/components/schemas/OperationStatus"
-        data:
-          $ref: "#/components/schemas/VpsSimpleActionResponseData"
-      required:
-      - data
-      - status
       type: object
     CompressionMethod:
       description: Compression method option
@@ -7195,11 +6720,7 @@ components:
       example:
         data:
           console:
-            upid: upid
-            ticket: ticket
-            port: port
-            cert: cert
-            user: user
+            novnc_redirect_url: novnc_redirect_url
           message: message
         status: success
       properties:
@@ -7207,60 +6728,6 @@ components:
           $ref: "#/components/schemas/OperationStatus"
         data:
           $ref: "#/components/schemas/NoVncConsoleResponseData"
-      required:
-      - data
-      - status
-      type: object
-    GetPrivateSshKeyRequestContent:
-      example:
-        service_id: service_id
-      properties:
-        service_id:
-          description: Service ID - must be sent as a string
-          type: string
-      required:
-      - service_id
-      type: object
-    GetPrivateSshKeyResponseContent:
-      example:
-        data:
-          data:
-            public_key: public_key
-            type: type
-          message: message
-        status: success
-      properties:
-        status:
-          $ref: "#/components/schemas/OperationStatus"
-        data:
-          $ref: "#/components/schemas/PublicSshKeyResponseData"
-      required:
-      - data
-      - status
-      type: object
-    GetPublicSshKeyRequestContent:
-      example:
-        service_id: service_id
-      properties:
-        service_id:
-          description: Service ID - must be sent as a string
-          type: string
-      required:
-      - service_id
-      type: object
-    GetPublicSshKeyResponseContent:
-      example:
-        data:
-          data:
-            public_key: public_key
-            type: type
-          message: message
-        status: success
-      properties:
-        status:
-          $ref: "#/components/schemas/OperationStatus"
-        data:
-          $ref: "#/components/schemas/PublicSshKeyResponseData"
       required:
       - data
       - status
@@ -7323,17 +6790,12 @@ components:
             total_human: total_human
             percent: 70.61401241503108
           network_rate:
-            mbit_per_sec: 0.14894159098541704
-            mb_per_sec: 0.10246457001441578
+            mbit_per_sec: 0.7386281948385884
+            mb_per_sec: 0.4145608029883936
             human: human
           os_info:
             name: name
             version: version
-          bandwidth:
-            limit_mb: 0.7386281948385884
-            usage_mb: 0.4145608029883936
-            unlimited: true
-            percent: 12.315135367772555
           credentials:
             password: password
             username: username
@@ -7353,9 +6815,6 @@ components:
             network_stats: true
             reinstall: true
             power_shutdown: true
-            os_templates:
-            - os_templates
-            - os_templates
             power_reboot: true
             backups: true
           cpu:
@@ -8221,43 +7680,19 @@ components:
     NoVncConsoleDetails:
       description: noVNC console connection details
       example:
-        upid: upid
-        ticket: ticket
-        port: port
-        cert: cert
-        user: user
+        novnc_redirect_url: novnc_redirect_url
       properties:
-        port:
-          description: VNC port number
-          type: string
-        upid:
-          description: Proxmox Unique Process ID for the VNC proxy
-          type: string
-        user:
-          description: Proxmox user for authentication
-          type: string
-        ticket:
-          description: Authentication ticket for VNC connection
-          type: string
-        cert:
-          description: Certificate for secure connection
+        novnc_redirect_url:
+          description: Redirect URL for the noVNC console
           type: string
       required:
-      - cert
-      - port
-      - ticket
-      - upid
-      - user
+      - novnc_redirect_url
       type: object
     NoVncConsoleResponseData:
       description: Response data for noVNC console operation
       example:
         console:
-          upid: upid
-          ticket: ticket
-          port: port
-          cert: cert
-          user: user
+          novnc_redirect_url: novnc_redirect_url
         message: message
       properties:
         message:
@@ -8818,23 +8253,6 @@ components:
       - message
       - tasks
       type: object
-    PublicSshKeyResponseData:
-      description: Response data for public SSH key retrieval
-      example:
-        data:
-          public_key: public_key
-          type: type
-        message: message
-      properties:
-        message:
-          description: Status message indicating the result
-          type: string
-        data:
-          $ref: "#/components/schemas/SshKeyDetails"
-      required:
-      - data
-      - message
-      type: object
     RdnsAvailableItem:
       description: One service the client can manage PTRs for
       example:
@@ -9361,23 +8779,6 @@ components:
       - description
       - name
       type: object
-    SshKeyDetails:
-      description: SSH key details
-      example:
-        public_key: public_key
-        type: type
-      properties:
-        public_key:
-          description: The public SSH key in OpenSSH format
-          type: string
-        type:
-          description: Type of SSH key configuration - 'sshkeys' for KVM cloud-init
-            or 'keypair' for traditional SSH (LXC)
-          type: string
-      required:
-      - public_key
-      - type
-      type: object
     StartVpsRequestContent:
       example:
         service_id: service_id
@@ -9782,37 +9183,6 @@ components:
       - data
       - status
       type: object
-    UpdateSshKeysRequestContent:
-      example:
-        service_id: service_id
-        sshKeys: sshKeys
-      properties:
-        service_id:
-          description: Service ID - must be sent as a string
-          type: string
-        sshKeys:
-          description: "SSH public key in OpenSSH format (must start with ssh-rsa,\
-            \ ssh-dss, ssh-ed25519, or ssh-ecdsa)"
-          pattern: "^ssh-(rsa|dss|ed25519|ecdsa)\\s+[A-Za-z0-9+/]+[=]{0,3}(\\s+.+)?$"
-          type: string
-      required:
-      - service_id
-      - sshKeys
-      type: object
-    UpdateSshKeysResponseContent:
-      example:
-        data:
-          message: message
-        status: success
-      properties:
-        status:
-          $ref: "#/components/schemas/OperationStatus"
-        data:
-          $ref: "#/components/schemas/VpsSimpleActionResponseData"
-      required:
-      - data
-      - status
-      type: object
     UpdateVpsConfigRequestContent:
       example:
         hostname: hostname
@@ -9861,96 +9231,6 @@ components:
       required:
       - data
       - status
-      type: object
-    UserChangePasswordDetails:
-      description: Detailed information about password change
-      example:
-        sessions_revoked: 0
-        password_changed: true
-        requires_relogin: true
-      properties:
-        password_changed:
-          description: Whether the password was changed successfully
-          type: boolean
-        sessions_revoked:
-          description: Number of active sessions that were revoked
-          format: int32
-          type: integer
-        requires_relogin:
-          description: Whether the user needs to login again
-          type: boolean
-      required:
-      - password_changed
-      - requires_relogin
-      - sessions_revoked
-      type: object
-    UserChangePasswordRequestContent:
-      example:
-        old_password: old_password
-        password: password
-        confirm_password: confirm_password
-      properties:
-        old_password:
-          description: Current password
-          maxLength: 128
-          minLength: 8
-          type: string
-        password:
-          description: New password
-          maxLength: 128
-          minLength: 8
-          type: string
-        confirm_password:
-          description: Confirm new password (must match password)
-          maxLength: 128
-          minLength: 8
-          type: string
-      required:
-      - confirm_password
-      - old_password
-      - password
-      type: object
-    UserChangePasswordResponseContent:
-      example:
-        data:
-          data:
-            sessions_revoked: 0
-            password_changed: true
-            requires_relogin: true
-          success: true
-          message: message
-        status: success
-      properties:
-        status:
-          $ref: "#/components/schemas/OperationStatus"
-        data:
-          $ref: "#/components/schemas/UserChangePasswordResponseData"
-      required:
-      - data
-      - status
-      type: object
-    UserChangePasswordResponseData:
-      description: Response data for user change password operation
-      example:
-        data:
-          sessions_revoked: 0
-          password_changed: true
-          requires_relogin: true
-        success: true
-        message: message
-      properties:
-        success:
-          description: Whether the operation was successful
-          type: boolean
-        message:
-          description: Status message indicating the result
-          type: string
-        data:
-          $ref: "#/components/schemas/UserChangePasswordDetails"
-      required:
-      - data
-      - message
-      - success
       type: object
     ValidatePricingBase:
       description: Base price breakdown (recurring + setup)
@@ -10757,9 +10037,6 @@ components:
         network_stats: true
         reinstall: true
         power_shutdown: true
-        os_templates:
-        - os_templates
-        - os_templates
         power_reboot: true
         backups: true
       properties:
@@ -10805,11 +10082,6 @@ components:
         graphs:
           description: Has graphs feature
           type: boolean
-        os_templates:
-          description: List of available OS templates
-          items:
-            type: string
-          type: array
       required:
       - backup_jobs
       - backup_schedule
@@ -10820,42 +10092,11 @@ components:
       - graphs
       - network_stats
       - novnc_console
-      - os_templates
       - power_reboot
       - power_shutdown
       - power_start
       - power_stop
       - reinstall
-      type: object
-    VpsBandwidthInfo:
-      description: Bandwidth usage information
-      example:
-        limit_mb: 0.7386281948385884
-        usage_mb: 0.4145608029883936
-        unlimited: true
-        percent: 12.315135367772555
-      properties:
-        usage_mb:
-          description: Bandwidth usage in MB
-          format: double
-          minimum: 0
-          type: number
-        limit_mb:
-          description: Bandwidth limit in MB
-          format: double
-          minimum: 0
-          type: number
-        unlimited:
-          description: Whether bandwidth is unlimited
-          type: boolean
-        percent:
-          description: Bandwidth usage percentage
-          format: double
-          maximum: 100
-          minimum: 0
-          type: number
-      required:
-      - unlimited
       type: object
     VpsCancelResponseData:
       description: Response data for VPS cancellation operation
@@ -10990,17 +10231,12 @@ components:
           total_human: total_human
           percent: 70.61401241503108
         network_rate:
-          mbit_per_sec: 0.14894159098541704
-          mb_per_sec: 0.10246457001441578
+          mbit_per_sec: 0.7386281948385884
+          mb_per_sec: 0.4145608029883936
           human: human
         os_info:
           name: name
           version: version
-        bandwidth:
-          limit_mb: 0.7386281948385884
-          usage_mb: 0.4145608029883936
-          unlimited: true
-          percent: 12.315135367772555
         credentials:
           password: password
           username: username
@@ -11020,9 +10256,6 @@ components:
           network_stats: true
           reinstall: true
           power_shutdown: true
-          os_templates:
-          - os_templates
-          - os_templates
           power_reboot: true
           backups: true
         cpu:
@@ -11051,8 +10284,6 @@ components:
           $ref: "#/components/schemas/VpsMemoryInfo"
         disk:
           $ref: "#/components/schemas/VpsDiskInfo"
-        bandwidth:
-          $ref: "#/components/schemas/VpsBandwidthInfo"
         network_rate:
           $ref: "#/components/schemas/VpsNetworkRate"
         ip_addresses:
@@ -11068,7 +10299,6 @@ components:
           $ref: "#/components/schemas/VpsOsInfo"
       required:
       - available_features
-      - bandwidth
       - cpu
       - credentials
       - disk
@@ -11144,8 +10374,8 @@ components:
     VpsNetworkRate:
       description: Network rate information
       example:
-        mbit_per_sec: 0.14894159098541704
-        mb_per_sec: 0.10246457001441578
+        mbit_per_sec: 0.7386281948385884
+        mb_per_sec: 0.4145608029883936
         human: human
       properties:
         mb_per_sec:

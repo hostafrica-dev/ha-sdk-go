@@ -49,8 +49,6 @@ type VpsAvailableFeatures struct {
 	NetworkStats bool `json:"network_stats"`
 	// Has graphs feature
 	Graphs bool `json:"graphs"`
-	// List of available OS templates
-	OsTemplates []string `json:"os_templates"`
 }
 
 type _VpsAvailableFeatures VpsAvailableFeatures
@@ -59,7 +57,7 @@ type _VpsAvailableFeatures VpsAvailableFeatures
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewVpsAvailableFeatures(powerStart bool, powerStop bool, powerReboot bool, powerShutdown bool, novncConsole bool, backups bool, backupJobs bool, backupSchedule bool, firewall bool, reinstall bool, changeHostname bool, changeIsoImage bool, networkStats bool, graphs bool, osTemplates []string) *VpsAvailableFeatures {
+func NewVpsAvailableFeatures(powerStart bool, powerStop bool, powerReboot bool, powerShutdown bool, novncConsole bool, backups bool, backupJobs bool, backupSchedule bool, firewall bool, reinstall bool, changeHostname bool, changeIsoImage bool, networkStats bool, graphs bool) *VpsAvailableFeatures {
 	this := VpsAvailableFeatures{}
 	this.PowerStart = powerStart
 	this.PowerStop = powerStop
@@ -75,7 +73,6 @@ func NewVpsAvailableFeatures(powerStart bool, powerStop bool, powerReboot bool, 
 	this.ChangeIsoImage = changeIsoImage
 	this.NetworkStats = networkStats
 	this.Graphs = graphs
-	this.OsTemplates = osTemplates
 	return &this
 }
 
@@ -423,30 +420,6 @@ func (o *VpsAvailableFeatures) SetGraphs(v bool) {
 	o.Graphs = v
 }
 
-// GetOsTemplates returns the OsTemplates field value
-func (o *VpsAvailableFeatures) GetOsTemplates() []string {
-	if o == nil {
-		var ret []string
-		return ret
-	}
-
-	return o.OsTemplates
-}
-
-// GetOsTemplatesOk returns a tuple with the OsTemplates field value
-// and a boolean to check if the value has been set.
-func (o *VpsAvailableFeatures) GetOsTemplatesOk() ([]string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.OsTemplates, true
-}
-
-// SetOsTemplates sets field value
-func (o *VpsAvailableFeatures) SetOsTemplates(v []string) {
-	o.OsTemplates = v
-}
-
 func (o VpsAvailableFeatures) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -471,7 +444,6 @@ func (o VpsAvailableFeatures) ToMap() (map[string]interface{}, error) {
 	toSerialize["change_iso_image"] = o.ChangeIsoImage
 	toSerialize["network_stats"] = o.NetworkStats
 	toSerialize["graphs"] = o.Graphs
-	toSerialize["os_templates"] = o.OsTemplates
 	return toSerialize, nil
 }
 
@@ -494,7 +466,6 @@ func (o *VpsAvailableFeatures) UnmarshalJSON(data []byte) (err error) {
 		"change_iso_image",
 		"network_stats",
 		"graphs",
-		"os_templates",
 	}
 
 	allProperties := make(map[string]interface{})

@@ -9,7 +9,6 @@ Name | Type | Description | Notes
 **Cpu** | [**VpsCpuInfo**](VpsCpuInfo.md) |  | 
 **Memory** | [**VpsMemoryInfo**](VpsMemoryInfo.md) |  | 
 **Disk** | [**VpsDiskInfo**](VpsDiskInfo.md) |  | 
-**Bandwidth** | [**VpsBandwidthInfo**](VpsBandwidthInfo.md) |  | 
 **NetworkRate** | Pointer to [**VpsNetworkRate**](VpsNetworkRate.md) |  | [optional] 
 **IpAddresses** | **[]string** | List of IP addresses assigned to the VPS | 
 **Credentials** | [**VpsCredentials**](VpsCredentials.md) |  | 
@@ -20,7 +19,7 @@ Name | Type | Description | Notes
 
 ### NewVpsDetailsResponse
 
-`func NewVpsDetailsResponse(message string, vmInfo VpsVmInfo, cpu VpsCpuInfo, memory VpsMemoryInfo, disk VpsDiskInfo, bandwidth VpsBandwidthInfo, ipAddresses []string, credentials VpsCredentials, availableFeatures VpsAvailableFeatures, ) *VpsDetailsResponse`
+`func NewVpsDetailsResponse(message string, vmInfo VpsVmInfo, cpu VpsCpuInfo, memory VpsMemoryInfo, disk VpsDiskInfo, ipAddresses []string, credentials VpsCredentials, availableFeatures VpsAvailableFeatures, ) *VpsDetailsResponse`
 
 NewVpsDetailsResponse instantiates a new VpsDetailsResponse object
 This constructor will assign default values to properties that have it defined,
@@ -133,26 +132,6 @@ and a boolean to check if the value has been set.
 `func (o *VpsDetailsResponse) SetDisk(v VpsDiskInfo)`
 
 SetDisk sets Disk field to given value.
-
-
-### GetBandwidth
-
-`func (o *VpsDetailsResponse) GetBandwidth() VpsBandwidthInfo`
-
-GetBandwidth returns the Bandwidth field if non-nil, zero value otherwise.
-
-### GetBandwidthOk
-
-`func (o *VpsDetailsResponse) GetBandwidthOk() (*VpsBandwidthInfo, bool)`
-
-GetBandwidthOk returns a tuple with the Bandwidth field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetBandwidth
-
-`func (o *VpsDetailsResponse) SetBandwidth(v VpsBandwidthInfo)`
-
-SetBandwidth sets Bandwidth field to given value.
 
 
 ### GetNetworkRate

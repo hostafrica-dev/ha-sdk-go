@@ -61,13 +61,9 @@ type APIClient struct {
 
 	PowerManagementAPI PowerManagementAPI
 
-	SecurityAPI SecurityAPI
-
 	ServiceManagementAPI ServiceManagementAPI
 
 	SnapshotsAPI SnapshotsAPI
-
-	UserManagementAPI UserManagementAPI
 
 	VPSManagementAPI VPSManagementAPI
 }
@@ -94,10 +90,8 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.FirewallAPI = (*FirewallAPIService)(&c.common)
 	c.MonitoringAPI = (*MonitoringAPIService)(&c.common)
 	c.PowerManagementAPI = (*PowerManagementAPIService)(&c.common)
-	c.SecurityAPI = (*SecurityAPIService)(&c.common)
 	c.ServiceManagementAPI = (*ServiceManagementAPIService)(&c.common)
 	c.SnapshotsAPI = (*SnapshotsAPIService)(&c.common)
-	c.UserManagementAPI = (*UserManagementAPIService)(&c.common)
 	c.VPSManagementAPI = (*VPSManagementAPIService)(&c.common)
 
 	return c
