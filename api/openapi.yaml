@@ -955,6 +955,92 @@ paths:
               style: simple
       tags:
       - Snapshots
+  /vps/create-snapshot-job:
+    post:
+      description: "[Under development] Creates a new snapshot job for a VPS service.\
+        \ Use period='hourly' with run_every, or period='daily' with days and start_time."
+      operationId: CreateSnapshotJob
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSnapshotJobRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateSnapshotJobResponseContent"
+          description: CreateSnapshotJob 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Snapshots
   /vps/delete-backup:
     post:
       description: Deletes a specific backup from a VPS service
@@ -1397,6 +1483,91 @@ paths:
               schema:
                 $ref: "#/components/schemas/DeleteSnapshotResponseContent"
           description: DeleteSnapshot 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Snapshots
+  /vps/delete-snapshot-job:
+    post:
+      description: "[Under development]Deletes a snapshot job from a VPS service"
+      operationId: DeleteSnapshotJob
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeleteSnapshotJobRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteSnapshotJobResponseContent"
+          description: DeleteSnapshotJob 200 response
         "400":
           content:
             application/json:
@@ -2385,8 +2556,7 @@ paths:
       - Power Management
   /vps/list-reinstall-images:
     post:
-      description: "[Under development] Retrieves the list of available OS images\
-        \ for VPS reinstallation"
+      description: Retrieves the list of available OS images for VPS reinstallation
       operationId: ListReinstallOs
       requestBody:
         content:
@@ -2469,6 +2639,92 @@ paths:
               style: simple
       tags:
       - VPS Management
+  /vps/list-snapshot-jobs:
+    post:
+      description: "[Under development]Retrieves the list of snapshot jobs for a VPS\
+        \ service"
+      operationId: ListSnapshotJobs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ListSnapshotJobsRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListSnapshotJobsResponseContent"
+          description: ListSnapshotJobs 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Snapshots
   /vps/list-snapshots:
     post:
       description: Retrieves the list of snapshots for a VPS service
@@ -3137,7 +3393,7 @@ paths:
       - Service Management
   /vps/rollback-snapshot:
     post:
-      description: "[Under development] Rolls back a VPS to a previous snapshot state"
+      description: Rolls back a VPS to a previous snapshot state
       operationId: RollbackSnapshot
       requestBody:
         content:
@@ -3927,6 +4183,92 @@ paths:
               schema:
                 $ref: "#/components/schemas/UpdateSnapshotResponseContent"
           description: UpdateSnapshot 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Snapshots
+  /vps/update-snapshot-job:
+    post:
+      description: "[Under development] Updates an existing snapshot job. Only provide\
+        \ fields you want to change."
+      operationId: UpdateSnapshotJob
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateSnapshotJobRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateSnapshotJobResponseContent"
+          description: UpdateSnapshotJob 200 response
         "400":
           content:
             application/json:
@@ -5866,22 +6208,104 @@ components:
       required:
       - record
       type: object
-    CreateSnapshotRequestContent:
+    CreateSnapshotJobRequestContent:
       example:
+        vmstate: true
+        start_time: start_time
+        period: hourly
+        run_every: 0
         service_id: service_id
+        name: name
         description: description
-        snapname: snapname
+        days:
+        - mon
+        - mon
       properties:
         service_id:
           description: Service ID - must be sent as a string
           type: string
-        snapname:
+        name:
+          description: Name for the snapshot job (e.g. 'auto_hourly')
+          type: string
+        description:
+          description: Description for the snapshot job
+          type: string
+        vmstate:
+          description: Whether to include VM state in the snapshot
+          type: boolean
+        period:
+          $ref: "#/components/schemas/SnapshotJobPeriod"
+        run_every:
+          description: "For hourly jobs: run every N hours (e.g. 6 = every 6 hours)"
+          format: int32
+          type: integer
+        days:
+          description: "For daily jobs: days of week when the job should run"
+          items:
+            $ref: "#/components/schemas/DayOfWeek"
+          type: array
+        start_time:
+          description: "For daily jobs: start time in HH:MM format (e.g. '02:30')"
+          pattern: "^([01]?[0-9]|2[0-3]):[0-5][0-9]$"
+          type: string
+      required:
+      - name
+      - period
+      - service_id
+      type: object
+    CreateSnapshotJobResponseContent:
+      example:
+        data:
+          message: message
+          job:
+            vmstate: true
+            start_time: start_time
+            vm_id: 1
+            period: hourly
+            run_every: 5
+            hosting_id: 6
+            name: name
+            description: description
+            days:
+            - mon
+            - mon
+            id: 0
+          limits:
+            can_add_more: true
+            job_count: 2
+            max_jobs: 5
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/SnapshotJobMutationResponseData"
+      required:
+      - data
+      - status
+      type: object
+    CreateSnapshotRequestContent:
+      example:
+        service_id: service_id
+        name: name
+        description: description
+        include_ram: true
+      properties:
+        service_id:
+          description: Service ID - must be sent as a string
+          type: string
+        name:
           description: Name for the snapshot
           type: string
         description:
           description: Description for the snapshot
           type: string
+        include_ram:
+          description: Whether to include RAM state in the snapshot. Defaults to false
+            when omitted.
+          type: boolean
       required:
+      - name
       - service_id
       type: object
     CreateSnapshotResponseContent:
@@ -6081,6 +6505,39 @@ components:
           $ref: "#/components/schemas/OperationStatus"
         data:
           $ref: "#/components/schemas/VpsSimpleActionResponseData"
+      required:
+      - data
+      - status
+      type: object
+    DeleteSnapshotJobRequestContent:
+      example:
+        job_id: job_id
+        service_id: service_id
+      properties:
+        service_id:
+          description: Service ID - must be sent as a string
+          type: string
+        job_id:
+          description: Snapshot job ID to delete
+          type: string
+      required:
+      - job_id
+      - service_id
+      type: object
+    DeleteSnapshotJobResponseContent:
+      example:
+        data:
+          message: message
+          limits:
+            can_add_more: true
+            job_count: 2
+            max_jobs: 5
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/SnapshotJobDeleteResponseData"
       required:
       - data
       - status
@@ -7507,6 +7964,62 @@ components:
       - message
       - templates
       type: object
+    ListSnapshotJobsRequestContent:
+      example:
+        service_id: service_id
+      properties:
+        service_id:
+          description: Service ID - must be sent as a string
+          type: string
+      required:
+      - service_id
+      type: object
+    ListSnapshotJobsResponseContent:
+      example:
+        data:
+          jobs:
+          - vmstate: true
+            start_time: start_time
+            vm_id: 1
+            period: hourly
+            run_every: 5
+            hosting_id: 6
+            name: name
+            description: description
+            days:
+            - mon
+            - mon
+            id: 0
+          - vmstate: true
+            start_time: start_time
+            vm_id: 1
+            period: hourly
+            run_every: 5
+            hosting_id: 6
+            name: name
+            description: description
+            days:
+            - mon
+            - mon
+            id: 0
+          allowed_periods:
+          - allowed_periods
+          - allowed_periods
+          message: message
+          limits:
+            can_add_more: true
+            job_count: 2
+            max_jobs: 5
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/SnapshotJobListResponseData"
+      required:
+      - data
+      - status
+      type: object
     ListSnapshotsRequestContent:
       example:
         service_id: service_id
@@ -8779,6 +9292,227 @@ components:
       - description
       - name
       type: object
+    SnapshotJob:
+      description: Individual snapshot job item
+      example:
+        vmstate: true
+        start_time: start_time
+        vm_id: 1
+        period: hourly
+        run_every: 5
+        hosting_id: 6
+        name: name
+        description: description
+        days:
+        - mon
+        - mon
+        id: 0
+      properties:
+        id:
+          description: Snapshot job ID
+          format: int32
+          type: integer
+        hosting_id:
+          description: Hosting account ID
+          format: int32
+          type: integer
+        vm_id:
+          description: VM ID (null if not yet assigned)
+          format: int32
+          type: integer
+        name:
+          description: Name of the snapshot job
+          type: string
+        description:
+          description: Description of the snapshot job
+          type: string
+        vmstate:
+          description: Whether VM state is included in the snapshot
+          type: boolean
+        period:
+          $ref: "#/components/schemas/SnapshotJobPeriod"
+        run_every:
+          description: "For hourly jobs: run every N hours"
+          format: int32
+          type: integer
+        days:
+          description: "For daily jobs: days of week"
+          items:
+            $ref: "#/components/schemas/DayOfWeek"
+          type: array
+        start_time:
+          description: "For daily jobs: start time in HH:MM format"
+          type: string
+      required:
+      - id
+      - name
+      - period
+      type: object
+    SnapshotJobDeleteResponseData:
+      description: Response data for snapshot job delete operation
+      example:
+        message: message
+        limits:
+          can_add_more: true
+          job_count: 2
+          max_jobs: 5
+      properties:
+        message:
+          description: Status message indicating the result
+          type: string
+        limits:
+          $ref: "#/components/schemas/SnapshotJobLimits"
+      required:
+      - limits
+      - message
+      type: object
+    SnapshotJobLimits:
+      description: Limits and quota information for snapshot jobs
+      example:
+        can_add_more: true
+        job_count: 2
+        max_jobs: 5
+      properties:
+        max_jobs:
+          description: Maximum number of snapshot jobs allowed
+          format: int32
+          type: integer
+        job_count:
+          description: Current number of snapshot jobs
+          format: int32
+          type: integer
+        can_add_more:
+          description: Whether more jobs can be added
+          type: boolean
+      required:
+      - can_add_more
+      - job_count
+      - max_jobs
+      type: object
+    SnapshotJobListResponseData:
+      description: Response data for snapshot job list operation
+      example:
+        jobs:
+        - vmstate: true
+          start_time: start_time
+          vm_id: 1
+          period: hourly
+          run_every: 5
+          hosting_id: 6
+          name: name
+          description: description
+          days:
+          - mon
+          - mon
+          id: 0
+        - vmstate: true
+          start_time: start_time
+          vm_id: 1
+          period: hourly
+          run_every: 5
+          hosting_id: 6
+          name: name
+          description: description
+          days:
+          - mon
+          - mon
+          id: 0
+        allowed_periods:
+        - allowed_periods
+        - allowed_periods
+        message: message
+        limits:
+          can_add_more: true
+          job_count: 2
+          max_jobs: 5
+      properties:
+        message:
+          description: Status message indicating the result
+          type: string
+        jobs:
+          description: List of snapshot jobs
+          items:
+            $ref: "#/components/schemas/SnapshotJob"
+          type: array
+        limits:
+          $ref: "#/components/schemas/SnapshotJobLimits"
+        allowed_periods:
+          description: Allowed schedule periods for snapshot jobs
+          items:
+            type: string
+          type: array
+      required:
+      - jobs
+      - limits
+      - message
+      type: object
+    SnapshotJobMutationResponseData:
+      description: Response data for snapshot job create operation
+      example:
+        message: message
+        job:
+          vmstate: true
+          start_time: start_time
+          vm_id: 1
+          period: hourly
+          run_every: 5
+          hosting_id: 6
+          name: name
+          description: description
+          days:
+          - mon
+          - mon
+          id: 0
+        limits:
+          can_add_more: true
+          job_count: 2
+          max_jobs: 5
+      properties:
+        message:
+          description: Status message indicating the result
+          type: string
+        job:
+          $ref: "#/components/schemas/SnapshotJob"
+        limits:
+          $ref: "#/components/schemas/SnapshotJobLimits"
+      required:
+      - job
+      - limits
+      - message
+      type: object
+    SnapshotJobPeriod:
+      description: Schedule period for snapshot jobs
+      enum:
+      - hourly
+      - daily
+      type: string
+    SnapshotJobUpdateResponseData:
+      description: Response data for snapshot job update operation
+      example:
+        message: message
+        job:
+          vmstate: true
+          start_time: start_time
+          vm_id: 1
+          period: hourly
+          run_every: 5
+          hosting_id: 6
+          name: name
+          description: description
+          days:
+          - mon
+          - mon
+          id: 0
+      properties:
+        message:
+          description: Status message indicating the result
+          type: string
+        job:
+          $ref: "#/components/schemas/SnapshotJob"
+      required:
+      - job
+      - message
+      type: object
     StartVpsRequestContent:
       example:
         service_id: service_id
@@ -9146,6 +9880,81 @@ components:
           $ref: "#/components/schemas/OperationStatus"
         data:
           $ref: "#/components/schemas/PowerTaskCreateResponseData"
+      required:
+      - data
+      - status
+      type: object
+    UpdateSnapshotJobRequestContent:
+      example:
+        vmstate: true
+        start_time: start_time
+        period: hourly
+        run_every: 0
+        job_id: job_id
+        service_id: service_id
+        name: name
+        description: description
+        days:
+        - mon
+        - mon
+      properties:
+        service_id:
+          description: Service ID - must be sent as a string
+          type: string
+        job_id:
+          description: Snapshot job ID to update
+          type: string
+        name:
+          description: New name for the snapshot job
+          type: string
+        description:
+          description: New description for the snapshot job
+          type: string
+        vmstate:
+          description: Whether to include VM state in the snapshot
+          type: boolean
+        period:
+          $ref: "#/components/schemas/SnapshotJobPeriod"
+        run_every:
+          description: "For hourly jobs: run every N hours (e.g. 6 = every 6 hours)"
+          format: int32
+          type: integer
+        days:
+          description: "For daily jobs: days of week when the job should run"
+          items:
+            $ref: "#/components/schemas/DayOfWeek"
+          type: array
+        start_time:
+          description: "For daily jobs: start time in HH:MM format (e.g. '02:30')"
+          pattern: "^([01]?[0-9]|2[0-3]):[0-5][0-9]$"
+          type: string
+      required:
+      - job_id
+      - service_id
+      type: object
+    UpdateSnapshotJobResponseContent:
+      example:
+        data:
+          message: message
+          job:
+            vmstate: true
+            start_time: start_time
+            vm_id: 1
+            period: hourly
+            run_every: 5
+            hosting_id: 6
+            name: name
+            description: description
+            days:
+            - mon
+            - mon
+            id: 0
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/SnapshotJobUpdateResponseData"
       required:
       - data
       - status

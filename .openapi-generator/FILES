@@ -55,6 +55,8 @@ docs/CreatePowerTaskResponseContent.md
 docs/CreateRdnsRecordRequestContent.md
 docs/CreateRdnsRecordResponseContent.md
 docs/CreateRdnsRecordResponseData.md
+docs/CreateSnapshotJobRequestContent.md
+docs/CreateSnapshotJobResponseContent.md
 docs/CreateSnapshotRequestContent.md
 docs/CreateSnapshotResponseContent.md
 docs/DNSAPI.md
@@ -71,6 +73,8 @@ docs/DeletePowerTaskRequestContent.md
 docs/DeletePowerTaskResponseContent.md
 docs/DeleteRdnsRecordRequestContent.md
 docs/DeleteRdnsRecordResponseContent.md
+docs/DeleteSnapshotJobRequestContent.md
+docs/DeleteSnapshotJobResponseContent.md
 docs/DeleteSnapshotRequestContent.md
 docs/DeleteSnapshotResponseContent.md
 docs/EditBackupScheduleRequestContent.md
@@ -114,6 +118,8 @@ docs/ListRdnsResponseData.md
 docs/ListReinstallOsRequestContent.md
 docs/ListReinstallOsResponseContent.md
 docs/ListReinstallOsResponseData.md
+docs/ListSnapshotJobsRequestContent.md
+docs/ListSnapshotJobsResponseContent.md
 docs/ListSnapshotsRequestContent.md
 docs/ListSnapshotsResponseContent.md
 docs/ListVpsServicesData.md
@@ -165,6 +171,13 @@ docs/ShutdownVpsRequestContent.md
 docs/ShutdownVpsResponseContent.md
 docs/SnapshotCreateResponseData.md
 docs/SnapshotItem.md
+docs/SnapshotJob.md
+docs/SnapshotJobDeleteResponseData.md
+docs/SnapshotJobLimits.md
+docs/SnapshotJobListResponseData.md
+docs/SnapshotJobMutationResponseData.md
+docs/SnapshotJobPeriod.md
+docs/SnapshotJobUpdateResponseData.md
 docs/SnapshotsAPI.md
 docs/StartVpsRequestContent.md
 docs/StartVpsResponseContent.md
@@ -181,6 +194,8 @@ docs/UpdateNotificationRequestContent.md
 docs/UpdateNotificationResponseContent.md
 docs/UpdatePowerTaskRequestContent.md
 docs/UpdatePowerTaskResponseContent.md
+docs/UpdateSnapshotJobRequestContent.md
+docs/UpdateSnapshotJobResponseContent.md
 docs/UpdateSnapshotRequestContent.md
 docs/UpdateSnapshotResponseContent.md
 docs/UpdateVpsConfigRequestContent.md
@@ -259,6 +274,8 @@ model_create_power_task_response_content.go
 model_create_rdns_record_request_content.go
 model_create_rdns_record_response_content.go
 model_create_rdns_record_response_data.go
+model_create_snapshot_job_request_content.go
+model_create_snapshot_job_response_content.go
 model_create_snapshot_request_content.go
 model_create_snapshot_response_content.go
 model_day_of_week.go
@@ -274,6 +291,8 @@ model_delete_power_task_request_content.go
 model_delete_power_task_response_content.go
 model_delete_rdns_record_request_content.go
 model_delete_rdns_record_response_content.go
+model_delete_snapshot_job_request_content.go
+model_delete_snapshot_job_response_content.go
 model_delete_snapshot_request_content.go
 model_delete_snapshot_response_content.go
 model_edit_backup_schedule_request_content.go
@@ -316,6 +335,8 @@ model_list_rdns_response_data.go
 model_list_reinstall_os_request_content.go
 model_list_reinstall_os_response_content.go
 model_list_reinstall_os_response_data.go
+model_list_snapshot_jobs_request_content.go
+model_list_snapshot_jobs_response_content.go
 model_list_snapshots_request_content.go
 model_list_snapshots_response_content.go
 model_list_vps_services_data.go
@@ -364,6 +385,13 @@ model_shutdown_vps_request_content.go
 model_shutdown_vps_response_content.go
 model_snapshot_create_response_data.go
 model_snapshot_item.go
+model_snapshot_job.go
+model_snapshot_job_delete_response_data.go
+model_snapshot_job_limits.go
+model_snapshot_job_list_response_data.go
+model_snapshot_job_mutation_response_data.go
+model_snapshot_job_period.go
+model_snapshot_job_update_response_data.go
 model_start_vps_request_content.go
 model_start_vps_response_content.go
 model_stop_vps_request_content.go
@@ -379,6 +407,8 @@ model_update_notification_request_content.go
 model_update_notification_response_content.go
 model_update_power_task_request_content.go
 model_update_power_task_response_content.go
+model_update_snapshot_job_request_content.go
+model_update_snapshot_job_response_content.go
 model_update_snapshot_request_content.go
 model_update_snapshot_response_content.go
 model_update_vps_config_request_content.go

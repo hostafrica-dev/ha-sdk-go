@@ -24,9 +24,11 @@ type CreateSnapshotRequestContent struct {
 	// Service ID - must be sent as a string
 	ServiceId string `json:"service_id"`
 	// Name for the snapshot
-	Snapname *string `json:"snapname,omitempty"`
+	Name string `json:"name"`
 	// Description for the snapshot
 	Description *string `json:"description,omitempty"`
+	// Whether to include RAM state in the snapshot. Defaults to false when omitted.
+	IncludeRam *bool `json:"include_ram,omitempty"`
 }
 
 type _CreateSnapshotRequestContent CreateSnapshotRequestContent
@@ -35,9 +37,10 @@ type _CreateSnapshotRequestContent CreateSnapshotRequestContent
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCreateSnapshotRequestContent(serviceId string) *CreateSnapshotRequestContent {
+func NewCreateSnapshotRequestContent(serviceId string, name string) *CreateSnapshotRequestContent {
 	this := CreateSnapshotRequestContent{}
 	this.ServiceId = serviceId
+	this.Name = name
 	return &this
 }
 
@@ -73,36 +76,28 @@ func (o *CreateSnapshotRequestContent) SetServiceId(v string) {
 	o.ServiceId = v
 }
 
-// GetSnapname returns the Snapname field value if set, zero value otherwise.
-func (o *CreateSnapshotRequestContent) GetSnapname() string {
-	if o == nil || IsNil(o.Snapname) {
+// GetName returns the Name field value
+func (o *CreateSnapshotRequestContent) GetName() string {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Snapname
+
+	return o.Name
 }
 
-// GetSnapnameOk returns a tuple with the Snapname field value if set, nil otherwise
+// GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *CreateSnapshotRequestContent) GetSnapnameOk() (*string, bool) {
-	if o == nil || IsNil(o.Snapname) {
+func (o *CreateSnapshotRequestContent) GetNameOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Snapname, true
+	return &o.Name, true
 }
 
-// HasSnapname returns a boolean if a field has been set.
-func (o *CreateSnapshotRequestContent) HasSnapname() bool {
-	if o != nil && !IsNil(o.Snapname) {
-		return true
-	}
-
-	return false
-}
-
-// SetSnapname gets a reference to the given string and assigns it to the Snapname field.
-func (o *CreateSnapshotRequestContent) SetSnapname(v string) {
-	o.Snapname = &v
+// SetName sets field value
+func (o *CreateSnapshotRequestContent) SetName(v string) {
+	o.Name = v
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
@@ -137,6 +132,38 @@ func (o *CreateSnapshotRequestContent) SetDescription(v string) {
 	o.Description = &v
 }
 
+// GetIncludeRam returns the IncludeRam field value if set, zero value otherwise.
+func (o *CreateSnapshotRequestContent) GetIncludeRam() bool {
+	if o == nil || IsNil(o.IncludeRam) {
+		var ret bool
+		return ret
+	}
+	return *o.IncludeRam
+}
+
+// GetIncludeRamOk returns a tuple with the IncludeRam field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CreateSnapshotRequestContent) GetIncludeRamOk() (*bool, bool) {
+	if o == nil || IsNil(o.IncludeRam) {
+		return nil, false
+	}
+	return o.IncludeRam, true
+}
+
+// HasIncludeRam returns a boolean if a field has been set.
+func (o *CreateSnapshotRequestContent) HasIncludeRam() bool {
+	if o != nil && !IsNil(o.IncludeRam) {
+		return true
+	}
+
+	return false
+}
+
+// SetIncludeRam gets a reference to the given bool and assigns it to the IncludeRam field.
+func (o *CreateSnapshotRequestContent) SetIncludeRam(v bool) {
+	o.IncludeRam = &v
+}
+
 func (o CreateSnapshotRequestContent) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -148,11 +175,12 @@ func (o CreateSnapshotRequestContent) MarshalJSON() ([]byte, error) {
 func (o CreateSnapshotRequestContent) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["service_id"] = o.ServiceId
-	if !IsNil(o.Snapname) {
-		toSerialize["snapname"] = o.Snapname
-	}
+	toSerialize["name"] = o.Name
 	if !IsNil(o.Description) {
 		toSerialize["description"] = o.Description
+	}
+	if !IsNil(o.IncludeRam) {
+		toSerialize["include_ram"] = o.IncludeRam
 	}
 	return toSerialize, nil
 }
@@ -163,6 +191,7 @@ func (o *CreateSnapshotRequestContent) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"service_id",
+		"name",
 	}
 
 	allProperties := make(map[string]interface{})

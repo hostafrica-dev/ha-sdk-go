@@ -66,7 +66,7 @@ type VPSManagementAPI interface {
 	/*
 	ListReinstallOs Method for ListReinstallOs
 
-	[Under development] Retrieves the list of available OS images for VPS reinstallation
+	Retrieves the list of available OS images for VPS reinstallation
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiListReinstallOsRequest
@@ -735,7 +735,7 @@ func (r ApiListReinstallOsRequest) Execute() (*ListReinstallOsResponseContent, *
 /*
 ListReinstallOs Method for ListReinstallOs
 
-[Under development] Retrieves the list of available OS images for VPS reinstallation
+Retrieves the list of available OS images for VPS reinstallation
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiListReinstallOsRequest
