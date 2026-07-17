@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **LineId** | **int32** | Line item identifier | 
-**DomainId** | **int32** | Domain identifier | 
+**DomainId** | **string** | Domain identifier | 
 **Domain** | **string** | Domain name | 
 **Type** | **string** | Domain operation type (e.g. register, transfer) | 
 **Period** | **int32** | Registration period in years | 
@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 
 ### NewCreateOrderDomainItem
 
-`func NewCreateOrderDomainItem(lineId int32, domainId int32, domain string, type_ string, period int32, domainWarranty bool, autorenew bool, amount string, ) *CreateOrderDomainItem`
+`func NewCreateOrderDomainItem(lineId int32, domainId string, domain string, type_ string, period int32, domainWarranty bool, autorenew bool, amount string, ) *CreateOrderDomainItem`
 
 NewCreateOrderDomainItem instantiates a new CreateOrderDomainItem object
 This constructor will assign default values to properties that have it defined,
@@ -54,20 +54,20 @@ SetLineId sets LineId field to given value.
 
 ### GetDomainId
 
-`func (o *CreateOrderDomainItem) GetDomainId() int32`
+`func (o *CreateOrderDomainItem) GetDomainId() string`
 
 GetDomainId returns the DomainId field if non-nil, zero value otherwise.
 
 ### GetDomainIdOk
 
-`func (o *CreateOrderDomainItem) GetDomainIdOk() (*int32, bool)`
+`func (o *CreateOrderDomainItem) GetDomainIdOk() (*string, bool)`
 
 GetDomainIdOk returns a tuple with the DomainId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDomainId
 
-`func (o *CreateOrderDomainItem) SetDomainId(v int32)`
+`func (o *CreateOrderDomainItem) SetDomainId(v string)`
 
 SetDomainId sets DomainId field to given value.
 

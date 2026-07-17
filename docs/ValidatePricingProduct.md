@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Pid** | **int32** | WHMCS product ID | 
+**Pid** | **int32** | Product ID | 
 **BillingCycle** | [**BillingCycle**](BillingCycle.md) |  | 
 **PlanId** | **int32** | Plan ID for the selected product configuration | 
 **Hostname** | Pointer to **string** | Hostname to assign to the service | [optional] 

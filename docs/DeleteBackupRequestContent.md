@@ -5,13 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ServiceId** | **string** | Service ID - must be sent as a string | 
-**BackupId** | **int32** | Backup ID to delete | 
+**BackupId** | **string** | Backup ID to delete | 
 
 ## Methods
 
 ### NewDeleteBackupRequestContent
 
-`func NewDeleteBackupRequestContent(serviceId string, backupId int32, ) *DeleteBackupRequestContent`
+`func NewDeleteBackupRequestContent(serviceId string, backupId string, ) *DeleteBackupRequestContent`
 
 NewDeleteBackupRequestContent instantiates a new DeleteBackupRequestContent object
 This constructor will assign default values to properties that have it defined,
@@ -48,20 +48,20 @@ SetServiceId sets ServiceId field to given value.
 
 ### GetBackupId
 
-`func (o *DeleteBackupRequestContent) GetBackupId() int32`
+`func (o *DeleteBackupRequestContent) GetBackupId() string`
 
 GetBackupId returns the BackupId field if non-nil, zero value otherwise.
 
 ### GetBackupIdOk
 
-`func (o *DeleteBackupRequestContent) GetBackupIdOk() (*int32, bool)`
+`func (o *DeleteBackupRequestContent) GetBackupIdOk() (*string, bool)`
 
 GetBackupIdOk returns a tuple with the BackupId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBackupId
 
-`func (o *DeleteBackupRequestContent) SetBackupId(v int32)`
+`func (o *DeleteBackupRequestContent) SetBackupId(v string)`
 
 SetBackupId sets BackupId field to given value.
 

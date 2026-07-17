@@ -168,7 +168,7 @@ import (
 )
 
 func main() {
-	deleteBackupRequestContent := *openapiclient.NewDeleteBackupRequestContent("ServiceId_example", int32(123)) // DeleteBackupRequestContent | 
+	deleteBackupRequestContent := *openapiclient.NewDeleteBackupRequestContent("ServiceId_example", "BackupId_example") // DeleteBackupRequestContent | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

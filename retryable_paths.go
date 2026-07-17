@@ -23,6 +23,12 @@ var RetryablePaths = map[string]struct{}{
 	"/vps/validate-pricing": {},
 	"/vps/list-orders": {},
 	"/dns/list-rdns-records": {},
+	"/domain/check-availability": {},
+	"/domain/suggest": {},
+	"/domain/list-domains": {},
+	"/domain/list-domains-requiring-data": {},
+	"/domain/get-domain": {},
+	"/domain/get-domain-contacts": {},
 }
 
 // IsRetryable reports whether path is safe to retry.

@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **int32** | WHMCS product identifier | 
+**Id** | **int32** | Product identifier | 
 **Name** | **string** | Product display name | 
 **Type** | **string** | Product type (e.g. server) | 
 **RequiresHostname** | **bool** | Whether the product requires a hostname at order time | 

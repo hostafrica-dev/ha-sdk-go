@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **int32** | Zone type: 0&#x3D;OTHER, 1&#x3D;DOMAIN, 2&#x3D;HOSTING, 3&#x3D;ADDON | 
-**Relid** | **int32** | Related service id matching the zone type (tblhosting.id, tblhostingaddons.id or tbldomains.id) | 
+**Relid** | **int32** | Related service id matching the zone type (hosting, addon, or domain) | 
 **Ip** | **string** | IPv4 or IPv6 address the PTR record should point from | 
 **Hostname** | **string** | PTR target hostname | 
 **Ttl** | Pointer to **int32** | Time-to-live in seconds. Defaults to 14400; clamped to [30, 86400] | [optional] 

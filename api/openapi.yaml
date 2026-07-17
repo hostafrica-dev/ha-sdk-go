@@ -2,7 +2,7 @@ openapi: 3.0.2
 info:
   description: HostAfrica API
   title: HostAfricaApi
-  version: 2026-01-01
+  version: 1.1.0 - 2026-07-16
 servers:
 - description: HostAfrica API
   url: https://api.hostafrica.com
@@ -18,6 +18,9 @@ tags:
 - description: Manage reverse DNS (rDNS) records that map IP addresses assigned to
     your services back to hostnames.
   name: DNS
+- description: Check domain availability and generate AI-powered domain name suggestions.
+    Public MCP tools — no account required.
+  name: Domains
 - description: "Define and manage inbound and outbound firewall rules for your VPS\
     \ instances, including rule ordering and priority management."
   name: Firewall
@@ -81,6 +84,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/InvalidStateErrorResponseContent"
           description: InvalidStateError 409 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -234,6 +243,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ForbiddenErrorResponseContent"
           description: ForbiddenError 403 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -272,9 +287,692 @@ paths:
               style: simple
       tags:
       - DNS
+  /domain/check-availability:
+    post:
+      description: "Checks domain name availability for a single domain or a comma-separated\
+        \ batch. Exactly one of domain or domains must be provided. Returns pricing,\
+        \ suggestions, and register_url scoped to the requested currency."
+      operationId: CheckDomainAvailability
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CheckDomainAvailabilityRequestContent"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CheckDomainAvailabilityResponseContent"
+          description: CheckDomainAvailability 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Domains
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
+  /domain/get-domain:
+    post:
+      description: Gets details for an owned domain.
+      operationId: GetDomain
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GetDomainRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetDomainResponseContent"
+          description: GetDomain 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Domains
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
+  /domain/get-domain-contacts:
+    post:
+      description: Retrieves WHOIS contact information for an owned domain. Contact
+        field names vary by TLD and registrar; use the returned structure when building
+        custom contact update payloads.
+      operationId: GetDomainContacts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GetDomainContactsRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetDomainContactsResponseContent"
+          description: GetDomainContacts 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Domains
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
+  /domain/list-domains:
+    post:
+      description: List all domains belonging to the authenticated client.
+      operationId: ListDomains
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListDomainsResponseContent"
+          description: ListDomains 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Domains
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
+  /domain/list-domains-requiring-data:
+    post:
+      description: Lists domains belonging to the authenticated client that require
+        additional registrar or contact data.
+      operationId: ListDomainsRequiringData
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListDomainsRequiringDataResponseContent"
+          description: ListDomainsRequiringData 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Domains
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
+  /domain/save-domain-required-data:
+    post:
+      description: "Saves additional registrar field values for a pending domain.\
+        \ Keys must match additionalFields[].name from list-domains-requiring-data."
+      operationId: SaveDomainRequiredData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SaveDomainRequiredDataRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SaveDomainRequiredDataResponseContent"
+          description: SaveDomainRequiredData 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Domains
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
+  /domain/suggest:
+    post:
+      description: Generates AI-powered domain name suggestions from a natural-language
+        description. Returns suggested domains with availability status and pricing.
+      operationId: SuggestDomains
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SuggestDomainsRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuggestDomainsResponseContent"
+          description: SuggestDomains 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Domains
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
+  /domain/update-domain-settings:
+    post:
+      description: "Updates a single domain setting (auto-renew, ID protection, or\
+        \ paid addons). One setting per request."
+      operationId: UpdateDomainSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateDomainSettingsRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateDomainSettingsResponseContent"
+          description: UpdateDomainSettings 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Domains
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
   /vps/cancel:
     post:
-      description: Cancels a VPS service through WHMCS. This action is irreversible
+      description: Cancels a VPS service. This action is irreversible
       operationId: CancelVps
       requestBody:
         content:
@@ -1762,6 +2460,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
           description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -1842,6 +2546,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
           description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -2430,6 +3140,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
           description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -2839,6 +3555,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ForbiddenErrorResponseContent"
           description: ForbiddenError 403 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -3183,6 +3905,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/InvalidStateErrorResponseContent"
           description: InvalidStateError 409 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -3524,6 +4252,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/InvalidStateErrorResponseContent"
           description: InvalidStateError 409 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -3609,6 +4343,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/InvalidStateErrorResponseContent"
           description: InvalidStateError 409 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -3694,6 +4434,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/InvalidStateErrorResponseContent"
           description: InvalidStateError 409 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
         "429":
           content:
             application/json:
@@ -5288,7 +6034,7 @@ components:
         use_plans: true
       properties:
         id:
-          description: WHMCS product identifier
+          description: Product identifier
           format: int32
           type: integer
         name:
@@ -5333,6 +6079,102 @@ components:
       - requires_hostname
       - type
       - use_plans
+      type: object
+    CheckDomainAvailabilityRequestContent:
+      example:
+        domain: domain
+        domains: domains
+        currency: currency
+      properties:
+        domain:
+          description: "A single domain name to look up, e.g. \"example.co.za\". Required\
+            \ unless domains is provided."
+          type: string
+        domains:
+          description: Comma-separated list of domain names for a batch check. Required
+            unless domain is provided.
+          type: string
+        currency:
+          description: "Currency for pricing. Accepts ISO code, symbol, country name,\
+            \ or numeric ID. Defaults to ZAR."
+          type: string
+      type: object
+    CheckDomainAvailabilityResponseContent:
+      example:
+        data:
+          warnings:
+          - warnings
+          - warnings
+          domains:
+          - requires_additional_info: true
+            premium: true
+            addons:
+              idprotection: true
+              dnsmanagement: true
+              emailforwarding: true
+            additional_info: ""
+            domain: domain
+            register_url: register_url
+            pricing:
+              domaintransfer:
+              - period: 0
+                price: price
+              - period: 0
+                price: price
+              domainrenew:
+              - period: 0
+                price: price
+              - period: 0
+                price: price
+              domainregister:
+              - period: 0
+                price: price
+              - period: 0
+                price: price
+            status: status
+            group: group
+          - requires_additional_info: true
+            premium: true
+            addons:
+              idprotection: true
+              dnsmanagement: true
+              emailforwarding: true
+            additional_info: ""
+            domain: domain
+            register_url: register_url
+            pricing:
+              domaintransfer:
+              - period: 0
+                price: price
+              - period: 0
+                price: price
+              domainrenew:
+              - period: 0
+                price: price
+              - period: 0
+                price: price
+              domainregister:
+              - period: 0
+                price: price
+              - period: 0
+                price: price
+            status: status
+            group: group
+          suggestions:
+          - suggestions
+          - suggestions
+          currency: 6
+          currency_note: currency_note
+          currency_code: currency_code
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/DomainSearchResponseData"
+      required:
+      - data
+      - status
       type: object
     CompressionMethod:
       description: Compression method option
@@ -5635,8 +6477,8 @@ components:
     CreateOrderDomainItem:
       description: A domain line item returned in the order response
       example:
-        domain_id: 7
-        period: 9
+        domain_id: domain_id
+        period: 7
         amount: amount
         autorenew: true
         domain: domain
@@ -5650,8 +6492,7 @@ components:
           type: integer
         domain_id:
           description: Domain identifier
-          format: int32
-          type: integer
+          type: string
         domain:
           description: Domain name
           type: string
@@ -5686,16 +6527,16 @@ components:
       description: Line items grouped by type in the order response
       example:
         domains:
-        - domain_id: 7
-          period: 9
+        - domain_id: domain_id
+          period: 7
           amount: amount
           autorenew: true
           domain: domain
           domain_warranty: true
           type: type
           line_id: 2
-        - domain_id: 7
-          period: 9
+        - domain_id: domain_id
+          period: 7
           amount: amount
           autorenew: true
           domain: domain
@@ -5742,7 +6583,7 @@ components:
         plan_id: 6
       properties:
         pid:
-          description: WHMCS product ID
+          description: Product ID
           format: int32
           type: integer
         billing_cycle:
@@ -5786,7 +6627,7 @@ components:
           format: int32
           type: integer
         pid:
-          description: WHMCS product ID
+          description: Product ID
           format: int32
           type: integer
         name:
@@ -5863,16 +6704,16 @@ components:
           order_id: 0
           items:
             domains:
-            - domain_id: 7
-              period: 9
+            - domain_id: domain_id
+              period: 7
               amount: amount
               autorenew: true
               domain: domain
               domain_warranty: true
               type: type
               line_id: 2
-            - domain_id: 7
-              period: 9
+            - domain_id: domain_id
+              period: 7
               amount: amount
               autorenew: true
               domain: domain
@@ -5929,16 +6770,16 @@ components:
         order_id: 0
         items:
           domains:
-          - domain_id: 7
-            period: 9
+          - domain_id: domain_id
+            period: 7
             amount: amount
             autorenew: true
             domain: domain
             domain_warranty: true
             type: type
             line_id: 2
-          - domain_id: 7
-            period: 9
+          - domain_id: domain_id
+            period: 7
             amount: amount
             autorenew: true
             domain: domain
@@ -6136,8 +6977,8 @@ components:
           minimum: 0
           type: integer
         relid:
-          description: "Related service id matching the zone type (tblhosting.id,\
-            \ tblhostingaddons.id or tbldomains.id)"
+          description: "Related service id matching the zone type (hosting, addon,\
+            \ or domain)"
           format: int32
           minimum: 1
           type: integer
@@ -6336,7 +7177,7 @@ components:
       type: string
     DeleteBackupRequestContent:
       example:
-        backup_id: 0
+        backup_id: backup_id
         service_id: service_id
       properties:
         service_id:
@@ -6344,8 +7185,7 @@ components:
           type: string
         backup_id:
           description: Backup ID to delete
-          format: int32
-          type: integer
+          type: string
       required:
       - backup_id
       - service_id
@@ -6571,6 +7411,418 @@ components:
       - data
       - status
       type: object
+    DomainAddons:
+      description: Optional add-ons available for a domain
+      example:
+        idprotection: true
+        dnsmanagement: true
+        emailforwarding: true
+      properties:
+        dnsmanagement:
+          type: boolean
+        emailforwarding:
+          type: boolean
+        idprotection:
+          type: boolean
+      type: object
+    DomainAvailabilityResult:
+      description: Availability record for a single domain
+      example:
+        requires_additional_info: true
+        premium: true
+        addons:
+          idprotection: true
+          dnsmanagement: true
+          emailforwarding: true
+        additional_info: ""
+        domain: domain
+        register_url: register_url
+        pricing:
+          domaintransfer:
+          - period: 0
+            price: price
+          - period: 0
+            price: price
+          domainrenew:
+          - period: 0
+            price: price
+          - period: 0
+            price: price
+          domainregister:
+          - period: 0
+            price: price
+          - period: 0
+            price: price
+        status: status
+        group: group
+      properties:
+        domain:
+          description: Fully qualified domain name
+          type: string
+        premium:
+          description: Whether the domain is a premium domain
+          type: boolean
+        status:
+          description: "Availability status: \"available\" or \"unavailable\""
+          type: string
+        addons:
+          $ref: "#/components/schemas/DomainAddons"
+        pricing:
+          $ref: "#/components/schemas/DomainPricing"
+        requires_additional_info:
+          description: Whether the domain requires additional registration information
+          type: boolean
+        additional_info:
+          description: Opaque additional registration data from upstream
+        group:
+          description: Product group from upstream
+          type: string
+        register_url:
+          description: "Checkout URL for available domains, enriched server-side"
+          type: string
+      required:
+      - domain
+      - status
+      type: object
+    DomainHostingLink:
+      description: Linked hosting service for a domain
+      example:
+        hosting_id: 5
+        module: module
+      properties:
+        hosting_id:
+          description: Linked hosting service id
+          format: int32
+          type: integer
+        module:
+          description: Hosting module name (e.g. cpanel)
+          type: string
+      required:
+      - hosting_id
+      - module
+      type: object
+    DomainInfo:
+      description: Summary of an owned domain returned by list operations
+      example:
+        nextduedate: nextduedate
+        expirydate: expirydate
+        period: 0
+        type: type
+        id_protection_supported: true
+        has_dns_manager_zone: true
+        id_protection: 0
+        domain_id: domain_id
+        nextinvoicedate: nextinvoicedate
+        evaluation: ""
+        has_hosting:
+          hosting_id: 5
+          module: module
+        domain: domain
+        recurringamount: recurringamount
+        donotrenew: 0
+        status: status
+      properties:
+        domain_id:
+          description: Domain service id
+          type: string
+        type:
+          description: "Domain operation type (e.g. Register, Transfer)"
+          type: string
+        domain:
+          description: Fully qualified domain name
+          type: string
+        status:
+          description: "Domain status (e.g. Active, Expired, Cancelled)"
+          type: string
+        period:
+          description: Registration or billing period in years
+          format: int32
+          type: integer
+        donotrenew:
+          description: "Renewal flag: 0 = renew, 1 = do not renew"
+          format: int32
+          maximum: 1
+          minimum: 0
+          type: integer
+        id_protection:
+          description: "WHOIS privacy enabled: 0 = off, 1 = on"
+          format: int32
+          maximum: 1
+          minimum: 0
+          type: integer
+        id_protection_supported:
+          description: Whether the TLD supports ID protection
+          type: boolean
+        recurringamount:
+          description: Recurring amount as a decimal string (e.g. "149.99")
+          type: string
+        expirydate:
+          description: Domain expiry date (YYYY-MM-DD)
+          type: string
+        nextinvoicedate:
+          description: Next invoice date (YYYY-MM-DD)
+          type: string
+        nextduedate:
+          description: Next due date (YYYY-MM-DD)
+          type: string
+        has_hosting:
+          $ref: "#/components/schemas/DomainHostingLink"
+        has_dns_manager_zone:
+          description: Whether a DNS Manager zone exists for this domain name
+          type: boolean
+        evaluation:
+          description: Domain evaluator result when enabled; null when unavailable
+      required:
+      - domain
+      - domain_id
+      - donotrenew
+      - has_dns_manager_zone
+      - id_protection
+      - id_protection_supported
+      - period
+      - recurringamount
+      - status
+      - type
+      type: object
+    DomainPricing:
+      description: "Registration, renewal and transfer pricing tiers for a domain"
+      example:
+        domaintransfer:
+        - period: 0
+          price: price
+        - period: 0
+          price: price
+        domainrenew:
+        - period: 0
+          price: price
+        - period: 0
+          price: price
+        domainregister:
+        - period: 0
+          price: price
+        - period: 0
+          price: price
+      properties:
+        domainregister:
+          items:
+            $ref: "#/components/schemas/DomainPricingEntry"
+          type: array
+        domainrenew:
+          items:
+            $ref: "#/components/schemas/DomainPricingEntry"
+          type: array
+        domaintransfer:
+          items:
+            $ref: "#/components/schemas/DomainPricingEntry"
+          type: array
+      type: object
+    DomainPricingEntry:
+      description: A single period/price pair for domain pricing
+      example:
+        period: 0
+        price: price
+      properties:
+        period:
+          format: int32
+          type: integer
+        price:
+          description: Price as a decimal string with two decimal places
+          type: string
+      required:
+      - period
+      - price
+      type: object
+    DomainRequiredFields:
+      additionalProperties:
+        type: string
+      description: "Registrar field values keyed by additionalFields[].name"
+      type: object
+    DomainRequiringDataAdditionalField:
+      description: Additional registrar field required for a pending domain
+      example:
+        displayname: displayname
+        name: name
+        type: type
+        value: value
+        required: true
+      properties:
+        name:
+          description: Field key to use when saving additional domain data
+          type: string
+        displayname:
+          description: Human-readable label for the field
+          type: string
+        type:
+          description: Input type (e.g. text)
+          type: string
+        required:
+          description: Whether the field must be provided
+          type: boolean
+        value:
+          description: Current value; empty when not yet supplied
+          type: string
+      required:
+      - displayname
+      - name
+      - required
+      - type
+      - value
+      type: object
+    DomainRequiringDataInfo:
+      description: Pending domain requiring additional registrar or contact data
+      example:
+        domain_id: domain_id
+        domain_type: domain_type
+        additionalFields:
+        - displayname: displayname
+          name: name
+          type: type
+          value: value
+          required: true
+        - displayname: displayname
+          name: name
+          type: type
+          value: value
+          required: true
+        domain: domain
+        tld: tld
+        status: status
+      properties:
+        domain_id:
+          description: Domain service id
+          type: string
+        domain:
+          description: Fully qualified domain name
+          type: string
+        status:
+          description: Domain status (e.g. Pending)
+          type: string
+        domain_type:
+          description: Domain operation type (e.g. Register)
+          type: string
+        tld:
+          description: Top-level domain suffix (e.g. .co.za)
+          type: string
+        additionalFields:
+          description: Additional registrar fields required for this TLD
+          items:
+            $ref: "#/components/schemas/DomainRequiringDataAdditionalField"
+          type: array
+      required:
+      - additionalFields
+      - domain
+      - domain_id
+      - domain_type
+      - status
+      - tld
+      type: object
+    DomainSearchResponseData:
+      description: Response data for domain availability and suggestion operations
+      example:
+        warnings:
+        - warnings
+        - warnings
+        domains:
+        - requires_additional_info: true
+          premium: true
+          addons:
+            idprotection: true
+            dnsmanagement: true
+            emailforwarding: true
+          additional_info: ""
+          domain: domain
+          register_url: register_url
+          pricing:
+            domaintransfer:
+            - period: 0
+              price: price
+            - period: 0
+              price: price
+            domainrenew:
+            - period: 0
+              price: price
+            - period: 0
+              price: price
+            domainregister:
+            - period: 0
+              price: price
+            - period: 0
+              price: price
+          status: status
+          group: group
+        - requires_additional_info: true
+          premium: true
+          addons:
+            idprotection: true
+            dnsmanagement: true
+            emailforwarding: true
+          additional_info: ""
+          domain: domain
+          register_url: register_url
+          pricing:
+            domaintransfer:
+            - period: 0
+              price: price
+            - period: 0
+              price: price
+            domainrenew:
+            - period: 0
+              price: price
+            - period: 0
+              price: price
+            domainregister:
+            - period: 0
+              price: price
+            - period: 0
+              price: price
+          status: status
+          group: group
+        suggestions:
+        - suggestions
+        - suggestions
+        currency: 6
+        currency_note: currency_note
+        currency_code: currency_code
+      properties:
+        domains:
+          description: Domain availability results
+          items:
+            $ref: "#/components/schemas/DomainAvailabilityResult"
+          type: array
+        suggestions:
+          description: Alternative domain suggestions (single-domain lookup only)
+          items:
+            type: string
+          type: array
+        currency:
+          description: Upstream currency identifier
+          format: int32
+          type: integer
+        currency_code:
+          description: ISO currency code for the quoted prices
+          type: string
+        currency_note:
+          description: Note that prices and register_url are valid only for currency_code
+          type: string
+        warnings:
+          description: Non-fatal warnings the client should be aware of
+          items:
+            type: string
+          type: array
+      required:
+      - currency
+      - currency_code
+      - currency_note
+      - domains
+      type: object
+    DomainSettingKey:
+      description: Allowed domain setting keys for update-domain-settings
+      enum:
+      - donotrenew
+      - idprotection
+      - dnsmanagement
+      - emailforwarding
+      type: string
     EditBackupScheduleRequestContent:
       example:
         mode: snapshot
@@ -7163,6 +8415,134 @@ components:
       - data
       - status
       type: object
+    GetDomainContactsData:
+      description: Domain contact information returned by get-domain-contacts
+      example:
+        domain_id: domain_id
+        domain: domain
+        message: message
+        contacts: ""
+      properties:
+        message:
+          description: Status message indicating the result
+          type: string
+        domain_id:
+          description: Domain service id
+          type: string
+        domain:
+          description: Fully qualified domain name
+          type: string
+        contacts:
+          description: "Contact roles keyed by Registrant, Admin, Tech, and Billing,\
+            \ or an array of contact records. Inner field names and values vary by\
+            \ TLD/registrar."
+      required:
+      - contacts
+      - domain
+      - domain_id
+      - message
+      type: object
+    GetDomainContactsRequestContent:
+      example:
+        domain_id: domain_id
+      properties:
+        domain_id:
+          description: Domain service id - must be sent as a string
+          type: string
+      required:
+      - domain_id
+      type: object
+    GetDomainContactsResponseContent:
+      example:
+        data:
+          domain_id: domain_id
+          domain: domain
+          message: message
+          contacts: ""
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/GetDomainContactsData"
+      required:
+      - data
+      - status
+      type: object
+    GetDomainData:
+      description: Response data for get-domain
+      example:
+        domain:
+          nextduedate: nextduedate
+          expirydate: expirydate
+          period: 0
+          type: type
+          id_protection_supported: true
+          has_dns_manager_zone: true
+          id_protection: 0
+          domain_id: domain_id
+          nextinvoicedate: nextinvoicedate
+          evaluation: ""
+          has_hosting:
+            hosting_id: 5
+            module: module
+          domain: domain
+          recurringamount: recurringamount
+          donotrenew: 0
+          status: status
+        message: message
+      properties:
+        message:
+          description: Status message indicating the result
+          type: string
+        domain:
+          $ref: "#/components/schemas/DomainInfo"
+      required:
+      - domain
+      - message
+      type: object
+    GetDomainRequestContent:
+      example:
+        domain_id: domain_id
+      properties:
+        domain_id:
+          description: Domain service id - must be sent as a string
+          type: string
+      required:
+      - domain_id
+      type: object
+    GetDomainResponseContent:
+      example:
+        data:
+          domain:
+            nextduedate: nextduedate
+            expirydate: expirydate
+            period: 0
+            type: type
+            id_protection_supported: true
+            has_dns_manager_zone: true
+            id_protection: 0
+            domain_id: domain_id
+            nextinvoicedate: nextinvoicedate
+            evaluation: ""
+            has_hosting:
+              hosting_id: 5
+              module: module
+            domain: domain
+            recurringamount: recurringamount
+            donotrenew: 0
+            status: status
+          message: message
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/GetDomainData"
+      required:
+      - data
+      - status
+      type: object
     GetNoVncConsoleRequestContent:
       example:
         service_id: service_id
@@ -7414,6 +8794,241 @@ components:
           $ref: "#/components/schemas/OperationStatus"
         data:
           $ref: "#/components/schemas/ServiceBackupsResponseData"
+      required:
+      - data
+      - status
+      type: object
+    ListDomainsData:
+      description: List domains response data
+      example:
+        total_count: 0
+        domain_warranty: true
+        domains:
+        - nextduedate: nextduedate
+          expirydate: expirydate
+          period: 0
+          type: type
+          id_protection_supported: true
+          has_dns_manager_zone: true
+          id_protection: 0
+          domain_id: domain_id
+          nextinvoicedate: nextinvoicedate
+          evaluation: ""
+          has_hosting:
+            hosting_id: 5
+            module: module
+          domain: domain
+          recurringamount: recurringamount
+          donotrenew: 0
+          status: status
+        - nextduedate: nextduedate
+          expirydate: expirydate
+          period: 0
+          type: type
+          id_protection_supported: true
+          has_dns_manager_zone: true
+          id_protection: 0
+          domain_id: domain_id
+          nextinvoicedate: nextinvoicedate
+          evaluation: ""
+          has_hosting:
+            hosting_id: 5
+            module: module
+          domain: domain
+          recurringamount: recurringamount
+          donotrenew: 0
+          status: status
+        domain_evaluation_available: true
+        message: message
+        domain_warranty_rename: domain_warranty_rename
+      properties:
+        message:
+          description: Status message indicating the result
+          type: string
+        domains:
+          description: Domains owned by the authenticated client
+          items:
+            $ref: "#/components/schemas/DomainInfo"
+          type: array
+        domain_warranty:
+          description: Whether ID-protection warranty is enabled for the account
+          type: boolean
+        domain_warranty_rename:
+          description: Domain warranty rename setting when configured
+          type: string
+        domain_evaluation_available:
+          description: Whether domain evaluation is available for the account
+          type: boolean
+        total_count:
+          description: Total number of domains returned
+          format: int32
+          type: integer
+      required:
+      - domain_evaluation_available
+      - domain_warranty
+      - domains
+      - message
+      - total_count
+      type: object
+    ListDomainsRequiringDataData:
+      description: Domains requiring additional registrar or contact data
+      example:
+        total_count: 0
+        domains:
+        - domain_id: domain_id
+          domain_type: domain_type
+          additionalFields:
+          - displayname: displayname
+            name: name
+            type: type
+            value: value
+            required: true
+          - displayname: displayname
+            name: name
+            type: type
+            value: value
+            required: true
+          domain: domain
+          tld: tld
+          status: status
+        - domain_id: domain_id
+          domain_type: domain_type
+          additionalFields:
+          - displayname: displayname
+            name: name
+            type: type
+            value: value
+            required: true
+          - displayname: displayname
+            name: name
+            type: type
+            value: value
+            required: true
+          domain: domain
+          tld: tld
+          status: status
+        requires_additional_fields: true
+        message: message
+      properties:
+        message:
+          description: Status message indicating the result
+          type: string
+        domains:
+          description: Pending domains needing additional registrar or contact data
+          items:
+            $ref: "#/components/schemas/DomainRequiringDataInfo"
+          type: array
+        total_count:
+          description: Count of domains returned
+          format: int32
+          type: integer
+        requires_additional_fields:
+          description: True when any domain has missing required fields
+          type: boolean
+      required:
+      - domains
+      - message
+      - requires_additional_fields
+      - total_count
+      type: object
+    ListDomainsRequiringDataResponseContent:
+      example:
+        data:
+          total_count: 0
+          domains:
+          - domain_id: domain_id
+            domain_type: domain_type
+            additionalFields:
+            - displayname: displayname
+              name: name
+              type: type
+              value: value
+              required: true
+            - displayname: displayname
+              name: name
+              type: type
+              value: value
+              required: true
+            domain: domain
+            tld: tld
+            status: status
+          - domain_id: domain_id
+            domain_type: domain_type
+            additionalFields:
+            - displayname: displayname
+              name: name
+              type: type
+              value: value
+              required: true
+            - displayname: displayname
+              name: name
+              type: type
+              value: value
+              required: true
+            domain: domain
+            tld: tld
+            status: status
+          requires_additional_fields: true
+          message: message
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/ListDomainsRequiringDataData"
+      required:
+      - data
+      - status
+      type: object
+    ListDomainsResponseContent:
+      example:
+        data:
+          total_count: 0
+          domain_warranty: true
+          domains:
+          - nextduedate: nextduedate
+            expirydate: expirydate
+            period: 0
+            type: type
+            id_protection_supported: true
+            has_dns_manager_zone: true
+            id_protection: 0
+            domain_id: domain_id
+            nextinvoicedate: nextinvoicedate
+            evaluation: ""
+            has_hosting:
+              hosting_id: 5
+              module: module
+            domain: domain
+            recurringamount: recurringamount
+            donotrenew: 0
+            status: status
+          - nextduedate: nextduedate
+            expirydate: expirydate
+            period: 0
+            type: type
+            id_protection_supported: true
+            has_dns_manager_zone: true
+            id_protection: 0
+            domain_id: domain_id
+            nextinvoicedate: nextinvoicedate
+            evaluation: ""
+            has_hosting:
+              hosting_id: 5
+              module: module
+            domain: domain
+            recurringamount: recurringamount
+            donotrenew: 0
+            status: status
+          domain_evaluation_available: true
+          message: message
+          domain_warranty_rename: domain_warranty_rename
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/ListDomainsData"
       required:
       - data
       - status
@@ -8882,7 +10497,7 @@ components:
           format: int32
           type: integer
         relid:
-          description: Related service id (tblhosting.id / tblhostingaddons.id / tbldomains.id)
+          description: "Related service id for the zone type (hosting, addon, or domain)"
           format: int32
           type: integer
         serverid:
@@ -9089,6 +10704,55 @@ components:
           $ref: "#/components/schemas/OperationStatus"
         data:
           $ref: "#/components/schemas/VpsSimpleActionResponseData"
+      required:
+      - data
+      - status
+      type: object
+    SaveDomainRequiredDataData:
+      description: Response data for save-domain-required-data
+      example:
+        domain_id: domain_id
+        message: message
+      properties:
+        message:
+          description: Status message indicating the result
+          type: string
+        domain_id:
+          description: Domain service id
+          type: string
+      required:
+      - domain_id
+      - message
+      type: object
+    SaveDomainRequiredDataRequestContent:
+      example:
+        domain_id: domain_id
+        fields:
+          key: fields
+      properties:
+        domain_id:
+          description: Domain service id - must be sent as a string
+          type: string
+        fields:
+          additionalProperties:
+            type: string
+          description: "Registrar field values keyed by additionalFields[].name"
+          type: object
+      required:
+      - domain_id
+      - fields
+      type: object
+    SaveDomainRequiredDataResponseContent:
+      example:
+        data:
+          domain_id: domain_id
+          message: message
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/SaveDomainRequiredDataData"
       required:
       - data
       - status
@@ -9561,6 +11225,99 @@ components:
       - data
       - status
       type: object
+    SuggestDomainsRequestContent:
+      example:
+        currency: currency
+        prompt: prompt
+      properties:
+        prompt:
+          description: "Natural-language description of the business or idea, e.g.\
+            \ \"my coffee shop\""
+          type: string
+        currency:
+          description: "Currency for pricing. Accepts ISO code, symbol, country name,\
+            \ or numeric ID. Defaults to ZAR."
+          type: string
+      required:
+      - prompt
+      type: object
+    SuggestDomainsResponseContent:
+      example:
+        data:
+          warnings:
+          - warnings
+          - warnings
+          domains:
+          - requires_additional_info: true
+            premium: true
+            addons:
+              idprotection: true
+              dnsmanagement: true
+              emailforwarding: true
+            additional_info: ""
+            domain: domain
+            register_url: register_url
+            pricing:
+              domaintransfer:
+              - period: 0
+                price: price
+              - period: 0
+                price: price
+              domainrenew:
+              - period: 0
+                price: price
+              - period: 0
+                price: price
+              domainregister:
+              - period: 0
+                price: price
+              - period: 0
+                price: price
+            status: status
+            group: group
+          - requires_additional_info: true
+            premium: true
+            addons:
+              idprotection: true
+              dnsmanagement: true
+              emailforwarding: true
+            additional_info: ""
+            domain: domain
+            register_url: register_url
+            pricing:
+              domaintransfer:
+              - period: 0
+                price: price
+              - period: 0
+                price: price
+              domainrenew:
+              - period: 0
+                price: price
+              - period: 0
+                price: price
+              domainregister:
+              - period: 0
+                price: price
+              - period: 0
+                price: price
+            status: status
+            group: group
+          suggestions:
+          - suggestions
+          - suggestions
+          currency: 6
+          currency_note: currency_note
+          currency_code: currency_code
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/DomainSearchResponseData"
+      required:
+      - data
+      - status
+      type: object
     TooManyRequestsErrorResponseContent:
       example:
         data: "{}"
@@ -9635,6 +11392,91 @@ components:
       required:
       - data
       - message
+      type: object
+    UpdateDomainSettingsData:
+      description: Response data for update-domain-settings
+      example:
+        domain_id: domain_id
+        requires_payment: true
+        amount: 6.027456183070403
+        invoice_id: 0
+        message: message
+        value: true
+        setting: donotrenew
+      properties:
+        message:
+          description: Status message indicating the result
+          type: string
+        domain_id:
+          description: Domain service id as returned by upstream
+          type: string
+        setting:
+          $ref: "#/components/schemas/DomainSettingKey"
+        value:
+          description: Boolean value requested
+          type: boolean
+        requires_payment:
+          description: True when payment must be completed before a paid addon is
+            enabled
+          type: boolean
+        invoice_id:
+          description: Invoice id when requires_payment is true
+          format: int32
+          type: integer
+        amount:
+          description: Invoice amount in client currency when requires_payment is
+            true
+          format: double
+          type: number
+      required:
+      - domain_id
+      - message
+      - requires_payment
+      - setting
+      - value
+      type: object
+    UpdateDomainSettingsRequestContent:
+      example:
+        domain_id: domain_id
+        value: true
+        gateway: gateway
+        setting: donotrenew
+      properties:
+        domain_id:
+          description: Domain service id - must be sent as a string
+          type: string
+        setting:
+          $ref: "#/components/schemas/DomainSettingKey"
+        value:
+          description: New boolean value
+          type: boolean
+        gateway:
+          description: Payment gateway slug when enabling a paid addon (e.g. stripe)
+          type: string
+      required:
+      - domain_id
+      - setting
+      - value
+      type: object
+    UpdateDomainSettingsResponseContent:
+      example:
+        data:
+          domain_id: domain_id
+          requires_payment: true
+          amount: 6.027456183070403
+          invoice_id: 0
+          message: message
+          value: true
+          setting: donotrenew
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/UpdateDomainSettingsData"
+      required:
+      - data
+      - status
       type: object
     UpdateFirewallRuleRequestContent:
       example:
@@ -10278,7 +12120,7 @@ components:
         plan_id: 6
       properties:
         pid:
-          description: WHMCS product ID
+          description: Product ID
           format: int32
           type: integer
         billing_cycle:
