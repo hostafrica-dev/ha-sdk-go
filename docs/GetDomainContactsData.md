@@ -7,13 +7,13 @@ Name | Type | Description | Notes
 **Message** | **string** | Status message indicating the result | 
 **DomainId** | **string** | Domain service id | 
 **Domain** | **string** | Fully qualified domain name | 
-**Contacts** | **interface{}** | Contact roles keyed by Registrant, Admin, Tech, and Billing, or an array of contact records. Inner field names and values vary by TLD/registrar. | 
+**Contacts** | [**DomainContacts**](DomainContacts.md) |  | 
 
 ## Methods
 
 ### NewGetDomainContactsData
 
-`func NewGetDomainContactsData(message string, domainId string, domain string, contacts interface{}, ) *GetDomainContactsData`
+`func NewGetDomainContactsData(message string, domainId string, domain string, contacts DomainContacts, ) *GetDomainContactsData`
 
 NewGetDomainContactsData instantiates a new GetDomainContactsData object
 This constructor will assign default values to properties that have it defined,
@@ -90,34 +90,24 @@ SetDomain sets Domain field to given value.
 
 ### GetContacts
 
-`func (o *GetDomainContactsData) GetContacts() interface{}`
+`func (o *GetDomainContactsData) GetContacts() DomainContacts`
 
 GetContacts returns the Contacts field if non-nil, zero value otherwise.
 
 ### GetContactsOk
 
-`func (o *GetDomainContactsData) GetContactsOk() (*interface{}, bool)`
+`func (o *GetDomainContactsData) GetContactsOk() (*DomainContacts, bool)`
 
 GetContactsOk returns a tuple with the Contacts field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetContacts
 
-`func (o *GetDomainContactsData) SetContacts(v interface{})`
+`func (o *GetDomainContactsData) SetContacts(v DomainContacts)`
 
 SetContacts sets Contacts field to given value.
 
 
-### SetContactsNil
-
-`func (o *GetDomainContactsData) SetContactsNil(b bool)`
-
- SetContactsNil sets the value for Contacts to be an explicit nil
-
-### UnsetContacts
-`func (o *GetDomainContactsData) UnsetContacts()`
-
-UnsetContacts ensures that no value is present for Contacts, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

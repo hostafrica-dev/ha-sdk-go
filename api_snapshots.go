@@ -38,7 +38,7 @@ type SnapshotsAPI interface {
 	/*
 	CreateSnapshotJob Method for CreateSnapshotJob
 
-	[Under development] Creates a new snapshot job for a VPS service. Use period='hourly' with run_every, or period='daily' with days and start_time.
+	Creates a new snapshot job for a VPS service. Use period='hourly' with run_every, or period='daily' with days and start_time.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiCreateSnapshotJobRequest
@@ -66,7 +66,7 @@ type SnapshotsAPI interface {
 	/*
 	DeleteSnapshotJob Method for DeleteSnapshotJob
 
-	[Under development]Deletes a snapshot job from a VPS service
+	Deletes a snapshot job from a VPS service
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiDeleteSnapshotJobRequest
@@ -80,7 +80,7 @@ type SnapshotsAPI interface {
 	/*
 	ListSnapshotJobs Method for ListSnapshotJobs
 
-	[Under development]Retrieves the list of snapshot jobs for a VPS service
+	Retrieves the list of snapshot jobs for a VPS service
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiListSnapshotJobsRequest
@@ -136,7 +136,7 @@ type SnapshotsAPI interface {
 	/*
 	UpdateSnapshotJob Method for UpdateSnapshotJob
 
-	[Under development] Updates an existing snapshot job. Only provide fields you want to change.
+	Updates an existing snapshot job. Only provide fields you want to change.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiUpdateSnapshotJobRequest
@@ -366,7 +366,7 @@ func (r ApiCreateSnapshotJobRequest) Execute() (*CreateSnapshotJobResponseConten
 /*
 CreateSnapshotJob Method for CreateSnapshotJob
 
-[Under development] Creates a new snapshot job for a VPS service. Use period='hourly' with run_every, or period='daily' with days and start_time.
+Creates a new snapshot job for a VPS service. Use period='hourly' with run_every, or period='daily' with days and start_time.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateSnapshotJobRequest
@@ -760,7 +760,7 @@ func (r ApiDeleteSnapshotJobRequest) Execute() (*DeleteSnapshotJobResponseConten
 /*
 DeleteSnapshotJob Method for DeleteSnapshotJob
 
-[Under development]Deletes a snapshot job from a VPS service
+Deletes a snapshot job from a VPS service
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiDeleteSnapshotJobRequest
@@ -957,7 +957,7 @@ func (r ApiListSnapshotJobsRequest) Execute() (*ListSnapshotJobsResponseContent,
 /*
 ListSnapshotJobs Method for ListSnapshotJobs
 
-[Under development]Retrieves the list of snapshot jobs for a VPS service
+Retrieves the list of snapshot jobs for a VPS service
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiListSnapshotJobsRequest
@@ -1745,7 +1745,7 @@ func (r ApiUpdateSnapshotJobRequest) Execute() (*UpdateSnapshotJobResponseConten
 /*
 UpdateSnapshotJob Method for UpdateSnapshotJob
 
-[Under development] Updates an existing snapshot job. Only provide fields you want to change.
+Updates an existing snapshot job. Only provide fields you want to change.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiUpdateSnapshotJobRequest

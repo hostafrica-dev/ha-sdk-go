@@ -5,13 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Message** | **string** | Status message indicating the result | 
-**Domain** | [**DomainInfo**](DomainInfo.md) |  | 
+**Domain** | [**DomainDetail**](DomainDetail.md) |  | 
 
 ## Methods
 
 ### NewGetDomainData
 
-`func NewGetDomainData(message string, domain DomainInfo, ) *GetDomainData`
+`func NewGetDomainData(message string, domain DomainDetail, ) *GetDomainData`
 
 NewGetDomainData instantiates a new GetDomainData object
 This constructor will assign default values to properties that have it defined,
@@ -48,20 +48,20 @@ SetMessage sets Message field to given value.
 
 ### GetDomain
 
-`func (o *GetDomainData) GetDomain() DomainInfo`
+`func (o *GetDomainData) GetDomain() DomainDetail`
 
 GetDomain returns the Domain field if non-nil, zero value otherwise.
 
 ### GetDomainOk
 
-`func (o *GetDomainData) GetDomainOk() (*DomainInfo, bool)`
+`func (o *GetDomainData) GetDomainOk() (*DomainDetail, bool)`
 
 GetDomainOk returns a tuple with the Domain field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDomain
 
-`func (o *GetDomainData) SetDomain(v DomainInfo)`
+`func (o *GetDomainData) SetDomain(v DomainDetail)`
 
 SetDomain sets Domain field to given value.
 

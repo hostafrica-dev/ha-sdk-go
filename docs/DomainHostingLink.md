@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**HostingId** | **int32** | Linked hosting service id | 
-**Module** | **string** | Hosting module name (e.g. cpanel) | 
+**HostingId** | Pointer to **int32** | Linked hosting service id; omitted when no hosting is linked | [optional] 
+**Module** | Pointer to **string** | Hosting module name (e.g. cpanel); omitted when no hosting is linked | [optional] 
 
 ## Methods
 
 ### NewDomainHostingLink
 
-`func NewDomainHostingLink(hostingId int32, module string, ) *DomainHostingLink`
+`func NewDomainHostingLink() *DomainHostingLink`
 
 NewDomainHostingLink instantiates a new DomainHostingLink object
 This constructor will assign default values to properties that have it defined,
@@ -45,6 +45,11 @@ and a boolean to check if the value has been set.
 
 SetHostingId sets HostingId field to given value.
 
+### HasHostingId
+
+`func (o *DomainHostingLink) HasHostingId() bool`
+
+HasHostingId returns a boolean if a field has been set.
 
 ### GetModule
 
@@ -65,6 +70,11 @@ and a boolean to check if the value has been set.
 
 SetModule sets Module field to given value.
 
+### HasModule
+
+`func (o *DomainHostingLink) HasModule() bool`
+
+HasModule returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

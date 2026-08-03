@@ -23,7 +23,7 @@ var _ MappedNullable = &GetDomainData{}
 type GetDomainData struct {
 	// Status message indicating the result
 	Message string `json:"message"`
-	Domain DomainInfo `json:"domain"`
+	Domain DomainDetail `json:"domain"`
 }
 
 type _GetDomainData GetDomainData
@@ -32,7 +32,7 @@ type _GetDomainData GetDomainData
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetDomainData(message string, domain DomainInfo) *GetDomainData {
+func NewGetDomainData(message string, domain DomainDetail) *GetDomainData {
 	this := GetDomainData{}
 	this.Message = message
 	this.Domain = domain
@@ -72,9 +72,9 @@ func (o *GetDomainData) SetMessage(v string) {
 }
 
 // GetDomain returns the Domain field value
-func (o *GetDomainData) GetDomain() DomainInfo {
+func (o *GetDomainData) GetDomain() DomainDetail {
 	if o == nil {
-		var ret DomainInfo
+		var ret DomainDetail
 		return ret
 	}
 
@@ -83,7 +83,7 @@ func (o *GetDomainData) GetDomain() DomainInfo {
 
 // GetDomainOk returns a tuple with the Domain field value
 // and a boolean to check if the value has been set.
-func (o *GetDomainData) GetDomainOk() (*DomainInfo, bool) {
+func (o *GetDomainData) GetDomainOk() (*DomainDetail, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -91,7 +91,7 @@ func (o *GetDomainData) GetDomainOk() (*DomainInfo, bool) {
 }
 
 // SetDomain sets field value
-func (o *GetDomainData) SetDomain(v DomainInfo) {
+func (o *GetDomainData) SetDomain(v DomainDetail) {
 	o.Domain = v
 }
 

@@ -19,6 +19,7 @@ Name | Type | Description | Notes
 **HasHosting** | Pointer to [**DomainHostingLink**](DomainHostingLink.md) |  | [optional] 
 **HasDnsManagerZone** | **bool** | Whether a DNS Manager zone exists for this domain name | 
 **Evaluation** | Pointer to **interface{}** | Domain evaluator result when enabled; null when unavailable | [optional] 
+**NoEpp** | Pointer to **bool** | True when EPP/auth code retrieval is disabled for this domain | [optional] 
 
 ## Methods
 
@@ -374,6 +375,31 @@ HasEvaluation returns a boolean if a field has been set.
 `func (o *DomainInfo) UnsetEvaluation()`
 
 UnsetEvaluation ensures that no value is present for Evaluation, not even an explicit nil
+### GetNoEpp
+
+`func (o *DomainInfo) GetNoEpp() bool`
+
+GetNoEpp returns the NoEpp field if non-nil, zero value otherwise.
+
+### GetNoEppOk
+
+`func (o *DomainInfo) GetNoEppOk() (*bool, bool)`
+
+GetNoEppOk returns a tuple with the NoEpp field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetNoEpp
+
+`func (o *DomainInfo) SetNoEpp(v bool)`
+
+SetNoEpp sets NoEpp field to given value.
+
+### HasNoEpp
+
+`func (o *DomainInfo) HasNoEpp() bool`
+
+HasNoEpp returns a boolean if a field has been set.
+
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

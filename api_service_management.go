@@ -38,7 +38,7 @@ type ServiceManagementAPI interface {
 	/*
 	CreateOrder Method for CreateOrder
 
-	Creates an order through checkout. Returns payment status; on failure also includes payment_error with code and message.
+	Creates an order for a VPS service. Returns payment status; on failure also includes payment_error with code and message.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiCreateOrderRequest
@@ -94,7 +94,7 @@ type ServiceManagementAPI interface {
 	/*
 	ValidatePricing Method for ValidatePricing
 
-	Validates pricing for one or more products, returning per-product breakdown and order summary
+	Validates pricing for one or more VPC service products, returning per-product breakdown and order summary
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiValidatePricingRequest
@@ -335,7 +335,7 @@ func (r ApiCreateOrderRequest) Execute() (*CreateOrderResponseContent, *http.Res
 /*
 CreateOrder Method for CreateOrder
 
-Creates an order through checkout. Returns payment status; on failure also includes payment_error with code and message.
+Creates an order for a VPS service. Returns payment status; on failure also includes payment_error with code and message.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateOrderRequest
@@ -1098,7 +1098,7 @@ func (r ApiValidatePricingRequest) Execute() (*ValidatePricingResponseContent, *
 /*
 ValidatePricing Method for ValidatePricing
 
-Validates pricing for one or more products, returning per-product breakdown and order summary
+Validates pricing for one or more VPC service products, returning per-product breakdown and order summary
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiValidatePricingRequest

@@ -12,8 +12,6 @@ package hasdk
 
 import (
 	"encoding/json"
-	"bytes"
-	"fmt"
 )
 
 // checks if the DomainHostingLink type satisfies the MappedNullable interface at compile time
@@ -21,22 +19,18 @@ var _ MappedNullable = &DomainHostingLink{}
 
 // DomainHostingLink Linked hosting service for a domain
 type DomainHostingLink struct {
-	// Linked hosting service id
-	HostingId int32 `json:"hosting_id"`
-	// Hosting module name (e.g. cpanel)
-	Module string `json:"module"`
+	// Linked hosting service id; omitted when no hosting is linked
+	HostingId *int32 `json:"hosting_id,omitempty"`
+	// Hosting module name (e.g. cpanel); omitted when no hosting is linked
+	Module *string `json:"module,omitempty"`
 }
-
-type _DomainHostingLink DomainHostingLink
 
 // NewDomainHostingLink instantiates a new DomainHostingLink object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDomainHostingLink(hostingId int32, module string) *DomainHostingLink {
+func NewDomainHostingLink() *DomainHostingLink {
 	this := DomainHostingLink{}
-	this.HostingId = hostingId
-	this.Module = module
 	return &this
 }
 
@@ -48,52 +42,68 @@ func NewDomainHostingLinkWithDefaults() *DomainHostingLink {
 	return &this
 }
 
-// GetHostingId returns the HostingId field value
+// GetHostingId returns the HostingId field value if set, zero value otherwise.
 func (o *DomainHostingLink) GetHostingId() int32 {
-	if o == nil {
+	if o == nil || IsNil(o.HostingId) {
 		var ret int32
 		return ret
 	}
-
-	return o.HostingId
+	return *o.HostingId
 }
 
-// GetHostingIdOk returns a tuple with the HostingId field value
+// GetHostingIdOk returns a tuple with the HostingId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *DomainHostingLink) GetHostingIdOk() (*int32, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.HostingId) {
 		return nil, false
 	}
-	return &o.HostingId, true
+	return o.HostingId, true
 }
 
-// SetHostingId sets field value
+// HasHostingId returns a boolean if a field has been set.
+func (o *DomainHostingLink) HasHostingId() bool {
+	if o != nil && !IsNil(o.HostingId) {
+		return true
+	}
+
+	return false
+}
+
+// SetHostingId gets a reference to the given int32 and assigns it to the HostingId field.
 func (o *DomainHostingLink) SetHostingId(v int32) {
-	o.HostingId = v
+	o.HostingId = &v
 }
 
-// GetModule returns the Module field value
+// GetModule returns the Module field value if set, zero value otherwise.
 func (o *DomainHostingLink) GetModule() string {
-	if o == nil {
+	if o == nil || IsNil(o.Module) {
 		var ret string
 		return ret
 	}
-
-	return o.Module
+	return *o.Module
 }
 
-// GetModuleOk returns a tuple with the Module field value
+// GetModuleOk returns a tuple with the Module field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *DomainHostingLink) GetModuleOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.Module) {
 		return nil, false
 	}
-	return &o.Module, true
+	return o.Module, true
 }
 
-// SetModule sets field value
+// HasModule returns a boolean if a field has been set.
+func (o *DomainHostingLink) HasModule() bool {
+	if o != nil && !IsNil(o.Module) {
+		return true
+	}
+
+	return false
+}
+
+// SetModule gets a reference to the given string and assigns it to the Module field.
 func (o *DomainHostingLink) SetModule(v string) {
-	o.Module = v
+	o.Module = &v
 }
 
 func (o DomainHostingLink) MarshalJSON() ([]byte, error) {
@@ -106,47 +116,13 @@ func (o DomainHostingLink) MarshalJSON() ([]byte, error) {
 
 func (o DomainHostingLink) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["hosting_id"] = o.HostingId
-	toSerialize["module"] = o.Module
+	if !IsNil(o.HostingId) {
+		toSerialize["hosting_id"] = o.HostingId
+	}
+	if !IsNil(o.Module) {
+		toSerialize["module"] = o.Module
+	}
 	return toSerialize, nil
-}
-
-func (o *DomainHostingLink) UnmarshalJSON(data []byte) (err error) {
-	// This validates that all required properties are included in the JSON object
-	// by unmarshalling the object into a generic map with string keys and checking
-	// that every required field exists as a key in the generic map.
-	requiredProperties := []string{
-		"hosting_id",
-		"module",
-	}
-
-	allProperties := make(map[string]interface{})
-
-	err = json.Unmarshal(data, &allProperties)
-
-	if err != nil {
-		return err;
-	}
-
-	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
-			return fmt.Errorf("no value given for required property %v", requiredProperty)
-		}
-	}
-
-	varDomainHostingLink := _DomainHostingLink{}
-
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDomainHostingLink)
-
-	if err != nil {
-		return err
-	}
-
-	*o = DomainHostingLink(varDomainHostingLink)
-
-	return err
 }
 
 type NullableDomainHostingLink struct {

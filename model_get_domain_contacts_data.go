@@ -27,8 +27,7 @@ type GetDomainContactsData struct {
 	DomainId string `json:"domain_id"`
 	// Fully qualified domain name
 	Domain string `json:"domain"`
-	// Contact roles keyed by Registrant, Admin, Tech, and Billing, or an array of contact records. Inner field names and values vary by TLD/registrar.
-	Contacts interface{} `json:"contacts"`
+	Contacts DomainContacts `json:"contacts"`
 }
 
 type _GetDomainContactsData GetDomainContactsData
@@ -37,7 +36,7 @@ type _GetDomainContactsData GetDomainContactsData
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetDomainContactsData(message string, domainId string, domain string, contacts interface{}) *GetDomainContactsData {
+func NewGetDomainContactsData(message string, domainId string, domain string, contacts DomainContacts) *GetDomainContactsData {
 	this := GetDomainContactsData{}
 	this.Message = message
 	this.DomainId = domainId
@@ -127,10 +126,9 @@ func (o *GetDomainContactsData) SetDomain(v string) {
 }
 
 // GetContacts returns the Contacts field value
-// If the value is explicit nil, the zero value for interface{} will be returned
-func (o *GetDomainContactsData) GetContacts() interface{} {
+func (o *GetDomainContactsData) GetContacts() DomainContacts {
 	if o == nil {
-		var ret interface{}
+		var ret DomainContacts
 		return ret
 	}
 
@@ -139,16 +137,15 @@ func (o *GetDomainContactsData) GetContacts() interface{} {
 
 // GetContactsOk returns a tuple with the Contacts field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *GetDomainContactsData) GetContactsOk() (*interface{}, bool) {
-	if o == nil || IsNil(o.Contacts) {
+func (o *GetDomainContactsData) GetContactsOk() (*DomainContacts, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Contacts, true
 }
 
 // SetContacts sets field value
-func (o *GetDomainContactsData) SetContacts(v interface{}) {
+func (o *GetDomainContactsData) SetContacts(v DomainContacts) {
 	o.Contacts = v
 }
 
@@ -165,9 +162,7 @@ func (o GetDomainContactsData) ToMap() (map[string]interface{}, error) {
 	toSerialize["message"] = o.Message
 	toSerialize["domain_id"] = o.DomainId
 	toSerialize["domain"] = o.Domain
-	if o.Contacts != nil {
-		toSerialize["contacts"] = o.Contacts
-	}
+	toSerialize["contacts"] = o.Contacts
 	return toSerialize, nil
 }
 

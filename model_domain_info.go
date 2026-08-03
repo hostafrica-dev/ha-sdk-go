@@ -50,6 +50,8 @@ type DomainInfo struct {
 	HasDnsManagerZone bool `json:"has_dns_manager_zone"`
 	// Domain evaluator result when enabled; null when unavailable
 	Evaluation interface{} `json:"evaluation,omitempty"`
+	// True when EPP/auth code retrieval is disabled for this domain
+	NoEpp *bool `json:"no_epp,omitempty"`
 }
 
 type _DomainInfo DomainInfo
@@ -482,6 +484,38 @@ func (o *DomainInfo) SetEvaluation(v interface{}) {
 	o.Evaluation = v
 }
 
+// GetNoEpp returns the NoEpp field value if set, zero value otherwise.
+func (o *DomainInfo) GetNoEpp() bool {
+	if o == nil || IsNil(o.NoEpp) {
+		var ret bool
+		return ret
+	}
+	return *o.NoEpp
+}
+
+// GetNoEppOk returns a tuple with the NoEpp field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DomainInfo) GetNoEppOk() (*bool, bool) {
+	if o == nil || IsNil(o.NoEpp) {
+		return nil, false
+	}
+	return o.NoEpp, true
+}
+
+// HasNoEpp returns a boolean if a field has been set.
+func (o *DomainInfo) HasNoEpp() bool {
+	if o != nil && !IsNil(o.NoEpp) {
+		return true
+	}
+
+	return false
+}
+
+// SetNoEpp gets a reference to the given bool and assigns it to the NoEpp field.
+func (o *DomainInfo) SetNoEpp(v bool) {
+	o.NoEpp = &v
+}
+
 func (o DomainInfo) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -516,6 +550,9 @@ func (o DomainInfo) ToMap() (map[string]interface{}, error) {
 	toSerialize["has_dns_manager_zone"] = o.HasDnsManagerZone
 	if o.Evaluation != nil {
 		toSerialize["evaluation"] = o.Evaluation
+	}
+	if !IsNil(o.NoEpp) {
+		toSerialize["no_epp"] = o.NoEpp
 	}
 	return toSerialize, nil
 }

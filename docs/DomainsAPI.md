@@ -7,10 +7,13 @@ Method | HTTP request | Description
 [**CheckDomainAvailability**](DomainsAPI.md#CheckDomainAvailability) | **Post** /domain/check-availability | 
 [**GetDomain**](DomainsAPI.md#GetDomain) | **Post** /domain/get-domain | 
 [**GetDomainContacts**](DomainsAPI.md#GetDomainContacts) | **Post** /domain/get-domain-contacts | 
+[**ListDnssecRecords**](DomainsAPI.md#ListDnssecRecords) | **Post** /domain/list-dnssec-records | 
 [**ListDomains**](DomainsAPI.md#ListDomains) | **Post** /domain/list-domains | 
 [**ListDomainsRequiringData**](DomainsAPI.md#ListDomainsRequiringData) | **Post** /domain/list-domains-requiring-data | 
 [**SaveDomainRequiredData**](DomainsAPI.md#SaveDomainRequiredData) | **Post** /domain/save-domain-required-data | 
 [**SuggestDomains**](DomainsAPI.md#SuggestDomains) | **Post** /domain/suggest | 
+[**UpdateDomainContacts**](DomainsAPI.md#UpdateDomainContacts) | **Post** /domain/update-domain-contacts | 
+[**UpdateDomainNameservers**](DomainsAPI.md#UpdateDomainNameservers) | **Post** /domain/update-nameservers | 
 [**UpdateDomainSettings**](DomainsAPI.md#UpdateDomainSettings) | **Post** /domain/update-domain-settings | 
 
 
@@ -198,6 +201,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**GetDomainContactsResponseContent**](GetDomainContactsResponseContent.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ListDnssecRecords
+
+> ListDnssecRecordsResponseContent ListDnssecRecords(ctx).ListDnssecRecordsRequestContent(listDnssecRecordsRequestContent).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/hostafrica/ha-sdk-go"
+)
+
+func main() {
+	listDnssecRecordsRequestContent := *openapiclient.NewListDnssecRecordsRequestContent("DomainId_example") // ListDnssecRecordsRequestContent | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DomainsAPI.ListDnssecRecords(context.Background()).ListDnssecRecordsRequestContent(listDnssecRecordsRequestContent).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DomainsAPI.ListDnssecRecords``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ListDnssecRecords`: ListDnssecRecordsResponseContent
+	fmt.Fprintf(os.Stdout, "Response from `DomainsAPI.ListDnssecRecords`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListDnssecRecordsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **listDnssecRecordsRequestContent** | [**ListDnssecRecordsRequestContent**](ListDnssecRecordsRequestContent.md) |  | 
+
+### Return type
+
+[**ListDnssecRecordsResponseContent**](ListDnssecRecordsResponseContent.md)
 
 ### Authorization
 
@@ -452,6 +521,138 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**SuggestDomainsResponseContent**](SuggestDomainsResponseContent.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UpdateDomainContacts
+
+> UpdateDomainContactsResponseContent UpdateDomainContacts(ctx).UpdateDomainContactsRequestContent(updateDomainContactsRequestContent).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/hostafrica/ha-sdk-go"
+)
+
+func main() {
+	updateDomainContactsRequestContent := *openapiclient.NewUpdateDomainContactsRequestContent("DomainId_example", *openapiclient.NewDomainContactUpdates()) // UpdateDomainContactsRequestContent | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DomainsAPI.UpdateDomainContacts(context.Background()).UpdateDomainContactsRequestContent(updateDomainContactsRequestContent).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DomainsAPI.UpdateDomainContacts``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `UpdateDomainContacts`: UpdateDomainContactsResponseContent
+	fmt.Fprintf(os.Stdout, "Response from `DomainsAPI.UpdateDomainContacts`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateDomainContactsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **updateDomainContactsRequestContent** | [**UpdateDomainContactsRequestContent**](UpdateDomainContactsRequestContent.md) |  | 
+
+### Return type
+
+[**UpdateDomainContactsResponseContent**](UpdateDomainContactsResponseContent.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UpdateDomainNameservers
+
+> UpdateDomainNameserversResponseContent UpdateDomainNameservers(ctx).UpdateDomainNameserversRequestContent(updateDomainNameserversRequestContent).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/hostafrica/ha-sdk-go"
+)
+
+func main() {
+	updateDomainNameserversRequestContent := *openapiclient.NewUpdateDomainNameserversRequestContent("DomainId_example", "Ns1_example", "Ns2_example") // UpdateDomainNameserversRequestContent | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DomainsAPI.UpdateDomainNameservers(context.Background()).UpdateDomainNameserversRequestContent(updateDomainNameserversRequestContent).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DomainsAPI.UpdateDomainNameservers``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `UpdateDomainNameservers`: UpdateDomainNameserversResponseContent
+	fmt.Fprintf(os.Stdout, "Response from `DomainsAPI.UpdateDomainNameservers`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateDomainNameserversRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **updateDomainNameserversRequestContent** | [**UpdateDomainNameserversRequestContent**](UpdateDomainNameserversRequestContent.md) |  | 
+
+### Return type
+
+[**UpdateDomainNameserversResponseContent**](UpdateDomainNameserversResponseContent.md)
 
 ### Authorization
 
