@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **Uptime** | Pointer to **string** | Uptime in human-readable format | [optional] 
 **UptimeSeconds** | Pointer to **int64** | Uptime in seconds | [optional] 
 **Hostname** | Pointer to **string** | Hostname of the VM | [optional] 
-**BootDevices** | Pointer to **string** | Boot devices configuration | [optional] 
+**BootDevices** | Pointer to **[]string** | Boot devices configuration (e.g., scsi0, scsi1) | [optional] 
 **Vmid** | **string** | Proxmox VM ID | 
 **Node** | **string** | Proxmox node name | 
 **Virtualization** | **string** | Virtualization type (qemu or lxc) | 
@@ -129,20 +129,20 @@ HasHostname returns a boolean if a field has been set.
 
 ### GetBootDevices
 
-`func (o *VpsVmInfo) GetBootDevices() string`
+`func (o *VpsVmInfo) GetBootDevices() []string`
 
 GetBootDevices returns the BootDevices field if non-nil, zero value otherwise.
 
 ### GetBootDevicesOk
 
-`func (o *VpsVmInfo) GetBootDevicesOk() (*string, bool)`
+`func (o *VpsVmInfo) GetBootDevicesOk() (*[]string, bool)`
 
 GetBootDevicesOk returns a tuple with the BootDevices field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetBootDevices
 
-`func (o *VpsVmInfo) SetBootDevices(v string)`
+`func (o *VpsVmInfo) SetBootDevices(v []string)`
 
 SetBootDevices sets BootDevices field to given value.
 

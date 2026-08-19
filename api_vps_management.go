@@ -22,6 +22,20 @@ import (
 type VPSManagementAPI interface {
 
 	/*
+	GetEncryptedPassword Method for GetEncryptedPassword
+
+	Retrieves the VPS username and root password without exposing plaintext over the API. Send a PEM-encoded RSA 4096-bit public key; the API encrypts the password with RSA-OAEP (SHA-256), and returns base64 ciphertext plus encryption metadata. Never send the private key. Invalid or non-4096-bit keys return HTTP 422 ValidationError. Generate a key with: openssl genrsa -out private.pem 4096 && openssl rsa -in private.pem -pubout -out public.pem. Decrypt with: echo CIPHERTEXT | base64 -d | openssl pkeyutl -decrypt -inkey private.pem -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 -pkeyopt rsa_mgf1_md:sha256 (macOS: base64 -D).
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetEncryptedPasswordRequest
+	*/
+	GetEncryptedPassword(ctx context.Context) ApiGetEncryptedPasswordRequest
+
+	// GetEncryptedPasswordExecute executes the request
+	//  @return GetEncryptedPasswordResponseContent
+	GetEncryptedPasswordExecute(r ApiGetEncryptedPasswordRequest) (*GetEncryptedPasswordResponseContent, *http.Response, error)
+
+	/*
 	GetVpsConfig Method for GetVpsConfig
 
 	Retrieves VPS configuration settings including name, hostname, auto-start, boot order, and CD-ROM
@@ -38,7 +52,7 @@ type VPSManagementAPI interface {
 	/*
 	GetVpsDetails Method for GetVpsDetails
 
-	Gets detailed information about a VPS service including configuration, network settings, and statistics
+	Gets detailed information about a VPS service including configuration, network settings, and statistics. Credentials.password is always "<redacted>"; plaintext passwords are never returned. To retrieve the password securely, use GetEncryptedPassword (/vps/get-encrypted-password).
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiGetVpsDetailsRequest
@@ -136,6 +150,203 @@ type VPSManagementAPI interface {
 
 // VPSManagementAPIService VPSManagementAPI service
 type VPSManagementAPIService service
+
+type ApiGetEncryptedPasswordRequest struct {
+	ctx context.Context
+	ApiService VPSManagementAPI
+	getEncryptedPasswordRequestContent *GetEncryptedPasswordRequestContent
+}
+
+func (r ApiGetEncryptedPasswordRequest) GetEncryptedPasswordRequestContent(getEncryptedPasswordRequestContent GetEncryptedPasswordRequestContent) ApiGetEncryptedPasswordRequest {
+	r.getEncryptedPasswordRequestContent = &getEncryptedPasswordRequestContent
+	return r
+}
+
+func (r ApiGetEncryptedPasswordRequest) Execute() (*GetEncryptedPasswordResponseContent, *http.Response, error) {
+	return r.ApiService.GetEncryptedPasswordExecute(r)
+}
+
+/*
+GetEncryptedPassword Method for GetEncryptedPassword
+
+Retrieves the VPS username and root password without exposing plaintext over the API. Send a PEM-encoded RSA 4096-bit public key; the API encrypts the password with RSA-OAEP (SHA-256), and returns base64 ciphertext plus encryption metadata. Never send the private key. Invalid or non-4096-bit keys return HTTP 422 ValidationError. Generate a key with: openssl genrsa -out private.pem 4096 && openssl rsa -in private.pem -pubout -out public.pem. Decrypt with: echo CIPHERTEXT | base64 -d | openssl pkeyutl -decrypt -inkey private.pem -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 -pkeyopt rsa_mgf1_md:sha256 (macOS: base64 -D).
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetEncryptedPasswordRequest
+*/
+func (a *VPSManagementAPIService) GetEncryptedPassword(ctx context.Context) ApiGetEncryptedPasswordRequest {
+	return ApiGetEncryptedPasswordRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return GetEncryptedPasswordResponseContent
+func (a *VPSManagementAPIService) GetEncryptedPasswordExecute(r ApiGetEncryptedPasswordRequest) (*GetEncryptedPasswordResponseContent, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *GetEncryptedPasswordResponseContent
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VPSManagementAPIService.GetEncryptedPassword")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/vps/get-encrypted-password"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.getEncryptedPasswordRequestContent == nil {
+		return localVarReturnValue, nil, reportError("getEncryptedPasswordRequestContent is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.getEncryptedPasswordRequestContent
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v BadRequestErrorResponseContent
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v UnauthorizedErrorResponseContent
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 403 {
+			var v ForbiddenErrorResponseContent
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v ResourceNotFoundErrorResponseContent
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v ValidationErrorResponseContent
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v TooManyRequestsErrorResponseContent
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v InternalServiceErrorResponseContent
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v ServiceUnavailableErrorResponseContent
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
 
 type ApiGetVpsConfigRequest struct {
 	ctx context.Context
@@ -352,7 +563,7 @@ func (r ApiGetVpsDetailsRequest) Execute() (*GetVpsDetailsResponseContent, *http
 /*
 GetVpsDetails Method for GetVpsDetails
 
-Gets detailed information about a VPS service including configuration, network settings, and statistics
+Gets detailed information about a VPS service including configuration, network settings, and statistics. Credentials.password is always "<redacted>"; plaintext passwords are never returned. To retrieve the password securely, use GetEncryptedPassword (/vps/get-encrypted-password).
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetVpsDetailsRequest

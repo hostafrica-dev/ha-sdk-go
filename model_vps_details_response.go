@@ -28,8 +28,8 @@ type VpsDetailsResponse struct {
 	Memory VpsMemoryInfo `json:"memory"`
 	Disk VpsDiskInfo `json:"disk"`
 	NetworkRate *VpsNetworkRate `json:"network_rate,omitempty"`
-	// List of IP addresses assigned to the VPS
-	IpAddresses []string `json:"ip_addresses"`
+	// List of IP addresses assigned to the VPS, including subnet, gateway, and MAC
+	IpAddresses []VpsIpAddressDetail `json:"ip_addresses"`
 	Credentials VpsCredentials `json:"credentials"`
 	AvailableFeatures VpsAvailableFeatures `json:"available_features"`
 	OsInfo *VpsOsInfo `json:"os_info,omitempty"`
@@ -41,7 +41,7 @@ type _VpsDetailsResponse VpsDetailsResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewVpsDetailsResponse(message string, vmInfo VpsVmInfo, cpu VpsCpuInfo, memory VpsMemoryInfo, disk VpsDiskInfo, ipAddresses []string, credentials VpsCredentials, availableFeatures VpsAvailableFeatures) *VpsDetailsResponse {
+func NewVpsDetailsResponse(message string, vmInfo VpsVmInfo, cpu VpsCpuInfo, memory VpsMemoryInfo, disk VpsDiskInfo, ipAddresses []VpsIpAddressDetail, credentials VpsCredentials, availableFeatures VpsAvailableFeatures) *VpsDetailsResponse {
 	this := VpsDetailsResponse{}
 	this.Message = message
 	this.VmInfo = vmInfo
@@ -215,9 +215,9 @@ func (o *VpsDetailsResponse) SetNetworkRate(v VpsNetworkRate) {
 }
 
 // GetIpAddresses returns the IpAddresses field value
-func (o *VpsDetailsResponse) GetIpAddresses() []string {
+func (o *VpsDetailsResponse) GetIpAddresses() []VpsIpAddressDetail {
 	if o == nil {
-		var ret []string
+		var ret []VpsIpAddressDetail
 		return ret
 	}
 
@@ -226,7 +226,7 @@ func (o *VpsDetailsResponse) GetIpAddresses() []string {
 
 // GetIpAddressesOk returns a tuple with the IpAddresses field value
 // and a boolean to check if the value has been set.
-func (o *VpsDetailsResponse) GetIpAddressesOk() ([]string, bool) {
+func (o *VpsDetailsResponse) GetIpAddressesOk() ([]VpsIpAddressDetail, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -234,7 +234,7 @@ func (o *VpsDetailsResponse) GetIpAddressesOk() ([]string, bool) {
 }
 
 // SetIpAddresses sets field value
-func (o *VpsDetailsResponse) SetIpAddresses(v []string) {
+func (o *VpsDetailsResponse) SetIpAddresses(v []VpsIpAddressDetail) {
 	o.IpAddresses = v
 }
 

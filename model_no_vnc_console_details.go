@@ -12,8 +12,6 @@ package hasdk
 
 import (
 	"encoding/json"
-	"bytes"
-	"fmt"
 )
 
 // checks if the NoVncConsoleDetails type satisfies the MappedNullable interface at compile time
@@ -22,18 +20,21 @@ var _ MappedNullable = &NoVncConsoleDetails{}
 // NoVncConsoleDetails noVNC console connection details
 type NoVncConsoleDetails struct {
 	// Redirect URL for the noVNC console
-	NovncRedirectUrl string `json:"novnc_redirect_url"`
+	NovncRedirectUrl *string `json:"novnc_redirect_url,omitempty"`
+	// Console connection mode
+	Mode *string `json:"mode,omitempty"`
+	// WebSocket URL for proxied console access
+	WebsocketUrl *string `json:"websocket_url,omitempty"`
+	// Password for proxied console access
+	Password *string `json:"password,omitempty"`
 }
-
-type _NoVncConsoleDetails NoVncConsoleDetails
 
 // NewNoVncConsoleDetails instantiates a new NoVncConsoleDetails object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewNoVncConsoleDetails(novncRedirectUrl string) *NoVncConsoleDetails {
+func NewNoVncConsoleDetails() *NoVncConsoleDetails {
 	this := NoVncConsoleDetails{}
-	this.NovncRedirectUrl = novncRedirectUrl
 	return &this
 }
 
@@ -45,28 +46,132 @@ func NewNoVncConsoleDetailsWithDefaults() *NoVncConsoleDetails {
 	return &this
 }
 
-// GetNovncRedirectUrl returns the NovncRedirectUrl field value
+// GetNovncRedirectUrl returns the NovncRedirectUrl field value if set, zero value otherwise.
 func (o *NoVncConsoleDetails) GetNovncRedirectUrl() string {
-	if o == nil {
+	if o == nil || IsNil(o.NovncRedirectUrl) {
 		var ret string
 		return ret
 	}
-
-	return o.NovncRedirectUrl
+	return *o.NovncRedirectUrl
 }
 
-// GetNovncRedirectUrlOk returns a tuple with the NovncRedirectUrl field value
+// GetNovncRedirectUrlOk returns a tuple with the NovncRedirectUrl field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *NoVncConsoleDetails) GetNovncRedirectUrlOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.NovncRedirectUrl) {
 		return nil, false
 	}
-	return &o.NovncRedirectUrl, true
+	return o.NovncRedirectUrl, true
 }
 
-// SetNovncRedirectUrl sets field value
+// HasNovncRedirectUrl returns a boolean if a field has been set.
+func (o *NoVncConsoleDetails) HasNovncRedirectUrl() bool {
+	if o != nil && !IsNil(o.NovncRedirectUrl) {
+		return true
+	}
+
+	return false
+}
+
+// SetNovncRedirectUrl gets a reference to the given string and assigns it to the NovncRedirectUrl field.
 func (o *NoVncConsoleDetails) SetNovncRedirectUrl(v string) {
-	o.NovncRedirectUrl = v
+	o.NovncRedirectUrl = &v
+}
+
+// GetMode returns the Mode field value if set, zero value otherwise.
+func (o *NoVncConsoleDetails) GetMode() string {
+	if o == nil || IsNil(o.Mode) {
+		var ret string
+		return ret
+	}
+	return *o.Mode
+}
+
+// GetModeOk returns a tuple with the Mode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *NoVncConsoleDetails) GetModeOk() (*string, bool) {
+	if o == nil || IsNil(o.Mode) {
+		return nil, false
+	}
+	return o.Mode, true
+}
+
+// HasMode returns a boolean if a field has been set.
+func (o *NoVncConsoleDetails) HasMode() bool {
+	if o != nil && !IsNil(o.Mode) {
+		return true
+	}
+
+	return false
+}
+
+// SetMode gets a reference to the given string and assigns it to the Mode field.
+func (o *NoVncConsoleDetails) SetMode(v string) {
+	o.Mode = &v
+}
+
+// GetWebsocketUrl returns the WebsocketUrl field value if set, zero value otherwise.
+func (o *NoVncConsoleDetails) GetWebsocketUrl() string {
+	if o == nil || IsNil(o.WebsocketUrl) {
+		var ret string
+		return ret
+	}
+	return *o.WebsocketUrl
+}
+
+// GetWebsocketUrlOk returns a tuple with the WebsocketUrl field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *NoVncConsoleDetails) GetWebsocketUrlOk() (*string, bool) {
+	if o == nil || IsNil(o.WebsocketUrl) {
+		return nil, false
+	}
+	return o.WebsocketUrl, true
+}
+
+// HasWebsocketUrl returns a boolean if a field has been set.
+func (o *NoVncConsoleDetails) HasWebsocketUrl() bool {
+	if o != nil && !IsNil(o.WebsocketUrl) {
+		return true
+	}
+
+	return false
+}
+
+// SetWebsocketUrl gets a reference to the given string and assigns it to the WebsocketUrl field.
+func (o *NoVncConsoleDetails) SetWebsocketUrl(v string) {
+	o.WebsocketUrl = &v
+}
+
+// GetPassword returns the Password field value if set, zero value otherwise.
+func (o *NoVncConsoleDetails) GetPassword() string {
+	if o == nil || IsNil(o.Password) {
+		var ret string
+		return ret
+	}
+	return *o.Password
+}
+
+// GetPasswordOk returns a tuple with the Password field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *NoVncConsoleDetails) GetPasswordOk() (*string, bool) {
+	if o == nil || IsNil(o.Password) {
+		return nil, false
+	}
+	return o.Password, true
+}
+
+// HasPassword returns a boolean if a field has been set.
+func (o *NoVncConsoleDetails) HasPassword() bool {
+	if o != nil && !IsNil(o.Password) {
+		return true
+	}
+
+	return false
+}
+
+// SetPassword gets a reference to the given string and assigns it to the Password field.
+func (o *NoVncConsoleDetails) SetPassword(v string) {
+	o.Password = &v
 }
 
 func (o NoVncConsoleDetails) MarshalJSON() ([]byte, error) {
@@ -79,45 +184,19 @@ func (o NoVncConsoleDetails) MarshalJSON() ([]byte, error) {
 
 func (o NoVncConsoleDetails) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["novnc_redirect_url"] = o.NovncRedirectUrl
+	if !IsNil(o.NovncRedirectUrl) {
+		toSerialize["novnc_redirect_url"] = o.NovncRedirectUrl
+	}
+	if !IsNil(o.Mode) {
+		toSerialize["mode"] = o.Mode
+	}
+	if !IsNil(o.WebsocketUrl) {
+		toSerialize["websocket_url"] = o.WebsocketUrl
+	}
+	if !IsNil(o.Password) {
+		toSerialize["password"] = o.Password
+	}
 	return toSerialize, nil
-}
-
-func (o *NoVncConsoleDetails) UnmarshalJSON(data []byte) (err error) {
-	// This validates that all required properties are included in the JSON object
-	// by unmarshalling the object into a generic map with string keys and checking
-	// that every required field exists as a key in the generic map.
-	requiredProperties := []string{
-		"novnc_redirect_url",
-	}
-
-	allProperties := make(map[string]interface{})
-
-	err = json.Unmarshal(data, &allProperties)
-
-	if err != nil {
-		return err;
-	}
-
-	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
-			return fmt.Errorf("no value given for required property %v", requiredProperty)
-		}
-	}
-
-	varNoVncConsoleDetails := _NoVncConsoleDetails{}
-
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varNoVncConsoleDetails)
-
-	if err != nil {
-		return err
-	}
-
-	*o = NoVncConsoleDetails(varNoVncConsoleDetails)
-
-	return err
 }
 
 type NullableNoVncConsoleDetails struct {

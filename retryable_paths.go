@@ -8,6 +8,7 @@ package hasdk
 var RetryablePaths = map[string]struct{}{
 	"/vps/list-vps-services": {},
 	"/vps/get-details": {},
+	"/vps/get-encrypted-password": {},
 	"/vps/get-config": {},
 	"/vps/novnc-console": {},
 	"/vps/list-backups": {},

@@ -1,6 +1,6 @@
 module github.com/hostafrica/ha-sdk-go
 
-go 1.25.12
+go 1.25.13
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect

@@ -3375,7 +3375,9 @@ paths:
   /vps/get-details:
     post:
       description: "Gets detailed information about a VPS service including configuration,\
-        \ network settings, and statistics"
+        \ network settings, and statistics. Credentials.password is always \"<redacted>\"\
+        ; plaintext passwords are never returned. To retrieve the password securely,\
+        \ use GetEncryptedPassword (/vps/get-encrypted-password)."
       operationId: GetVpsDetails
       requestBody:
         content:
@@ -3390,6 +3392,99 @@ paths:
               schema:
                 $ref: "#/components/schemas/GetVpsDetailsResponseContent"
           description: GetVpsDetails 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - VPS Management
+  /vps/get-encrypted-password:
+    post:
+      description: "Retrieves the VPS username and root password without exposing\
+        \ plaintext over the API. Send a PEM-encoded RSA 4096-bit public key; the\
+        \ API encrypts the password with RSA-OAEP (SHA-256), and returns base64 ciphertext\
+        \ plus encryption metadata. Never send the private key. Invalid or non-4096-bit\
+        \ keys return HTTP 422 ValidationError. Generate a key with: openssl genrsa\
+        \ -out private.pem 4096 && openssl rsa -in private.pem -pubout -out public.pem.\
+        \ Decrypt with: echo CIPHERTEXT | base64 -d | openssl pkeyutl -decrypt -inkey\
+        \ private.pem -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 -pkeyopt\
+        \ rsa_mgf1_md:sha256 (macOS: base64 -D)."
+      operationId: GetEncryptedPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GetEncryptedPasswordRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetEncryptedPasswordResponseContent"
+          description: GetEncryptedPassword 200 response
         "400":
           content:
             application/json:
@@ -9506,6 +9601,33 @@ components:
     EmptyData:
       description: Empty object for operations that don't return data
       type: object
+    EncryptedPasswordResponseData:
+      description: Response data for get-encrypted-password
+      example:
+        password: password
+        encryption:
+          keySize: 0
+          encoding: encoding
+          hash: hash
+          algorithm: algorithm
+        username: username
+      properties:
+        username:
+          description: Username for VPS access (plaintext)
+          type: string
+        password:
+          description: "Base64-encoded ciphertext of the VPS password. Produced with\
+            \ RSA-OAEP (SHA-256) and the request public_key. Decode from base64, then\
+            \ decrypt with the matching private key via openssl pkeyutl -decrypt -pkeyopt\
+            \ rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 -pkeyopt rsa_mgf1_md:sha256."
+          type: string
+        encryption:
+          $ref: "#/components/schemas/PasswordEncryptionInfo"
+      required:
+      - encryption
+      - password
+      - username
+      type: object
     FirewallListResponseData:
       description: Response data for firewall list operation
       example:
@@ -10393,6 +10515,44 @@ components:
       - data
       - status
       type: object
+    GetEncryptedPasswordRequestContent:
+      example:
+        public_key: public_key
+        service_id: service_id
+      properties:
+        service_id:
+          description: Service ID - must be sent as a string
+          type: string
+        public_key:
+          description: PEM-encoded RSA public key only (never the private key). Accepts
+            SPKI (`-----BEGIN PUBLIC KEY-----`) or PKCS#1 (`-----BEGIN RSA PUBLIC
+            KEY-----`). Must be exactly 4096-bit. Used with RSA-OAEP and SHA-256 to
+            encrypt the password.
+          type: string
+      required:
+      - public_key
+      - service_id
+      type: object
+    GetEncryptedPasswordResponseContent:
+      example:
+        data:
+          password: password
+          encryption:
+            keySize: 0
+            encoding: encoding
+            hash: hash
+            algorithm: algorithm
+          username: username
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/EncryptedPasswordResponseData"
+      required:
+      - data
+      - status
+      type: object
     GetNoVncConsoleRequestContent:
       example:
         service_id: service_id
@@ -10408,6 +10568,9 @@ components:
         data:
           console:
             novnc_redirect_url: novnc_redirect_url
+            mode: mode
+            password: password
+            websocket_url: websocket_url
           message: message
         status: success
       properties:
@@ -10487,8 +10650,16 @@ components:
             password: password
             username: username
           ip_addresses:
-          - ip_addresses
-          - ip_addresses
+          - subnet: subnet
+            address: address
+            ip: ip
+            gateway: gateway
+            mac: mac
+          - subnet: subnet
+            address: address
+            ip: ip
+            gateway: gateway
+            mac: mac
           available_features:
             change_iso_image: true
             backup_jobs: true
@@ -10515,7 +10686,9 @@ components:
             virtualization: virtualization
             vmid: vmid
             uptime_seconds: 0
-            boot_devices: boot_devices
+            boot_devices:
+            - boot_devices
+            - boot_devices
             status: status
             uptime: uptime
         status: success
@@ -11860,18 +12033,31 @@ components:
       description: noVNC console connection details
       example:
         novnc_redirect_url: novnc_redirect_url
+        mode: mode
+        password: password
+        websocket_url: websocket_url
       properties:
         novnc_redirect_url:
           description: Redirect URL for the noVNC console
           type: string
-      required:
-      - novnc_redirect_url
+        mode:
+          description: Console connection mode
+          type: string
+        websocket_url:
+          description: WebSocket URL for proxied console access
+          type: string
+        password:
+          description: Password for proxied console access
+          type: string
       type: object
     NoVncConsoleResponseData:
       description: Response data for noVNC console operation
       example:
         console:
           novnc_redirect_url: novnc_redirect_url
+          mode: mode
+          password: password
+          websocket_url: websocket_url
         message: message
       properties:
         message:
@@ -12183,6 +12369,34 @@ components:
       required:
       - code
       - message
+      type: object
+    PasswordEncryptionInfo:
+      description: Encryption metadata for an RSA-OAEP encrypted password
+      example:
+        keySize: 0
+        encoding: encoding
+        hash: hash
+        algorithm: algorithm
+      properties:
+        algorithm:
+          description: Asymmetric encryption algorithm. Always "RSA-OAEP".
+          type: string
+        hash:
+          description: OAEP hash / MGF1 hash function. Always "SHA-256".
+          type: string
+        keySize:
+          description: RSA modulus size in bits. Always 4096.
+          format: int32
+          type: integer
+        encoding:
+          description: "Encoding of the password ciphertext field. Always \"base64\"\
+            \ (standard alphabet, not URL-safe)."
+          type: string
+      required:
+      - algorithm
+      - encoding
+      - hash
+      - keySize
       type: object
     PaymentError:
       description: Error detail returned when payment fails
@@ -15050,7 +15264,8 @@ components:
           description: Username for VPS access
           type: string
         password:
-          description: Password for VPS access
+          description: Password for VPS access. Always returned as "<redacted>" from
+            get-details; plaintext passwords are never included in API responses.
           type: string
       required:
       - password
@@ -15081,8 +15296,16 @@ components:
           password: password
           username: username
         ip_addresses:
-        - ip_addresses
-        - ip_addresses
+        - subnet: subnet
+          address: address
+          ip: ip
+          gateway: gateway
+          mac: mac
+        - subnet: subnet
+          address: address
+          ip: ip
+          gateway: gateway
+          mac: mac
         available_features:
           change_iso_image: true
           backup_jobs: true
@@ -15109,7 +15332,9 @@ components:
           virtualization: virtualization
           vmid: vmid
           uptime_seconds: 0
-          boot_devices: boot_devices
+          boot_devices:
+          - boot_devices
+          - boot_devices
           status: status
           uptime: uptime
       properties:
@@ -15127,9 +15352,10 @@ components:
         network_rate:
           $ref: "#/components/schemas/VpsNetworkRate"
         ip_addresses:
-          description: List of IP addresses assigned to the VPS
+          description: "List of IP addresses assigned to the VPS, including subnet,\
+            \ gateway, and MAC"
           items:
-            type: string
+            $ref: "#/components/schemas/VpsIpAddressDetail"
           type: array
         credentials:
           $ref: "#/components/schemas/VpsCredentials"
@@ -15178,6 +15404,33 @@ components:
         total_human:
           description: "Human-readable total disk space (e.g., '100 GB')"
           type: string
+      type: object
+    VpsIpAddressDetail:
+      description: Detailed IP address assignment for a VPS
+      example:
+        subnet: subnet
+        address: address
+        ip: ip
+        gateway: gateway
+        mac: mac
+      properties:
+        ip:
+          description: Primary IP address
+          type: string
+        address:
+          description: IP address (may mirror ip)
+          type: string
+        subnet:
+          description: Subnet mask
+          type: string
+        gateway:
+          description: Gateway address
+          type: string
+        mac:
+          description: MAC address when available
+          type: string
+      required:
+      - ip
       type: object
     VpsMemoryInfo:
       description: Memory usage information
@@ -15305,7 +15558,9 @@ components:
         virtualization: virtualization
         vmid: vmid
         uptime_seconds: 0
-        boot_devices: boot_devices
+        boot_devices:
+        - boot_devices
+        - boot_devices
         status: status
         uptime: uptime
       properties:
@@ -15324,8 +15579,10 @@ components:
           description: Hostname of the VM
           type: string
         boot_devices:
-          description: Boot devices configuration
-          type: string
+          description: "Boot devices configuration (e.g., scsi0, scsi1)"
+          items:
+            type: string
+          type: array
         vmid:
           description: Proxmox VM ID
           type: string

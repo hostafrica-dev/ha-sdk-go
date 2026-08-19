@@ -4,6 +4,7 @@ All URIs are relative to *https://api.hostafrica.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**GetEncryptedPassword**](VPSManagementAPI.md#GetEncryptedPassword) | **Post** /vps/get-encrypted-password | 
 [**GetVpsConfig**](VPSManagementAPI.md#GetVpsConfig) | **Post** /vps/get-config | 
 [**GetVpsDetails**](VPSManagementAPI.md#GetVpsDetails) | **Post** /vps/get-details | 
 [**ListIsos**](VPSManagementAPI.md#ListIsos) | **Post** /vps/list-isos | 
@@ -13,6 +14,72 @@ Method | HTTP request | Description
 [**TriggerReinstall**](VPSManagementAPI.md#TriggerReinstall) | **Post** /vps/trigger-reinstall | 
 [**UpdateVpsConfig**](VPSManagementAPI.md#UpdateVpsConfig) | **Post** /vps/update-config | 
 
+
+
+## GetEncryptedPassword
+
+> GetEncryptedPasswordResponseContent GetEncryptedPassword(ctx).GetEncryptedPasswordRequestContent(getEncryptedPasswordRequestContent).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/hostafrica/ha-sdk-go"
+)
+
+func main() {
+	getEncryptedPasswordRequestContent := *openapiclient.NewGetEncryptedPasswordRequestContent("ServiceId_example", "PublicKey_example") // GetEncryptedPasswordRequestContent | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.VPSManagementAPI.GetEncryptedPassword(context.Background()).GetEncryptedPasswordRequestContent(getEncryptedPasswordRequestContent).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `VPSManagementAPI.GetEncryptedPassword``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetEncryptedPassword`: GetEncryptedPasswordResponseContent
+	fmt.Fprintf(os.Stdout, "Response from `VPSManagementAPI.GetEncryptedPassword`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetEncryptedPasswordRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **getEncryptedPasswordRequestContent** | [**GetEncryptedPasswordRequestContent**](GetEncryptedPasswordRequestContent.md) |  | 
+
+### Return type
+
+[**GetEncryptedPasswordResponseContent**](GetEncryptedPasswordResponseContent.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## GetVpsConfig

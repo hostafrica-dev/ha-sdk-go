@@ -29,8 +29,8 @@ type VpsVmInfo struct {
 	UptimeSeconds *int64 `json:"uptime_seconds,omitempty"`
 	// Hostname of the VM
 	Hostname *string `json:"hostname,omitempty"`
-	// Boot devices configuration
-	BootDevices *string `json:"boot_devices,omitempty"`
+	// Boot devices configuration (e.g., scsi0, scsi1)
+	BootDevices []string `json:"boot_devices,omitempty"`
 	// Proxmox VM ID
 	Vmid string `json:"vmid"`
 	// Proxmox node name
@@ -183,17 +183,17 @@ func (o *VpsVmInfo) SetHostname(v string) {
 }
 
 // GetBootDevices returns the BootDevices field value if set, zero value otherwise.
-func (o *VpsVmInfo) GetBootDevices() string {
+func (o *VpsVmInfo) GetBootDevices() []string {
 	if o == nil || IsNil(o.BootDevices) {
-		var ret string
+		var ret []string
 		return ret
 	}
-	return *o.BootDevices
+	return o.BootDevices
 }
 
 // GetBootDevicesOk returns a tuple with the BootDevices field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *VpsVmInfo) GetBootDevicesOk() (*string, bool) {
+func (o *VpsVmInfo) GetBootDevicesOk() ([]string, bool) {
 	if o == nil || IsNil(o.BootDevices) {
 		return nil, false
 	}
@@ -209,9 +209,9 @@ func (o *VpsVmInfo) HasBootDevices() bool {
 	return false
 }
 
-// SetBootDevices gets a reference to the given string and assigns it to the BootDevices field.
-func (o *VpsVmInfo) SetBootDevices(v string) {
-	o.BootDevices = &v
+// SetBootDevices gets a reference to the given []string and assigns it to the BootDevices field.
+func (o *VpsVmInfo) SetBootDevices(v []string) {
+	o.BootDevices = v
 }
 
 // GetVmid returns the Vmid field value

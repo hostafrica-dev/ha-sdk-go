@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Username** | **string** | Username for VPS access | 
-**Password** | **string** | Password for VPS access | 
+**Password** | **string** | Password for VPS access. Always returned as \&quot;&lt;redacted&gt;\&quot; from get-details; plaintext passwords are never included in API responses. | 
 
 ## Methods
 

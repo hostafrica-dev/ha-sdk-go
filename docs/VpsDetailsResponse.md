@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **Memory** | [**VpsMemoryInfo**](VpsMemoryInfo.md) |  | 
 **Disk** | [**VpsDiskInfo**](VpsDiskInfo.md) |  | 
 **NetworkRate** | Pointer to [**VpsNetworkRate**](VpsNetworkRate.md) |  | [optional] 
-**IpAddresses** | **[]string** | List of IP addresses assigned to the VPS | 
+**IpAddresses** | [**[]VpsIpAddressDetail**](VpsIpAddressDetail.md) | List of IP addresses assigned to the VPS, including subnet, gateway, and MAC | 
 **Credentials** | [**VpsCredentials**](VpsCredentials.md) |  | 
 **AvailableFeatures** | [**VpsAvailableFeatures**](VpsAvailableFeatures.md) |  | 
 **OsInfo** | Pointer to [**VpsOsInfo**](VpsOsInfo.md) |  | [optional] 
@@ -19,7 +19,7 @@ Name | Type | Description | Notes
 
 ### NewVpsDetailsResponse
 
-`func NewVpsDetailsResponse(message string, vmInfo VpsVmInfo, cpu VpsCpuInfo, memory VpsMemoryInfo, disk VpsDiskInfo, ipAddresses []string, credentials VpsCredentials, availableFeatures VpsAvailableFeatures, ) *VpsDetailsResponse`
+`func NewVpsDetailsResponse(message string, vmInfo VpsVmInfo, cpu VpsCpuInfo, memory VpsMemoryInfo, disk VpsDiskInfo, ipAddresses []VpsIpAddressDetail, credentials VpsCredentials, availableFeatures VpsAvailableFeatures, ) *VpsDetailsResponse`
 
 NewVpsDetailsResponse instantiates a new VpsDetailsResponse object
 This constructor will assign default values to properties that have it defined,
@@ -161,20 +161,20 @@ HasNetworkRate returns a boolean if a field has been set.
 
 ### GetIpAddresses
 
-`func (o *VpsDetailsResponse) GetIpAddresses() []string`
+`func (o *VpsDetailsResponse) GetIpAddresses() []VpsIpAddressDetail`
 
 GetIpAddresses returns the IpAddresses field if non-nil, zero value otherwise.
 
 ### GetIpAddressesOk
 
-`func (o *VpsDetailsResponse) GetIpAddressesOk() (*[]string, bool)`
+`func (o *VpsDetailsResponse) GetIpAddressesOk() (*[]VpsIpAddressDetail, bool)`
 
 GetIpAddressesOk returns a tuple with the IpAddresses field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIpAddresses
 
-`func (o *VpsDetailsResponse) SetIpAddresses(v []string)`
+`func (o *VpsDetailsResponse) SetIpAddresses(v []VpsIpAddressDetail)`
 
 SetIpAddresses sets IpAddresses field to given value.
 

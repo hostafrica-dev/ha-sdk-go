@@ -23,7 +23,7 @@ var _ MappedNullable = &VpsCredentials{}
 type VpsCredentials struct {
 	// Username for VPS access
 	Username string `json:"username"`
-	// Password for VPS access
+	// Password for VPS access. Always returned as \"<redacted>\" from get-details; plaintext passwords are never included in API responses.
 	Password string `json:"password"`
 }
 

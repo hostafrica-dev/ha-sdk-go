@@ -114,6 +114,7 @@ docs/EditBackupScheduleRequestContent.md
 docs/EditBackupScheduleResponseContent.md
 docs/EditDnsRecordRequestContent.md
 docs/EditDnsRecordResponseContent.md
+docs/EncryptedPasswordResponseData.md
 docs/FirewallAPI.md
 docs/FirewallListResponseData.md
 docs/FirewallMoveDirection.md
@@ -134,6 +135,8 @@ docs/GetDomainContactsResponseContent.md
 docs/GetDomainData.md
 docs/GetDomainRequestContent.md
 docs/GetDomainResponseContent.md
+docs/GetEncryptedPasswordRequestContent.md
+docs/GetEncryptedPasswordResponseContent.md
 docs/GetNoVncConsoleRequestContent.md
 docs/GetNoVncConsoleResponseContent.md
 docs/GetVpsConfigRequestContent.md
@@ -195,6 +198,7 @@ docs/OperationStatus.md
 docs/Order.md
 docs/OrderLastAttempt.md
 docs/OrderWarning.md
+docs/PasswordEncryptionInfo.md
 docs/PaymentError.md
 docs/PaymentStatus.md
 docs/PowerManagementAPI.md
@@ -295,6 +299,7 @@ docs/VpsCpuInfo.md
 docs/VpsCredentials.md
 docs/VpsDetailsResponse.md
 docs/VpsDiskInfo.md
+docs/VpsIpAddressDetail.md
 docs/VpsMemoryInfo.md
 docs/VpsNetworkRate.md
 docs/VpsOsInfo.md
@@ -399,6 +404,7 @@ model_edit_backup_schedule_request_content.go
 model_edit_backup_schedule_response_content.go
 model_edit_dns_record_request_content.go
 model_edit_dns_record_response_content.go
+model_encrypted_password_response_data.go
 model_firewall_list_response_data.go
 model_firewall_move_direction.go
 model_firewall_move_response_data.go
@@ -418,6 +424,8 @@ model_get_domain_contacts_response_content.go
 model_get_domain_data.go
 model_get_domain_request_content.go
 model_get_domain_response_content.go
+model_get_encrypted_password_request_content.go
+model_get_encrypted_password_response_content.go
 model_get_no_vnc_console_request_content.go
 model_get_no_vnc_console_response_content.go
 model_get_vps_config_request_content.go
@@ -478,6 +486,7 @@ model_operation_status.go
 model_order.go
 model_order_last_attempt.go
 model_order_warning.go
+model_password_encryption_info.go
 model_payment_error.go
 model_payment_status.go
 model_power_task.go
@@ -574,6 +583,7 @@ model_vps_cpu_info.go
 model_vps_credentials.go
 model_vps_details_response.go
 model_vps_disk_info.go
+model_vps_ip_address_detail.go
 model_vps_memory_info.go
 model_vps_network_rate.go
 model_vps_os_info.go
