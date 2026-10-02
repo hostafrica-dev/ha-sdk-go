@@ -21,10 +21,15 @@ var _ MappedNullable = &AddDnsRecordRequestContent{}
 
 // AddDnsRecordRequestContent struct for AddDnsRecordRequestContent
 type AddDnsRecordRequestContent struct {
-	// DNS zone domain name (FQDN); optional when zone_id is provided
+	// DNS zone domain name (FQDN); optional for dns_manager when zone_id is provided. Not forwarded on DirectAdmin mutations.
 	DomainName *string `json:"domain_name,omitempty"`
-	// DNS zone identifier from list-dns-zones or get-dns-zone-details
-	ZoneId string `json:"zone_id"`
+	// DNS zone identifier from list-dns-zones or get-dns-zone-details; required for dns_manager / legacy callers
+	ZoneId *string `json:"zone_id,omitempty"`
+	// WHMCS domain id from list-dns-zones; required when backend is directadmin
+	DomainId *string `json:"domain_id,omitempty"`
+	// Optional WHMCS hosting service id from list-dns-zones hosting_id. Not forwarded on DirectAdmin mutations.
+	ServiceId *int32 `json:"service_id,omitempty"`
+	Backend *DnsBackend `json:"backend,omitempty"`
 	Record DnsRecordMutationRecord `json:"record"`
 }
 
@@ -34,9 +39,8 @@ type _AddDnsRecordRequestContent AddDnsRecordRequestContent
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAddDnsRecordRequestContent(zoneId string, record DnsRecordMutationRecord) *AddDnsRecordRequestContent {
+func NewAddDnsRecordRequestContent(record DnsRecordMutationRecord) *AddDnsRecordRequestContent {
 	this := AddDnsRecordRequestContent{}
-	this.ZoneId = zoneId
 	this.Record = record
 	return &this
 }
@@ -81,28 +85,132 @@ func (o *AddDnsRecordRequestContent) SetDomainName(v string) {
 	o.DomainName = &v
 }
 
-// GetZoneId returns the ZoneId field value
+// GetZoneId returns the ZoneId field value if set, zero value otherwise.
 func (o *AddDnsRecordRequestContent) GetZoneId() string {
-	if o == nil {
+	if o == nil || IsNil(o.ZoneId) {
 		var ret string
 		return ret
 	}
-
-	return o.ZoneId
+	return *o.ZoneId
 }
 
-// GetZoneIdOk returns a tuple with the ZoneId field value
+// GetZoneIdOk returns a tuple with the ZoneId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *AddDnsRecordRequestContent) GetZoneIdOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.ZoneId) {
 		return nil, false
 	}
-	return &o.ZoneId, true
+	return o.ZoneId, true
 }
 
-// SetZoneId sets field value
+// HasZoneId returns a boolean if a field has been set.
+func (o *AddDnsRecordRequestContent) HasZoneId() bool {
+	if o != nil && !IsNil(o.ZoneId) {
+		return true
+	}
+
+	return false
+}
+
+// SetZoneId gets a reference to the given string and assigns it to the ZoneId field.
 func (o *AddDnsRecordRequestContent) SetZoneId(v string) {
-	o.ZoneId = v
+	o.ZoneId = &v
+}
+
+// GetDomainId returns the DomainId field value if set, zero value otherwise.
+func (o *AddDnsRecordRequestContent) GetDomainId() string {
+	if o == nil || IsNil(o.DomainId) {
+		var ret string
+		return ret
+	}
+	return *o.DomainId
+}
+
+// GetDomainIdOk returns a tuple with the DomainId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AddDnsRecordRequestContent) GetDomainIdOk() (*string, bool) {
+	if o == nil || IsNil(o.DomainId) {
+		return nil, false
+	}
+	return o.DomainId, true
+}
+
+// HasDomainId returns a boolean if a field has been set.
+func (o *AddDnsRecordRequestContent) HasDomainId() bool {
+	if o != nil && !IsNil(o.DomainId) {
+		return true
+	}
+
+	return false
+}
+
+// SetDomainId gets a reference to the given string and assigns it to the DomainId field.
+func (o *AddDnsRecordRequestContent) SetDomainId(v string) {
+	o.DomainId = &v
+}
+
+// GetServiceId returns the ServiceId field value if set, zero value otherwise.
+func (o *AddDnsRecordRequestContent) GetServiceId() int32 {
+	if o == nil || IsNil(o.ServiceId) {
+		var ret int32
+		return ret
+	}
+	return *o.ServiceId
+}
+
+// GetServiceIdOk returns a tuple with the ServiceId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AddDnsRecordRequestContent) GetServiceIdOk() (*int32, bool) {
+	if o == nil || IsNil(o.ServiceId) {
+		return nil, false
+	}
+	return o.ServiceId, true
+}
+
+// HasServiceId returns a boolean if a field has been set.
+func (o *AddDnsRecordRequestContent) HasServiceId() bool {
+	if o != nil && !IsNil(o.ServiceId) {
+		return true
+	}
+
+	return false
+}
+
+// SetServiceId gets a reference to the given int32 and assigns it to the ServiceId field.
+func (o *AddDnsRecordRequestContent) SetServiceId(v int32) {
+	o.ServiceId = &v
+}
+
+// GetBackend returns the Backend field value if set, zero value otherwise.
+func (o *AddDnsRecordRequestContent) GetBackend() DnsBackend {
+	if o == nil || IsNil(o.Backend) {
+		var ret DnsBackend
+		return ret
+	}
+	return *o.Backend
+}
+
+// GetBackendOk returns a tuple with the Backend field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AddDnsRecordRequestContent) GetBackendOk() (*DnsBackend, bool) {
+	if o == nil || IsNil(o.Backend) {
+		return nil, false
+	}
+	return o.Backend, true
+}
+
+// HasBackend returns a boolean if a field has been set.
+func (o *AddDnsRecordRequestContent) HasBackend() bool {
+	if o != nil && !IsNil(o.Backend) {
+		return true
+	}
+
+	return false
+}
+
+// SetBackend gets a reference to the given DnsBackend and assigns it to the Backend field.
+func (o *AddDnsRecordRequestContent) SetBackend(v DnsBackend) {
+	o.Backend = &v
 }
 
 // GetRecord returns the Record field value
@@ -142,7 +250,18 @@ func (o AddDnsRecordRequestContent) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.DomainName) {
 		toSerialize["domain_name"] = o.DomainName
 	}
-	toSerialize["zone_id"] = o.ZoneId
+	if !IsNil(o.ZoneId) {
+		toSerialize["zone_id"] = o.ZoneId
+	}
+	if !IsNil(o.DomainId) {
+		toSerialize["domain_id"] = o.DomainId
+	}
+	if !IsNil(o.ServiceId) {
+		toSerialize["service_id"] = o.ServiceId
+	}
+	if !IsNil(o.Backend) {
+		toSerialize["backend"] = o.Backend
+	}
 	toSerialize["record"] = o.Record
 	return toSerialize, nil
 }
@@ -152,7 +271,6 @@ func (o *AddDnsRecordRequestContent) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"zone_id",
 		"record",
 	}
 

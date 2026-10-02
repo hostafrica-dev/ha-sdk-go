@@ -41,9 +41,178 @@ tags:
     \ details, update settings, mount ISO images, and reinstall the operating system."
   name: VPS Management
 paths:
+  /billing/get-invoice-details:
+    post:
+      description: "Gets details for a single invoice, including line items, payee\
+        \ information, and transactions"
+      operationId: GetInvoiceDetails
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GetInvoiceDetailsRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetInvoiceDetailsResponseContent"
+          description: GetInvoiceDetails 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Billing
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
+  /billing/list-invoices:
+    post:
+      description: Lists invoices for the authenticated user
+      operationId: ListInvoices
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListInvoicesResponseContent"
+          description: ListInvoices 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Billing
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
   /dns/add-record:
     post:
-      description: Adds a DNS record to a zone via DNSManager.
+      description: "Adds a DNS record to a zone. Legacy callers pass zone_id only\
+        \ (DNS Manager v1). For DirectAdmin, pass backend=directadmin with domain_id;\
+        \ upstream v2 receives domain_id and record only."
       operationId: AddDnsRecord
       requestBody:
         content:
@@ -304,7 +473,9 @@ paths:
       - DNS
   /dns/delete-record:
     post:
-      description: Deletes a DNS record from a zone via DNSManager.
+      description: "Deletes a DNS record from a zone. Legacy callers pass zone_id\
+        \ only (DNS Manager v1). For DirectAdmin, pass backend=directadmin with domain_id;\
+        \ upstream v2 receives domain_id and record only."
       operationId: DeleteDnsRecord
       requestBody:
         content:
@@ -393,7 +564,9 @@ paths:
         position: before
   /dns/edit-record:
     post:
-      description: Edits a DNS record in a zone via DNSManager.
+      description: "Edits a DNS record in a zone. Legacy callers pass zone_id only\
+        \ (DNS Manager v1). For DirectAdmin, pass backend=directadmin with domain_id;\
+        \ upstream v2 receives domain_id and record only."
       operationId: EditDnsRecord
       requestBody:
         content:
@@ -482,7 +655,9 @@ paths:
         position: before
   /dns/get-zone:
     post:
-      description: Retrieves DNS zone details and records for an owned domain.
+      description: Retrieves DNS zone details and records for an owned domain. Omit
+        backend for the legacy DNS Manager (v1) path; set backend from list-dns-zones
+        to route DirectAdmin zones to v2.
       operationId: GetDnsZoneDetails
       requestBody:
         content:
@@ -6043,29 +6218,44 @@ components:
   schemas:
     AddDnsRecordRequestContent:
       example:
+        domain_id: domain_id
         zone_id: zone_id
         domain_name: domain_name
+        service_id: 0
         record:
           port: 5
           name: name
-          weight: 1
+          weight: 5
           id: id
           type: type
-          priority: 6
-          ttl: 0
+          priority: 1
+          ttl: 6
           content: content
+        backend: dns_manager
       properties:
         domain_name:
-          description: DNS zone domain name (FQDN); optional when zone_id is provided
+          description: DNS zone domain name (FQDN); optional for dns_manager when
+            zone_id is provided. Not forwarded on DirectAdmin mutations.
           type: string
         zone_id:
-          description: DNS zone identifier from list-dns-zones or get-dns-zone-details
+          description: DNS zone identifier from list-dns-zones or get-dns-zone-details;
+            required for dns_manager / legacy callers
           type: string
+        domain_id:
+          description: WHMCS domain id from list-dns-zones; required when backend
+            is directadmin
+          type: string
+        service_id:
+          description: Optional WHMCS hosting service id from list-dns-zones hosting_id.
+            Not forwarded on DirectAdmin mutations.
+          format: int32
+          type: integer
+        backend:
+          $ref: "#/components/schemas/DnsBackend"
         record:
           $ref: "#/components/schemas/DnsRecordMutationRecord"
       required:
       - record
-      - zone_id
       type: object
     AddDnsRecordResponseContent:
       example:
@@ -8168,29 +8358,44 @@ components:
       type: object
     DeleteDnsRecordRequestContent:
       example:
+        domain_id: domain_id
         zone_id: zone_id
         domain_name: domain_name
+        service_id: 0
         record:
           port: 5
           name: name
-          weight: 1
+          weight: 5
           id: id
           type: type
-          priority: 6
-          ttl: 0
+          priority: 1
+          ttl: 6
           content: content
+        backend: dns_manager
       properties:
         domain_name:
-          description: DNS zone domain name (FQDN); optional when zone_id is provided
+          description: DNS zone domain name (FQDN); optional for dns_manager when
+            zone_id is provided. Not forwarded on DirectAdmin mutations.
           type: string
         zone_id:
-          description: DNS zone identifier from list-dns-zones or get-dns-zone-details
+          description: DNS zone identifier from list-dns-zones or get-dns-zone-details;
+            required for dns_manager / legacy callers
           type: string
+        domain_id:
+          description: WHMCS domain id from list-dns-zones; required when backend
+            is directadmin
+          type: string
+        service_id:
+          description: Optional WHMCS hosting service id from list-dns-zones hosting_id.
+            Not forwarded on DirectAdmin mutations.
+          format: int32
+          type: integer
+        backend:
+          $ref: "#/components/schemas/DnsBackend"
         record:
           $ref: "#/components/schemas/DnsRecordMutationRecord"
       required:
       - record
-      - zone_id
       type: object
     DeleteDnsRecordResponseContent:
       example:
@@ -8401,6 +8606,16 @@ components:
       - data
       - status
       type: object
+    DnsBackend:
+      description: |-
+        Upstream DNS management backend for a zone.
+
+        - `dns_manager` — WHMCS DNS Manager
+        - `directadmin` — DirectAdmin DNS
+      enum:
+      - dns_manager
+      - directadmin
+      type: string
     DnsCreateCandidateInfo:
       description: A domain or service eligible for DNS zone creation
       example:
@@ -8523,20 +8738,21 @@ components:
         DNS record fields for add, edit, or delete via DNSManager.
 
         See `DnsRecordInfo` for how `content` and structured fields map to upstream record data.
-        Delete requires only `id`, `name`, and `type`.
+        Delete requires only `id`, `name`, and `type`. For edit and delete, `id` must be the
+        numeric zone line from get-dns-zone-details (a positive integer string).
       example:
         port: 5
         name: name
-        weight: 1
+        weight: 5
         id: id
         type: type
-        priority: 6
-        ttl: 0
+        priority: 1
+        ttl: 6
         content: content
       properties:
         id:
-          description: Record line/id from get-dns-zone-details; required for edit
-            and delete
+          description: Record line from get-dns-zone-details (positive integer string);
+            required for edit and delete
           type: string
         name:
           description: "Record host/name (e.g. @, www, mail); required for add"
@@ -8578,6 +8794,7 @@ components:
           module: module
         hosting_id: 0
         package_name: package_name
+        backend: dns_manager
         type: 6
         has_dns_manager_zone: true
         type_key: type_key
@@ -8610,6 +8827,8 @@ components:
         has_dns_manager_zone:
           description: Whether a DNS Manager zone exists for this domain name
           type: boolean
+        backend:
+          $ref: "#/components/schemas/DnsBackend"
       required:
       - has_dns_manager_zone
       type: object
@@ -9543,29 +9762,44 @@ components:
       type: object
     EditDnsRecordRequestContent:
       example:
+        domain_id: domain_id
         zone_id: zone_id
         domain_name: domain_name
+        service_id: 0
         record:
           port: 5
           name: name
-          weight: 1
+          weight: 5
           id: id
           type: type
-          priority: 6
-          ttl: 0
+          priority: 1
+          ttl: 6
           content: content
+        backend: dns_manager
       properties:
         domain_name:
-          description: DNS zone domain name (FQDN); optional when zone_id is provided
+          description: DNS zone domain name (FQDN); optional for dns_manager when
+            zone_id is provided. Not forwarded on DirectAdmin mutations.
           type: string
         zone_id:
-          description: DNS zone identifier from list-dns-zones or get-dns-zone-details
+          description: DNS zone identifier from list-dns-zones or get-dns-zone-details;
+            required for dns_manager / legacy callers
           type: string
+        domain_id:
+          description: WHMCS domain id from list-dns-zones; required when backend
+            is directadmin
+          type: string
+        service_id:
+          description: Optional WHMCS hosting service id from list-dns-zones hosting_id.
+            Not forwarded on DirectAdmin mutations.
+          format: int32
+          type: integer
+        backend:
+          $ref: "#/components/schemas/DnsBackend"
         record:
           $ref: "#/components/schemas/DnsRecordMutationRecord"
       required:
       - record
-      - zone_id
       type: object
     EditDnsRecordResponseContent:
       example:
@@ -10224,10 +10458,13 @@ components:
     GetDnsZoneDetailsRequestContent:
       example:
         domain_id: domain_id
+        backend: dns_manager
       properties:
         domain_id:
           description: Domain service id - must be sent as a string
           type: string
+        backend:
+          $ref: "#/components/schemas/DnsBackend"
       required:
       - domain_id
       type: object
@@ -10553,6 +10790,164 @@ components:
       - data
       - status
       type: object
+    GetInvoiceDetailsRequestContent:
+      example:
+        invoice_id: invoice_id
+      properties:
+        invoice_id:
+          description: Invoice ID - must be sent as a string
+          type: string
+      required:
+      - invoice_id
+      type: object
+    GetInvoiceDetailsResponseContent:
+      example:
+        data:
+          invoice:
+            date: date
+            notes: notes
+            issued_to:
+              country: country
+              full_name: full_name
+              address: address
+              city_state_zip: city_state_zip
+              company_name: company_name
+              country_name: country_name
+              tax:
+                rate: 0.8008281904610115
+                level: 6
+                name: name
+            total_due: total_due
+            due_date: due_date
+            tax: tax
+            transactions:
+            - date: date
+              amount_out: amount_out
+              amount_in: amount_in
+              fees: fees
+              description: description
+              trans_id: trans_id
+              id: 5
+              gateway: gateway
+            - date: date
+              amount_out: amount_out
+              amount_in: amount_in
+              fees: fees
+              description: description
+              trans_id: trans_id
+              id: 5
+              gateway: gateway
+            tax_rate: tax_rate
+            tax_rate2: tax_rate2
+            tax2: tax2
+            total: total
+            date_paid: date_paid
+            subtotal: subtotal
+            invoice_id: invoice_id
+            credit: credit
+            invoice_number: invoice_number
+            items:
+            - amount: amount
+              description: description
+              taxed: 5
+              id: 1
+              type: type
+            - amount: amount
+              description: description
+              taxed: 5
+              id: 1
+              type: type
+            payment_method: payment_method
+            status: status
+          selcom_metadata:
+            pesa_account: pesa_account
+            instructions: instructions
+            amount: amount
+            mobile_reference: mobile_reference
+            ussd_code: ussd_code
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/GetInvoiceDetailsResponseData"
+      required:
+      - data
+      - status
+      type: object
+    GetInvoiceDetailsResponseData:
+      description: Top-level data payload for the GetInvoiceDetails response
+      example:
+        invoice:
+          date: date
+          notes: notes
+          issued_to:
+            country: country
+            full_name: full_name
+            address: address
+            city_state_zip: city_state_zip
+            company_name: company_name
+            country_name: country_name
+            tax:
+              rate: 0.8008281904610115
+              level: 6
+              name: name
+          total_due: total_due
+          due_date: due_date
+          tax: tax
+          transactions:
+          - date: date
+            amount_out: amount_out
+            amount_in: amount_in
+            fees: fees
+            description: description
+            trans_id: trans_id
+            id: 5
+            gateway: gateway
+          - date: date
+            amount_out: amount_out
+            amount_in: amount_in
+            fees: fees
+            description: description
+            trans_id: trans_id
+            id: 5
+            gateway: gateway
+          tax_rate: tax_rate
+          tax_rate2: tax_rate2
+          tax2: tax2
+          total: total
+          date_paid: date_paid
+          subtotal: subtotal
+          invoice_id: invoice_id
+          credit: credit
+          invoice_number: invoice_number
+          items:
+          - amount: amount
+            description: description
+            taxed: 5
+            id: 1
+            type: type
+          - amount: amount
+            description: description
+            taxed: 5
+            id: 1
+            type: type
+          payment_method: payment_method
+          status: status
+        selcom_metadata:
+          pesa_account: pesa_account
+          instructions: instructions
+          amount: amount
+          mobile_reference: mobile_reference
+          ussd_code: ussd_code
+      properties:
+        invoice:
+          $ref: "#/components/schemas/InvoiceDetails"
+        selcom_metadata:
+          $ref: "#/components/schemas/SelcomMetadata"
+      required:
+      - invoice
+      type: object
     GetNoVncConsoleRequestContent:
       example:
         service_id: service_id
@@ -10729,6 +11124,349 @@ components:
       - data
       - message
       type: object
+    InvoiceDetails:
+      description: Full invoice details
+      example:
+        date: date
+        notes: notes
+        issued_to:
+          country: country
+          full_name: full_name
+          address: address
+          city_state_zip: city_state_zip
+          company_name: company_name
+          country_name: country_name
+          tax:
+            rate: 0.8008281904610115
+            level: 6
+            name: name
+        total_due: total_due
+        due_date: due_date
+        tax: tax
+        transactions:
+        - date: date
+          amount_out: amount_out
+          amount_in: amount_in
+          fees: fees
+          description: description
+          trans_id: trans_id
+          id: 5
+          gateway: gateway
+        - date: date
+          amount_out: amount_out
+          amount_in: amount_in
+          fees: fees
+          description: description
+          trans_id: trans_id
+          id: 5
+          gateway: gateway
+        tax_rate: tax_rate
+        tax_rate2: tax_rate2
+        tax2: tax2
+        total: total
+        date_paid: date_paid
+        subtotal: subtotal
+        invoice_id: invoice_id
+        credit: credit
+        invoice_number: invoice_number
+        items:
+        - amount: amount
+          description: description
+          taxed: 5
+          id: 1
+          type: type
+        - amount: amount
+          description: description
+          taxed: 5
+          id: 1
+          type: type
+        payment_method: payment_method
+        status: status
+      properties:
+        invoice_id:
+          description: Unique invoice identifier - must be sent as a string
+          type: string
+        invoice_number:
+          description: Human-readable invoice number when assigned
+          type: string
+        issued_to:
+          $ref: "#/components/schemas/InvoiceIssuedTo"
+        date:
+          description: Invoice issue date (ISO 8601)
+          type: string
+        due_date:
+          description: Invoice due date (ISO 8601)
+          type: string
+        date_paid:
+          description: "Date the invoice was paid (ISO 8601), if paid"
+          type: string
+        subtotal:
+          description: Invoice subtotal excluding tax as a decimal string
+          type: string
+        credit:
+          description: Credit applied as a decimal string
+          type: string
+        tax:
+          description: Primary tax amount as a decimal string
+          type: string
+        tax2:
+          description: Secondary tax amount as a decimal string. Omitted when a second
+            tax is not configured.
+          type: string
+        total:
+          description: Invoice total including tax as a decimal string
+          type: string
+        tax_rate:
+          description: Primary tax rate as a decimal string
+          type: string
+        tax_rate2:
+          description: Secondary tax rate as a decimal string. Omitted when a second
+            tax is not configured.
+          type: string
+        status:
+          description: "Invoice status (e.g. Paid, Unpaid, Cancelled, Refunded)"
+          type: string
+        payment_method:
+          description: Payment method identifier
+          type: string
+        total_due:
+          description: Amount still due as a decimal string
+          type: string
+        notes:
+          description: Invoice notes
+          type: string
+        items:
+          description: Invoice line items
+          items:
+            $ref: "#/components/schemas/InvoiceItem"
+          type: array
+        transactions:
+          description: Payment and refund transactions on the invoice
+          items:
+            $ref: "#/components/schemas/InvoiceTransaction"
+          type: array
+      required:
+      - credit
+      - date
+      - due_date
+      - invoice_id
+      - invoice_number
+      - issued_to
+      - items
+      - notes
+      - payment_method
+      - status
+      - subtotal
+      - tax
+      - tax_rate
+      - total
+      - total_due
+      - transactions
+      type: object
+    InvoiceIssuedTo:
+      description: Recipient / billed-to details on an invoice
+      example:
+        country: country
+        full_name: full_name
+        address: address
+        city_state_zip: city_state_zip
+        company_name: company_name
+        country_name: country_name
+        tax:
+          rate: 0.8008281904610115
+          level: 6
+          name: name
+      properties:
+        company_name:
+          description: Company name on the invoice
+          type: string
+        full_name:
+          description: Full name of the billed contact
+          type: string
+        address:
+          description: Street address
+          type: string
+        city_state_zip:
+          description: "City, state/province, and postal code"
+          type: string
+        country:
+          description: ISO country code
+          type: string
+        country_name:
+          description: Country display name
+          type: string
+        tax:
+          $ref: "#/components/schemas/InvoiceIssuedToTax"
+      required:
+      - address
+      - city_state_zip
+      - company_name
+      - country
+      - country_name
+      - full_name
+      type: object
+    InvoiceIssuedToTax:
+      description: Tax applied to the invoice recipient
+      example:
+        rate: 0.8008281904610115
+        level: 6
+        name: name
+      properties:
+        name:
+          description: Tax name or region label (e.g. SA)
+          type: string
+        rate:
+          description: Tax rate percentage
+          format: double
+          type: number
+        level:
+          description: Tax level
+          format: int32
+          type: integer
+      required:
+      - level
+      - name
+      - rate
+      type: object
+    InvoiceItem:
+      description: A single invoice line item
+      example:
+        amount: amount
+        description: description
+        taxed: 5
+        id: 1
+        type: type
+      properties:
+        id:
+          description: Line item identifier
+          format: int32
+          type: integer
+        type:
+          description: Line item type (e.g. Hosting)
+          type: string
+        description:
+          description: Line item description
+          type: string
+        amount:
+          description: Line item amount as a decimal string
+          type: string
+        taxed:
+          description: "Whether the line item is taxed (1 = taxed, 0 = not taxed)"
+          format: int32
+          type: integer
+      required:
+      - amount
+      - description
+      - id
+      - taxed
+      - type
+      type: object
+    InvoiceSummary:
+      description: Summary of an invoice in the list-invoices response
+      example:
+        date: date
+        tax2: tax2
+        total: total
+        subtotal: subtotal
+        due_date: due_date
+        invoice_id: invoice_id
+        tax: tax
+        grand_total: grand_total
+        invoice_number: invoice_number
+        tax_rate: tax_rate
+        tax_rate2: tax_rate2
+        status: status
+      properties:
+        invoice_id:
+          description: Unique invoice identifier - must be sent as a string
+          type: string
+        invoice_number:
+          description: Human-readable invoice number when assigned
+          type: string
+        date:
+          description: Invoice issue date (ISO 8601)
+          type: string
+        due_date:
+          description: Invoice due date (ISO 8601)
+          type: string
+        status:
+          description: "Invoice status (e.g. Paid, Unpaid, Cancelled, Refunded)"
+          type: string
+        tax:
+          description: Primary tax amount as a decimal string
+          type: string
+        tax2:
+          description: Secondary tax amount as a decimal string. Omitted when a second
+            tax is not configured.
+          type: string
+        tax_rate:
+          description: Primary tax rate as a decimal string
+          type: string
+        tax_rate2:
+          description: Secondary tax rate as a decimal string. Omitted when a second
+            tax is not configured.
+          type: string
+        total:
+          description: Invoice total including tax as a decimal string
+          type: string
+        subtotal:
+          description: Invoice subtotal excluding tax as a decimal string
+          type: string
+        grand_total:
+          description: Grand total as a decimal string
+          type: string
+      required:
+      - date
+      - due_date
+      - grand_total
+      - invoice_id
+      - invoice_number
+      - status
+      - subtotal
+      - tax
+      - tax_rate
+      - total
+      type: object
+    InvoiceTransaction:
+      description: A payment or refund transaction recorded against an invoice
+      example:
+        date: date
+        amount_out: amount_out
+        amount_in: amount_in
+        fees: fees
+        description: description
+        trans_id: trans_id
+        id: 5
+        gateway: gateway
+      properties:
+        id:
+          description: Transaction identifier
+          format: int32
+          type: integer
+        gateway:
+          description: Payment gateway identifier
+          type: string
+        date:
+          description: Transaction date (ISO 8601 or upstream date string)
+          type: string
+        description:
+          description: Transaction description
+          type: string
+        amount_in:
+          description: Amount received as a decimal string
+          type: string
+        fees:
+          description: Gateway fees as a decimal string
+          type: string
+        amount_out:
+          description: Amount paid out (e.g. refund) as a decimal string
+          type: string
+        trans_id:
+          description: Gateway transaction reference
+          type: string
+      required:
+      - id
+      type: object
     ListBackupSchedulesRequestContent:
       example:
         service_id: service_id
@@ -10891,6 +11629,7 @@ components:
             module: module
           hosting_id: 0
           package_name: package_name
+          backend: dns_manager
           type: 6
           has_dns_manager_zone: true
           type_key: type_key
@@ -10902,6 +11641,7 @@ components:
             module: module
           hosting_id: 0
           package_name: package_name
+          backend: dns_manager
           type: 6
           has_dns_manager_zone: true
           type_key: type_key
@@ -10937,6 +11677,7 @@ components:
               module: module
             hosting_id: 0
             package_name: package_name
+            backend: dns_manager
             type: 6
             has_dns_manager_zone: true
             type_key: type_key
@@ -10948,6 +11689,7 @@ components:
               module: module
             hosting_id: 0
             package_name: package_name
+            backend: dns_manager
             type: 6
             has_dns_manager_zone: true
             type_key: type_key
@@ -11324,6 +12066,88 @@ components:
       required:
       - data
       - status
+      type: object
+    ListInvoicesResponseContent:
+      example:
+        data:
+          invoices:
+          - date: date
+            tax2: tax2
+            total: total
+            subtotal: subtotal
+            due_date: due_date
+            invoice_id: invoice_id
+            tax: tax
+            grand_total: grand_total
+            invoice_number: invoice_number
+            tax_rate: tax_rate
+            tax_rate2: tax_rate2
+            status: status
+          - date: date
+            tax2: tax2
+            total: total
+            subtotal: subtotal
+            due_date: due_date
+            invoice_id: invoice_id
+            tax: tax
+            grand_total: grand_total
+            invoice_number: invoice_number
+            tax_rate: tax_rate
+            tax_rate2: tax_rate2
+            status: status
+          total_count: 0
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/ListInvoicesResponseData"
+      required:
+      - data
+      - status
+      type: object
+    ListInvoicesResponseData:
+      description: Top-level data payload for the ListInvoices response
+      example:
+        invoices:
+        - date: date
+          tax2: tax2
+          total: total
+          subtotal: subtotal
+          due_date: due_date
+          invoice_id: invoice_id
+          tax: tax
+          grand_total: grand_total
+          invoice_number: invoice_number
+          tax_rate: tax_rate
+          tax_rate2: tax_rate2
+          status: status
+        - date: date
+          tax2: tax2
+          total: total
+          subtotal: subtotal
+          due_date: due_date
+          invoice_id: invoice_id
+          tax: tax
+          grand_total: grand_total
+          invoice_number: invoice_number
+          tax_rate: tax_rate
+          tax_rate2: tax_rate2
+          status: status
+        total_count: 0
+      properties:
+        invoices:
+          description: List of invoices for the authenticated user
+          items:
+            $ref: "#/components/schemas/InvoiceSummary"
+          type: array
+        total_count:
+          description: Total number of invoices returned
+          format: int32
+          type: integer
+      required:
+      - invoices
+      - total_count
       type: object
     ListIsosRequestContent:
       example:
@@ -13021,6 +13845,42 @@ components:
       required:
       - data
       - status
+      type: object
+    SelcomMetadata:
+      description: Selcom alt-gateway payment details included on an invoice when
+        configured
+      example:
+        pesa_account: pesa_account
+        instructions: instructions
+        amount: amount
+        mobile_reference: mobile_reference
+        ussd_code: ussd_code
+      properties:
+        amount:
+          description: "Due amount formatted for display (e.g. \"TZS 29,000.00\").\
+            \ Non-TZS amounts are converted using the WHMCS currency rate."
+          type: string
+        pesa_account:
+          description: "Selcom Pesa account: 5-digit padded client id plus 6-digit\
+            \ padded invoice id"
+          type: string
+        mobile_reference:
+          description: "Mobile payment reference: 61107370 plus the same padded client\
+            \ and invoice ids"
+          type: string
+        ussd_code:
+          description: USSD shortcode for Selcom (always *150*50*1#)
+          type: string
+        instructions:
+          description: WHMCS Selcom alt-gateway instructions HTML with placeholders
+            filled
+          type: string
+      required:
+      - amount
+      - instructions
+      - mobile_reference
+      - pesa_account
+      - ussd_code
       type: object
     ServiceBackupsResponseData:
       description: Response data for service backups operation

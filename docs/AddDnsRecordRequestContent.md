@@ -4,15 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**DomainName** | Pointer to **string** | DNS zone domain name (FQDN); optional when zone_id is provided | [optional] 
-**ZoneId** | **string** | DNS zone identifier from list-dns-zones or get-dns-zone-details | 
+**DomainName** | Pointer to **string** | DNS zone domain name (FQDN); optional for dns_manager when zone_id is provided. Not forwarded on DirectAdmin mutations. | [optional] 
+**ZoneId** | Pointer to **string** | DNS zone identifier from list-dns-zones or get-dns-zone-details; required for dns_manager / legacy callers | [optional] 
+**DomainId** | Pointer to **string** | WHMCS domain id from list-dns-zones; required when backend is directadmin | [optional] 
+**ServiceId** | Pointer to **int32** | Optional WHMCS hosting service id from list-dns-zones hosting_id. Not forwarded on DirectAdmin mutations. | [optional] 
+**Backend** | Pointer to [**DnsBackend**](DnsBackend.md) |  | [optional] 
 **Record** | [**DnsRecordMutationRecord**](DnsRecordMutationRecord.md) |  | 
 
 ## Methods
 
 ### NewAddDnsRecordRequestContent
 
-`func NewAddDnsRecordRequestContent(zoneId string, record DnsRecordMutationRecord, ) *AddDnsRecordRequestContent`
+`func NewAddDnsRecordRequestContent(record DnsRecordMutationRecord, ) *AddDnsRecordRequestContent`
 
 NewAddDnsRecordRequestContent instantiates a new AddDnsRecordRequestContent object
 This constructor will assign default values to properties that have it defined,
@@ -71,6 +74,86 @@ and a boolean to check if the value has been set.
 
 SetZoneId sets ZoneId field to given value.
 
+### HasZoneId
+
+`func (o *AddDnsRecordRequestContent) HasZoneId() bool`
+
+HasZoneId returns a boolean if a field has been set.
+
+### GetDomainId
+
+`func (o *AddDnsRecordRequestContent) GetDomainId() string`
+
+GetDomainId returns the DomainId field if non-nil, zero value otherwise.
+
+### GetDomainIdOk
+
+`func (o *AddDnsRecordRequestContent) GetDomainIdOk() (*string, bool)`
+
+GetDomainIdOk returns a tuple with the DomainId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDomainId
+
+`func (o *AddDnsRecordRequestContent) SetDomainId(v string)`
+
+SetDomainId sets DomainId field to given value.
+
+### HasDomainId
+
+`func (o *AddDnsRecordRequestContent) HasDomainId() bool`
+
+HasDomainId returns a boolean if a field has been set.
+
+### GetServiceId
+
+`func (o *AddDnsRecordRequestContent) GetServiceId() int32`
+
+GetServiceId returns the ServiceId field if non-nil, zero value otherwise.
+
+### GetServiceIdOk
+
+`func (o *AddDnsRecordRequestContent) GetServiceIdOk() (*int32, bool)`
+
+GetServiceIdOk returns a tuple with the ServiceId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetServiceId
+
+`func (o *AddDnsRecordRequestContent) SetServiceId(v int32)`
+
+SetServiceId sets ServiceId field to given value.
+
+### HasServiceId
+
+`func (o *AddDnsRecordRequestContent) HasServiceId() bool`
+
+HasServiceId returns a boolean if a field has been set.
+
+### GetBackend
+
+`func (o *AddDnsRecordRequestContent) GetBackend() DnsBackend`
+
+GetBackend returns the Backend field if non-nil, zero value otherwise.
+
+### GetBackendOk
+
+`func (o *AddDnsRecordRequestContent) GetBackendOk() (*DnsBackend, bool)`
+
+GetBackendOk returns a tuple with the Backend field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetBackend
+
+`func (o *AddDnsRecordRequestContent) SetBackend(v DnsBackend)`
+
+SetBackend sets Backend field to given value.
+
+### HasBackend
+
+`func (o *AddDnsRecordRequestContent) HasBackend() bool`
+
+HasBackend returns a boolean if a field has been set.
 
 ### GetRecord
 

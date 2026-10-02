@@ -24,7 +24,7 @@ type DNSAPI interface {
 	/*
 	AddDnsRecord Method for AddDnsRecord
 
-	Adds a DNS record to a zone via DNSManager.
+	Adds a DNS record to a zone. Legacy callers pass zone_id only (DNS Manager v1). For DirectAdmin, pass backend=directadmin with domain_id; upstream v2 receives domain_id and record only.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiAddDnsRecordRequest
@@ -52,7 +52,7 @@ type DNSAPI interface {
 	/*
 	DeleteDnsRecord Method for DeleteDnsRecord
 
-	Deletes a DNS record from a zone via DNSManager.
+	Deletes a DNS record from a zone. Legacy callers pass zone_id only (DNS Manager v1). For DirectAdmin, pass backend=directadmin with domain_id; upstream v2 receives domain_id and record only.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiDeleteDnsRecordRequest
@@ -80,7 +80,7 @@ type DNSAPI interface {
 	/*
 	EditDnsRecord Method for EditDnsRecord
 
-	Edits a DNS record in a zone via DNSManager.
+	Edits a DNS record in a zone. Legacy callers pass zone_id only (DNS Manager v1). For DirectAdmin, pass backend=directadmin with domain_id; upstream v2 receives domain_id and record only.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiEditDnsRecordRequest
@@ -94,7 +94,7 @@ type DNSAPI interface {
 	/*
 	GetDnsZoneDetails Method for GetDnsZoneDetails
 
-	Retrieves DNS zone details and records for an owned domain.
+	Retrieves DNS zone details and records for an owned domain. Omit backend for the legacy DNS Manager (v1) path; set backend from list-dns-zones to route DirectAdmin zones to v2.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@return ApiGetDnsZoneDetailsRequest
@@ -169,7 +169,7 @@ func (r ApiAddDnsRecordRequest) Execute() (*AddDnsRecordResponseContent, *http.R
 /*
 AddDnsRecord Method for AddDnsRecord
 
-Adds a DNS record to a zone via DNSManager.
+Adds a DNS record to a zone. Legacy callers pass zone_id only (DNS Manager v1). For DirectAdmin, pass backend=directadmin with domain_id; upstream v2 receives domain_id and record only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiAddDnsRecordRequest
@@ -563,7 +563,7 @@ func (r ApiDeleteDnsRecordRequest) Execute() (*DeleteDnsRecordResponseContent, *
 /*
 DeleteDnsRecord Method for DeleteDnsRecord
 
-Deletes a DNS record from a zone via DNSManager.
+Deletes a DNS record from a zone. Legacy callers pass zone_id only (DNS Manager v1). For DirectAdmin, pass backend=directadmin with domain_id; upstream v2 receives domain_id and record only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiDeleteDnsRecordRequest
@@ -957,7 +957,7 @@ func (r ApiEditDnsRecordRequest) Execute() (*EditDnsRecordResponseContent, *http
 /*
 EditDnsRecord Method for EditDnsRecord
 
-Edits a DNS record in a zone via DNSManager.
+Edits a DNS record in a zone. Legacy callers pass zone_id only (DNS Manager v1). For DirectAdmin, pass backend=directadmin with domain_id; upstream v2 receives domain_id and record only.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiEditDnsRecordRequest
@@ -1154,7 +1154,7 @@ func (r ApiGetDnsZoneDetailsRequest) Execute() (*GetDnsZoneDetailsResponseConten
 /*
 GetDnsZoneDetails Method for GetDnsZoneDetails
 
-Retrieves DNS zone details and records for an owned domain.
+Retrieves DNS zone details and records for an owned domain. Omit backend for the legacy DNS Manager (v1) path; set backend from list-dns-zones to route DirectAdmin zones to v2.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetDnsZoneDetailsRequest

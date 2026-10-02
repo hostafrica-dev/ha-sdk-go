@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **DomainId** | **string** | Domain service id - must be sent as a string | 
+**Backend** | Pointer to [**DnsBackend**](DnsBackend.md) |  | [optional] 
 
 ## Methods
 
@@ -44,6 +45,31 @@ and a boolean to check if the value has been set.
 
 SetDomainId sets DomainId field to given value.
 
+
+### GetBackend
+
+`func (o *GetDnsZoneDetailsRequestContent) GetBackend() DnsBackend`
+
+GetBackend returns the Backend field if non-nil, zero value otherwise.
+
+### GetBackendOk
+
+`func (o *GetDnsZoneDetailsRequestContent) GetBackendOk() (*DnsBackend, bool)`
+
+GetBackendOk returns a tuple with the Backend field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetBackend
+
+`func (o *GetDnsZoneDetailsRequestContent) SetBackend(v DnsBackend)`
+
+SetBackend sets Backend field to given value.
+
+### HasBackend
+
+`func (o *GetDnsZoneDetailsRequestContent) HasBackend() bool`
+
+HasBackend returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -38,6 +38,7 @@ type DnsZoneInfo struct {
 	HasHosting *DomainHostingLink `json:"has_hosting,omitempty"`
 	// Whether a DNS Manager zone exists for this domain name
 	HasDnsManagerZone bool `json:"has_dns_manager_zone"`
+	Backend *DnsBackend `json:"backend,omitempty"`
 }
 
 type _DnsZoneInfo DnsZoneInfo
@@ -340,6 +341,38 @@ func (o *DnsZoneInfo) SetHasDnsManagerZone(v bool) {
 	o.HasDnsManagerZone = v
 }
 
+// GetBackend returns the Backend field value if set, zero value otherwise.
+func (o *DnsZoneInfo) GetBackend() DnsBackend {
+	if o == nil || IsNil(o.Backend) {
+		var ret DnsBackend
+		return ret
+	}
+	return *o.Backend
+}
+
+// GetBackendOk returns a tuple with the Backend field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DnsZoneInfo) GetBackendOk() (*DnsBackend, bool) {
+	if o == nil || IsNil(o.Backend) {
+		return nil, false
+	}
+	return o.Backend, true
+}
+
+// HasBackend returns a boolean if a field has been set.
+func (o *DnsZoneInfo) HasBackend() bool {
+	if o != nil && !IsNil(o.Backend) {
+		return true
+	}
+
+	return false
+}
+
+// SetBackend gets a reference to the given DnsBackend and assigns it to the Backend field.
+func (o *DnsZoneInfo) SetBackend(v DnsBackend) {
+	o.Backend = &v
+}
+
 func (o DnsZoneInfo) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -375,6 +408,9 @@ func (o DnsZoneInfo) ToMap() (map[string]interface{}, error) {
 		toSerialize["has_hosting"] = o.HasHosting
 	}
 	toSerialize["has_dns_manager_zone"] = o.HasDnsManagerZone
+	if !IsNil(o.Backend) {
+		toSerialize["backend"] = o.Backend
+	}
 	return toSerialize, nil
 }
 

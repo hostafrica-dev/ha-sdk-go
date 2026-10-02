@@ -2,6 +2,7 @@
 .travis.yml
 api/openapi.yaml
 api_backups.go
+api_billing.go
 api_console_access.go
 api_dns.go
 api_domains.go
@@ -24,6 +25,7 @@ docs/BackupSchedule.md
 docs/BackupScheduleListResponseData.md
 docs/BackupsAPI.md
 docs/BadRequestErrorResponseContent.md
+docs/BillingAPI.md
 docs/BillingCycle.md
 docs/CancelVpsRequestContent.md
 docs/CancelVpsResponseContent.md
@@ -84,6 +86,7 @@ docs/DeleteSnapshotJobRequestContent.md
 docs/DeleteSnapshotJobResponseContent.md
 docs/DeleteSnapshotRequestContent.md
 docs/DeleteSnapshotResponseContent.md
+docs/DnsBackend.md
 docs/DnsCreateCandidateInfo.md
 docs/DnsRecordInfo.md
 docs/DnsRecordMutationData.md
@@ -137,6 +140,9 @@ docs/GetDomainRequestContent.md
 docs/GetDomainResponseContent.md
 docs/GetEncryptedPasswordRequestContent.md
 docs/GetEncryptedPasswordResponseContent.md
+docs/GetInvoiceDetailsRequestContent.md
+docs/GetInvoiceDetailsResponseContent.md
+docs/GetInvoiceDetailsResponseData.md
 docs/GetNoVncConsoleRequestContent.md
 docs/GetNoVncConsoleResponseContent.md
 docs/GetVpsConfigRequestContent.md
@@ -145,6 +151,12 @@ docs/GetVpsDetailsRequestContent.md
 docs/GetVpsDetailsResponseContent.md
 docs/InternalServiceErrorResponseContent.md
 docs/InvalidStateErrorResponseContent.md
+docs/InvoiceDetails.md
+docs/InvoiceIssuedTo.md
+docs/InvoiceIssuedToTax.md
+docs/InvoiceItem.md
+docs/InvoiceSummary.md
+docs/InvoiceTransaction.md
 docs/ListBackupSchedulesRequestContent.md
 docs/ListBackupSchedulesResponseContent.md
 docs/ListBackupsRequestContent.md
@@ -162,6 +174,8 @@ docs/ListDomainsRequiringDataResponseContent.md
 docs/ListDomainsResponseContent.md
 docs/ListFirewallRulesRequestContent.md
 docs/ListFirewallRulesResponseContent.md
+docs/ListInvoicesResponseContent.md
+docs/ListInvoicesResponseData.md
 docs/ListIsosRequestContent.md
 docs/ListIsosResponseContent.md
 docs/ListIsosResponseData.md
@@ -225,6 +239,7 @@ docs/RollbackSnapshotResponseContent.md
 docs/SaveDomainRequiredDataData.md
 docs/SaveDomainRequiredDataRequestContent.md
 docs/SaveDomainRequiredDataResponseContent.md
+docs/SelcomMetadata.md
 docs/ServiceBackupsResponseData.md
 docs/ServiceManagementAPI.md
 docs/ServiceSnapshotsResponseData.md
@@ -375,6 +390,7 @@ model_delete_snapshot_job_request_content.go
 model_delete_snapshot_job_response_content.go
 model_delete_snapshot_request_content.go
 model_delete_snapshot_response_content.go
+model_dns_backend.go
 model_dns_create_candidate_info.go
 model_dns_record_info.go
 model_dns_record_mutation_data.go
@@ -426,6 +442,9 @@ model_get_domain_request_content.go
 model_get_domain_response_content.go
 model_get_encrypted_password_request_content.go
 model_get_encrypted_password_response_content.go
+model_get_invoice_details_request_content.go
+model_get_invoice_details_response_content.go
+model_get_invoice_details_response_data.go
 model_get_no_vnc_console_request_content.go
 model_get_no_vnc_console_response_content.go
 model_get_vps_config_request_content.go
@@ -434,6 +453,12 @@ model_get_vps_details_request_content.go
 model_get_vps_details_response_content.go
 model_internal_service_error_response_content.go
 model_invalid_state_error_response_content.go
+model_invoice_details.go
+model_invoice_issued_to.go
+model_invoice_issued_to_tax.go
+model_invoice_item.go
+model_invoice_summary.go
+model_invoice_transaction.go
 model_list_backup_schedules_request_content.go
 model_list_backup_schedules_response_content.go
 model_list_backups_request_content.go
@@ -451,6 +476,8 @@ model_list_domains_requiring_data_response_content.go
 model_list_domains_response_content.go
 model_list_firewall_rules_request_content.go
 model_list_firewall_rules_response_content.go
+model_list_invoices_response_content.go
+model_list_invoices_response_data.go
 model_list_isos_request_content.go
 model_list_isos_response_content.go
 model_list_isos_response_data.go
@@ -512,6 +539,7 @@ model_rollback_snapshot_response_content.go
 model_save_domain_required_data_data.go
 model_save_domain_required_data_request_content.go
 model_save_domain_required_data_response_content.go
+model_selcom_metadata.go
 model_service_backups_response_data.go
 model_service_snapshots_response_data.go
 model_service_unavailable_error_response_content.go

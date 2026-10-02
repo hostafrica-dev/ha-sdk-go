@@ -51,6 +51,8 @@ type APIClient struct {
 
 	BackupsAPI BackupsAPI
 
+	BillingAPI BillingAPI
+
 	ConsoleAccessAPI ConsoleAccessAPI
 
 	DNSAPI DNSAPI
@@ -87,6 +89,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 
 	// API Services
 	c.BackupsAPI = (*BackupsAPIService)(&c.common)
+	c.BillingAPI = (*BillingAPIService)(&c.common)
 	c.ConsoleAccessAPI = (*ConsoleAccessAPIService)(&c.common)
 	c.DNSAPI = (*DNSAPIService)(&c.common)
 	c.DomainsAPI = (*DomainsAPIService)(&c.common)

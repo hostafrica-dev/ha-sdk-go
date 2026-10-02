@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **PackageName** | Pointer to **string** | Product or package name for the zone | [optional] 
 **HasHosting** | Pointer to [**DomainHostingLink**](DomainHostingLink.md) |  | [optional] 
 **HasDnsManagerZone** | **bool** | Whether a DNS Manager zone exists for this domain name | 
+**Backend** | Pointer to [**DnsBackend**](DnsBackend.md) |  | [optional] 
 
 ## Methods
 
@@ -252,6 +253,31 @@ and a boolean to check if the value has been set.
 
 SetHasDnsManagerZone sets HasDnsManagerZone field to given value.
 
+
+### GetBackend
+
+`func (o *DnsZoneInfo) GetBackend() DnsBackend`
+
+GetBackend returns the Backend field if non-nil, zero value otherwise.
+
+### GetBackendOk
+
+`func (o *DnsZoneInfo) GetBackendOk() (*DnsBackend, bool)`
+
+GetBackendOk returns a tuple with the Backend field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetBackend
+
+`func (o *DnsZoneInfo) SetBackend(v DnsBackend)`
+
+SetBackend sets Backend field to given value.
+
+### HasBackend
+
+`func (o *DnsZoneInfo) HasBackend() bool`
+
+HasBackend returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

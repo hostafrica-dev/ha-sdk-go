@@ -37,7 +37,7 @@ import (
 )
 
 func main() {
-	addDnsRecordRequestContent := *openapiclient.NewAddDnsRecordRequestContent("ZoneId_example", *openapiclient.NewDnsRecordMutationRecord()) // AddDnsRecordRequestContent | 
+	addDnsRecordRequestContent := *openapiclient.NewAddDnsRecordRequestContent(*openapiclient.NewDnsRecordMutationRecord()) // AddDnsRecordRequestContent | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -169,7 +169,7 @@ import (
 )
 
 func main() {
-	deleteDnsRecordRequestContent := *openapiclient.NewDeleteDnsRecordRequestContent("ZoneId_example", *openapiclient.NewDnsRecordMutationRecord()) // DeleteDnsRecordRequestContent | 
+	deleteDnsRecordRequestContent := *openapiclient.NewDeleteDnsRecordRequestContent(*openapiclient.NewDnsRecordMutationRecord()) // DeleteDnsRecordRequestContent | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -301,7 +301,7 @@ import (
 )
 
 func main() {
-	editDnsRecordRequestContent := *openapiclient.NewEditDnsRecordRequestContent("ZoneId_example", *openapiclient.NewDnsRecordMutationRecord()) // EditDnsRecordRequestContent | 
+	editDnsRecordRequestContent := *openapiclient.NewEditDnsRecordRequestContent(*openapiclient.NewDnsRecordMutationRecord()) // EditDnsRecordRequestContent | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

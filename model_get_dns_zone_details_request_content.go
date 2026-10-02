@@ -23,6 +23,7 @@ var _ MappedNullable = &GetDnsZoneDetailsRequestContent{}
 type GetDnsZoneDetailsRequestContent struct {
 	// Domain service id - must be sent as a string
 	DomainId string `json:"domain_id"`
+	Backend *DnsBackend `json:"backend,omitempty"`
 }
 
 type _GetDnsZoneDetailsRequestContent GetDnsZoneDetailsRequestContent
@@ -69,6 +70,38 @@ func (o *GetDnsZoneDetailsRequestContent) SetDomainId(v string) {
 	o.DomainId = v
 }
 
+// GetBackend returns the Backend field value if set, zero value otherwise.
+func (o *GetDnsZoneDetailsRequestContent) GetBackend() DnsBackend {
+	if o == nil || IsNil(o.Backend) {
+		var ret DnsBackend
+		return ret
+	}
+	return *o.Backend
+}
+
+// GetBackendOk returns a tuple with the Backend field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *GetDnsZoneDetailsRequestContent) GetBackendOk() (*DnsBackend, bool) {
+	if o == nil || IsNil(o.Backend) {
+		return nil, false
+	}
+	return o.Backend, true
+}
+
+// HasBackend returns a boolean if a field has been set.
+func (o *GetDnsZoneDetailsRequestContent) HasBackend() bool {
+	if o != nil && !IsNil(o.Backend) {
+		return true
+	}
+
+	return false
+}
+
+// SetBackend gets a reference to the given DnsBackend and assigns it to the Backend field.
+func (o *GetDnsZoneDetailsRequestContent) SetBackend(v DnsBackend) {
+	o.Backend = &v
+}
+
 func (o GetDnsZoneDetailsRequestContent) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -80,6 +113,9 @@ func (o GetDnsZoneDetailsRequestContent) MarshalJSON() ([]byte, error) {
 func (o GetDnsZoneDetailsRequestContent) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["domain_id"] = o.DomainId
+	if !IsNil(o.Backend) {
+		toSerialize["backend"] = o.Backend
+	}
 	return toSerialize, nil
 }
 

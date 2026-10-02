@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **string** | Record line/id from get-dns-zone-details; required for edit and delete | [optional] 
+**Id** | Pointer to **string** | Record line from get-dns-zone-details (positive integer string); required for edit and delete | [optional] 
 **Name** | Pointer to **string** | Record host/name (e.g. @, www, mail); required for add | [optional] 
 **Type** | Pointer to **string** | Record type (e.g. A, AAAA, CNAME, MX, TXT, NS, SRV); required for add | [optional] 
 **Content** | Pointer to **string** | Primary record value; required for add and edit. Meaning depends on type — see DnsRecordInfo | [optional] 
