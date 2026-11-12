@@ -4,18 +4,160 @@ All URIs are relative to *https://api.hostafrica.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**AddDnssecRecord**](DomainsAPI.md#AddDnssecRecord) | **Post** /domain/add-dnssec-record | 
+[**AddDomainRedirect**](DomainsAPI.md#AddDomainRedirect) | **Post** /domain/add-redirect | 
 [**CheckDomainAvailability**](DomainsAPI.md#CheckDomainAvailability) | **Post** /domain/check-availability | 
+[**DeleteDnssecRecord**](DomainsAPI.md#DeleteDnssecRecord) | **Post** /domain/delete-dnssec-record | 
+[**DeleteDomainRedirect**](DomainsAPI.md#DeleteDomainRedirect) | **Post** /domain/delete-redirect | 
+[**DeletePrivateNameserver**](DomainsAPI.md#DeletePrivateNameserver) | **Post** /domain/delete-private-nameserver | 
 [**GetDomain**](DomainsAPI.md#GetDomain) | **Post** /domain/get-domain | 
 [**GetDomainContacts**](DomainsAPI.md#GetDomainContacts) | **Post** /domain/get-domain-contacts | 
+[**GetDomainRedirectDetails**](DomainsAPI.md#GetDomainRedirectDetails) | **Post** /domain/get-redirect-details | 
 [**ListDnssecRecords**](DomainsAPI.md#ListDnssecRecords) | **Post** /domain/list-dnssec-records | 
+[**ListDomainRedirects**](DomainsAPI.md#ListDomainRedirects) | **Post** /domain/list-redirects | 
 [**ListDomains**](DomainsAPI.md#ListDomains) | **Post** /domain/list-domains | 
 [**ListDomainsRequiringData**](DomainsAPI.md#ListDomainsRequiringData) | **Post** /domain/list-domains-requiring-data | 
+[**ModifyPrivateNameserver**](DomainsAPI.md#ModifyPrivateNameserver) | **Post** /domain/modify-private-nameserver | 
+[**RegisterPrivateNameserver**](DomainsAPI.md#RegisterPrivateNameserver) | **Post** /domain/register-private-nameserver | 
 [**SaveDomainRequiredData**](DomainsAPI.md#SaveDomainRequiredData) | **Post** /domain/save-domain-required-data | 
 [**SuggestDomains**](DomainsAPI.md#SuggestDomains) | **Post** /domain/suggest | 
 [**UpdateDomainContacts**](DomainsAPI.md#UpdateDomainContacts) | **Post** /domain/update-domain-contacts | 
+[**UpdateDomainLockStatus**](DomainsAPI.md#UpdateDomainLockStatus) | **Post** /domain/update-lock-status | 
 [**UpdateDomainNameservers**](DomainsAPI.md#UpdateDomainNameservers) | **Post** /domain/update-nameservers | 
 [**UpdateDomainSettings**](DomainsAPI.md#UpdateDomainSettings) | **Post** /domain/update-domain-settings | 
 
+
+
+## AddDnssecRecord
+
+> AddDnssecRecordResponseContent AddDnssecRecord(ctx).AddDnssecRecordRequestContent(addDnssecRecordRequestContent).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/hostafrica/ha-sdk-go"
+)
+
+func main() {
+	addDnssecRecordRequestContent := *openapiclient.NewAddDnssecRecordRequestContent("DomainId_example", int32(123), int32(123), int32(123), "Digest_example") // AddDnssecRecordRequestContent | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DomainsAPI.AddDnssecRecord(context.Background()).AddDnssecRecordRequestContent(addDnssecRecordRequestContent).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DomainsAPI.AddDnssecRecord``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AddDnssecRecord`: AddDnssecRecordResponseContent
+	fmt.Fprintf(os.Stdout, "Response from `DomainsAPI.AddDnssecRecord`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAddDnssecRecordRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **addDnssecRecordRequestContent** | [**AddDnssecRecordRequestContent**](AddDnssecRecordRequestContent.md) |  | 
+
+### Return type
+
+[**AddDnssecRecordResponseContent**](AddDnssecRecordResponseContent.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## AddDomainRedirect
+
+> AddDomainRedirectResponseContent AddDomainRedirect(ctx).AddDomainRedirectRequestContent(addDomainRedirectRequestContent).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/hostafrica/ha-sdk-go"
+)
+
+func main() {
+	addDomainRedirectRequestContent := *openapiclient.NewAddDomainRedirectRequestContent("DomainId_example", "Url_example", "Type_example") // AddDomainRedirectRequestContent | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DomainsAPI.AddDomainRedirect(context.Background()).AddDomainRedirectRequestContent(addDomainRedirectRequestContent).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DomainsAPI.AddDomainRedirect``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AddDomainRedirect`: AddDomainRedirectResponseContent
+	fmt.Fprintf(os.Stdout, "Response from `DomainsAPI.AddDomainRedirect`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiAddDomainRedirectRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **addDomainRedirectRequestContent** | [**AddDomainRedirectRequestContent**](AddDomainRedirectRequestContent.md) |  | 
+
+### Return type
+
+[**AddDomainRedirectResponseContent**](AddDomainRedirectResponseContent.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## CheckDomainAvailability
@@ -69,6 +211,204 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**CheckDomainAvailabilityResponseContent**](CheckDomainAvailabilityResponseContent.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## DeleteDnssecRecord
+
+> DeleteDnssecRecordResponseContent DeleteDnssecRecord(ctx).DeleteDnssecRecordRequestContent(deleteDnssecRecordRequestContent).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/hostafrica/ha-sdk-go"
+)
+
+func main() {
+	deleteDnssecRecordRequestContent := *openapiclient.NewDeleteDnssecRecordRequestContent("DomainId_example", int32(123), int32(123), int32(123), "Digest_example") // DeleteDnssecRecordRequestContent | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DomainsAPI.DeleteDnssecRecord(context.Background()).DeleteDnssecRecordRequestContent(deleteDnssecRecordRequestContent).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DomainsAPI.DeleteDnssecRecord``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `DeleteDnssecRecord`: DeleteDnssecRecordResponseContent
+	fmt.Fprintf(os.Stdout, "Response from `DomainsAPI.DeleteDnssecRecord`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteDnssecRecordRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **deleteDnssecRecordRequestContent** | [**DeleteDnssecRecordRequestContent**](DeleteDnssecRecordRequestContent.md) |  | 
+
+### Return type
+
+[**DeleteDnssecRecordResponseContent**](DeleteDnssecRecordResponseContent.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## DeleteDomainRedirect
+
+> DeleteDomainRedirectResponseContent DeleteDomainRedirect(ctx).DeleteDomainRedirectRequestContent(deleteDomainRedirectRequestContent).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/hostafrica/ha-sdk-go"
+)
+
+func main() {
+	deleteDomainRedirectRequestContent := *openapiclient.NewDeleteDomainRedirectRequestContent("DomainId_example") // DeleteDomainRedirectRequestContent | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DomainsAPI.DeleteDomainRedirect(context.Background()).DeleteDomainRedirectRequestContent(deleteDomainRedirectRequestContent).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DomainsAPI.DeleteDomainRedirect``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `DeleteDomainRedirect`: DeleteDomainRedirectResponseContent
+	fmt.Fprintf(os.Stdout, "Response from `DomainsAPI.DeleteDomainRedirect`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteDomainRedirectRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **deleteDomainRedirectRequestContent** | [**DeleteDomainRedirectRequestContent**](DeleteDomainRedirectRequestContent.md) |  | 
+
+### Return type
+
+[**DeleteDomainRedirectResponseContent**](DeleteDomainRedirectResponseContent.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## DeletePrivateNameserver
+
+> DeletePrivateNameserverResponseContent DeletePrivateNameserver(ctx).DeletePrivateNameserverRequestContent(deletePrivateNameserverRequestContent).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/hostafrica/ha-sdk-go"
+)
+
+func main() {
+	deletePrivateNameserverRequestContent := *openapiclient.NewDeletePrivateNameserverRequestContent("DomainId_example", "Nameserver_example") // DeletePrivateNameserverRequestContent | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DomainsAPI.DeletePrivateNameserver(context.Background()).DeletePrivateNameserverRequestContent(deletePrivateNameserverRequestContent).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DomainsAPI.DeletePrivateNameserver``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `DeletePrivateNameserver`: DeletePrivateNameserverResponseContent
+	fmt.Fprintf(os.Stdout, "Response from `DomainsAPI.DeletePrivateNameserver`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeletePrivateNameserverRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **deletePrivateNameserverRequestContent** | [**DeletePrivateNameserverRequestContent**](DeletePrivateNameserverRequestContent.md) |  | 
+
+### Return type
+
+[**DeletePrivateNameserverResponseContent**](DeletePrivateNameserverResponseContent.md)
 
 ### Authorization
 
@@ -216,6 +556,72 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## GetDomainRedirectDetails
+
+> GetDomainRedirectDetailsResponseContent GetDomainRedirectDetails(ctx).GetDomainRedirectDetailsRequestContent(getDomainRedirectDetailsRequestContent).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/hostafrica/ha-sdk-go"
+)
+
+func main() {
+	getDomainRedirectDetailsRequestContent := *openapiclient.NewGetDomainRedirectDetailsRequestContent("DomainId_example") // GetDomainRedirectDetailsRequestContent | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DomainsAPI.GetDomainRedirectDetails(context.Background()).GetDomainRedirectDetailsRequestContent(getDomainRedirectDetailsRequestContent).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DomainsAPI.GetDomainRedirectDetails``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetDomainRedirectDetails`: GetDomainRedirectDetailsResponseContent
+	fmt.Fprintf(os.Stdout, "Response from `DomainsAPI.GetDomainRedirectDetails`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetDomainRedirectDetailsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **getDomainRedirectDetailsRequestContent** | [**GetDomainRedirectDetailsRequestContent**](GetDomainRedirectDetailsRequestContent.md) |  | 
+
+### Return type
+
+[**GetDomainRedirectDetailsResponseContent**](GetDomainRedirectDetailsResponseContent.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## ListDnssecRecords
 
 > ListDnssecRecordsResponseContent ListDnssecRecords(ctx).ListDnssecRecordsRequestContent(listDnssecRecordsRequestContent).Execute()
@@ -275,6 +681,67 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ListDomainRedirects
+
+> ListDomainRedirectsResponseContent ListDomainRedirects(ctx).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/hostafrica/ha-sdk-go"
+)
+
+func main() {
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DomainsAPI.ListDomainRedirects(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DomainsAPI.ListDomainRedirects``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ListDomainRedirects`: ListDomainRedirectsResponseContent
+	fmt.Fprintf(os.Stdout, "Response from `DomainsAPI.ListDomainRedirects`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListDomainRedirectsRequest struct via the builder pattern
+
+
+### Return type
+
+[**ListDomainRedirectsResponseContent**](ListDomainRedirectsResponseContent.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -397,6 +864,138 @@ Other parameters are passed through a pointer to a apiListDomainsRequiringDataRe
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## ModifyPrivateNameserver
+
+> ModifyPrivateNameserverResponseContent ModifyPrivateNameserver(ctx).ModifyPrivateNameserverRequestContent(modifyPrivateNameserverRequestContent).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/hostafrica/ha-sdk-go"
+)
+
+func main() {
+	modifyPrivateNameserverRequestContent := *openapiclient.NewModifyPrivateNameserverRequestContent("DomainId_example", "Nameserver_example") // ModifyPrivateNameserverRequestContent | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DomainsAPI.ModifyPrivateNameserver(context.Background()).ModifyPrivateNameserverRequestContent(modifyPrivateNameserverRequestContent).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DomainsAPI.ModifyPrivateNameserver``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ModifyPrivateNameserver`: ModifyPrivateNameserverResponseContent
+	fmt.Fprintf(os.Stdout, "Response from `DomainsAPI.ModifyPrivateNameserver`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiModifyPrivateNameserverRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **modifyPrivateNameserverRequestContent** | [**ModifyPrivateNameserverRequestContent**](ModifyPrivateNameserverRequestContent.md) |  | 
+
+### Return type
+
+[**ModifyPrivateNameserverResponseContent**](ModifyPrivateNameserverResponseContent.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## RegisterPrivateNameserver
+
+> RegisterPrivateNameserverResponseContent RegisterPrivateNameserver(ctx).RegisterPrivateNameserverRequestContent(registerPrivateNameserverRequestContent).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/hostafrica/ha-sdk-go"
+)
+
+func main() {
+	registerPrivateNameserverRequestContent := *openapiclient.NewRegisterPrivateNameserverRequestContent("DomainId_example", "Nameserver_example", "IpAddress_example") // RegisterPrivateNameserverRequestContent | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DomainsAPI.RegisterPrivateNameserver(context.Background()).RegisterPrivateNameserverRequestContent(registerPrivateNameserverRequestContent).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DomainsAPI.RegisterPrivateNameserver``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `RegisterPrivateNameserver`: RegisterPrivateNameserverResponseContent
+	fmt.Fprintf(os.Stdout, "Response from `DomainsAPI.RegisterPrivateNameserver`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiRegisterPrivateNameserverRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **registerPrivateNameserverRequestContent** | [**RegisterPrivateNameserverRequestContent**](RegisterPrivateNameserverRequestContent.md) |  | 
+
+### Return type
+
+[**RegisterPrivateNameserverResponseContent**](RegisterPrivateNameserverResponseContent.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -587,6 +1186,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**UpdateDomainContactsResponseContent**](UpdateDomainContactsResponseContent.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UpdateDomainLockStatus
+
+> UpdateDomainLockStatusResponseContent UpdateDomainLockStatus(ctx).UpdateDomainLockStatusRequestContent(updateDomainLockStatusRequestContent).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/hostafrica/ha-sdk-go"
+)
+
+func main() {
+	updateDomainLockStatusRequestContent := *openapiclient.NewUpdateDomainLockStatusRequestContent("DomainId_example", false) // UpdateDomainLockStatusRequestContent | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DomainsAPI.UpdateDomainLockStatus(context.Background()).UpdateDomainLockStatusRequestContent(updateDomainLockStatusRequestContent).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DomainsAPI.UpdateDomainLockStatus``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `UpdateDomainLockStatus`: UpdateDomainLockStatusResponseContent
+	fmt.Fprintf(os.Stdout, "Response from `DomainsAPI.UpdateDomainLockStatus`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateDomainLockStatusRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **updateDomainLockStatusRequestContent** | [**UpdateDomainLockStatusRequestContent**](UpdateDomainLockStatusRequestContent.md) |  | 
+
+### Return type
+
+[**UpdateDomainLockStatusResponseContent**](UpdateDomainLockStatusResponseContent.md)
 
 ### Authorization
 

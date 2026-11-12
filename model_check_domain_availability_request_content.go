@@ -19,11 +19,11 @@ var _ MappedNullable = &CheckDomainAvailabilityRequestContent{}
 
 // CheckDomainAvailabilityRequestContent struct for CheckDomainAvailabilityRequestContent
 type CheckDomainAvailabilityRequestContent struct {
-	// A single domain name to look up, e.g. \"example.co.za\". Required unless domains is provided.
+	// Optional single FQDN. Use instead of domains.
 	Domain *string `json:"domain,omitempty"`
-	// Comma-separated list of domain names for a batch check. Required unless domain is provided.
+	// Optional comma-separated FQDNs (1–20). Use instead of domain.
 	Domains *string `json:"domains,omitempty"`
-	// Currency for pricing. Accepts ISO code, symbol, country name, or numeric ID. Defaults to ZAR.
+	// Optional; default ZAR. Preferred: ZAR, USD, NGN, KES, GHS, EUR, EGP.
 	Currency *string `json:"currency,omitempty"`
 }
 

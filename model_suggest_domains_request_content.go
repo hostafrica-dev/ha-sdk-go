@@ -23,7 +23,7 @@ var _ MappedNullable = &SuggestDomainsRequestContent{}
 type SuggestDomainsRequestContent struct {
 	// Natural-language description of the business or idea, e.g. \"my coffee shop\"
 	Prompt string `json:"prompt"`
-	// Currency for pricing. Accepts ISO code, symbol, country name, or numeric ID. Defaults to ZAR.
+	// Optional; default ZAR. Preferred: ZAR, USD, NGN, KES, GHS, EUR, EGP.
 	Currency *string `json:"currency,omitempty"`
 }
 

@@ -4,12 +4,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ZoneId** | Pointer to **string** | DNS zone identifier | [optional] 
-**DomainId** | Pointer to **string** | Domain service id when the zone is tied to a domain | [optional] 
-**DomainName** | Pointer to **string** | Zone domain name (FQDN) | [optional] 
-**HostingId** | Pointer to **int32** | Linked hosting service id; omitted when no hosting is linked | [optional] 
+**ZoneId** | Pointer to **string** | DNS Manager zone id (or DirectAdmin index id). Required for dns_manager record mutations and delete-zone. Often null on DirectAdmin — use domain_id (+ service_id from hosting_id) instead. | [optional] 
+**DomainId** | Pointer to **string** | Domain id. Preferred identity when present; required for DirectAdmin get-zone/record/delete-zone when the row is a registered domain. | [optional] 
+**DomainName** | Pointer to **string** | Zone domain name (FQDN). Send as domain_name on manage POSTs. | [optional] 
+**HostingId** | Pointer to **int32** | Hosting service id. Pass as service_id on create-zone/delete-zone (and record mutations when needed) when domain_id is null, or to help DirectAdmin routing. | [optional] 
 **Type** | Pointer to **int32** | Zone type: 0&#x3D;OTHER, 1&#x3D;DOMAIN, 2&#x3D;HOSTING, 3&#x3D;ADDON | [optional] 
-**TypeKey** | Pointer to **string** | Zone type key (e.g. other, domain, hosting, addon) | [optional] 
+**TypeKey** | Pointer to **string** | Zone type key (e.g. other, domain, hosting, addon). Indicates which id fields are populated; does not change URLs. | [optional] 
 **PackageName** | Pointer to **string** | Product or package name for the zone | [optional] 
 **HasHosting** | Pointer to [**DomainHostingLink**](DomainHostingLink.md) |  | [optional] 
 **HasDnsManagerZone** | **bool** | Whether a DNS Manager zone exists for this domain name | 

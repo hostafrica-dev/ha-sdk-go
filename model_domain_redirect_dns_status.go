@@ -21,8 +21,12 @@ var _ MappedNullable = &DomainRedirectDnsStatus{}
 type DomainRedirectDnsStatus struct {
 	// True when the domain has no DNS zone yet
 	ZoneMissing *bool `json:"zone_missing,omitempty"`
-	// True when @ or www A records point at the redirector
+	// True when @ and www A records point at the redirector
 	HasARecord *bool `json:"has_a_record,omitempty"`
+	// True when conflicting @/www A records require override=true on add-redirect
+	OverrideRequired *bool `json:"override_required,omitempty"`
+	// Conflicting A records that would be replaced when override=true
+	ConflictingRecords []DomainRedirectConflictingRecord `json:"conflicting_records,omitempty"`
 }
 
 // NewDomainRedirectDnsStatus instantiates a new DomainRedirectDnsStatus object
@@ -106,6 +110,70 @@ func (o *DomainRedirectDnsStatus) SetHasARecord(v bool) {
 	o.HasARecord = &v
 }
 
+// GetOverrideRequired returns the OverrideRequired field value if set, zero value otherwise.
+func (o *DomainRedirectDnsStatus) GetOverrideRequired() bool {
+	if o == nil || IsNil(o.OverrideRequired) {
+		var ret bool
+		return ret
+	}
+	return *o.OverrideRequired
+}
+
+// GetOverrideRequiredOk returns a tuple with the OverrideRequired field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DomainRedirectDnsStatus) GetOverrideRequiredOk() (*bool, bool) {
+	if o == nil || IsNil(o.OverrideRequired) {
+		return nil, false
+	}
+	return o.OverrideRequired, true
+}
+
+// HasOverrideRequired returns a boolean if a field has been set.
+func (o *DomainRedirectDnsStatus) HasOverrideRequired() bool {
+	if o != nil && !IsNil(o.OverrideRequired) {
+		return true
+	}
+
+	return false
+}
+
+// SetOverrideRequired gets a reference to the given bool and assigns it to the OverrideRequired field.
+func (o *DomainRedirectDnsStatus) SetOverrideRequired(v bool) {
+	o.OverrideRequired = &v
+}
+
+// GetConflictingRecords returns the ConflictingRecords field value if set, zero value otherwise.
+func (o *DomainRedirectDnsStatus) GetConflictingRecords() []DomainRedirectConflictingRecord {
+	if o == nil || IsNil(o.ConflictingRecords) {
+		var ret []DomainRedirectConflictingRecord
+		return ret
+	}
+	return o.ConflictingRecords
+}
+
+// GetConflictingRecordsOk returns a tuple with the ConflictingRecords field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DomainRedirectDnsStatus) GetConflictingRecordsOk() ([]DomainRedirectConflictingRecord, bool) {
+	if o == nil || IsNil(o.ConflictingRecords) {
+		return nil, false
+	}
+	return o.ConflictingRecords, true
+}
+
+// HasConflictingRecords returns a boolean if a field has been set.
+func (o *DomainRedirectDnsStatus) HasConflictingRecords() bool {
+	if o != nil && !IsNil(o.ConflictingRecords) {
+		return true
+	}
+
+	return false
+}
+
+// SetConflictingRecords gets a reference to the given []DomainRedirectConflictingRecord and assigns it to the ConflictingRecords field.
+func (o *DomainRedirectDnsStatus) SetConflictingRecords(v []DomainRedirectConflictingRecord) {
+	o.ConflictingRecords = v
+}
+
 func (o DomainRedirectDnsStatus) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -121,6 +189,12 @@ func (o DomainRedirectDnsStatus) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.HasARecord) {
 		toSerialize["has_a_record"] = o.HasARecord
+	}
+	if !IsNil(o.OverrideRequired) {
+		toSerialize["override_required"] = o.OverrideRequired
+	}
+	if !IsNil(o.ConflictingRecords) {
+		toSerialize["conflicting_records"] = o.ConflictingRecords
 	}
 	return toSerialize, nil
 }

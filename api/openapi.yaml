@@ -386,6 +386,100 @@ paths:
               style: simple
       tags:
       - DNS
+  /dns/create-zone:
+    post:
+      description: Creates a DNS zone for an owned domain. Prefer list-dns-create-candidates
+        first. domain_id and zone_ip are required. Also send service_id from hosting_id
+        when the domain has linked hosting or backend will be directadmin. Optional
+        type/relid select the DNS package (relid from create-candidates); otherwise
+        upstream picks the first eligible package. Do not send zone_id — the zone
+        does not exist yet.
+      operationId: CreateDnsZone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateDnsZoneRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateDnsZoneResponseContent"
+          description: CreateDnsZone 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - DNS
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
   /dns/delete-rdns-record:
     post:
       description: Deletes a PTR (rDNS) record owned by the authenticated client
@@ -562,6 +656,183 @@ paths:
       - name: New
         color: "#5aa7fa"
         position: before
+  /dns/delete-zone:
+    post:
+      description: Deletes a live DNS Manager zone (all records). zone_id from list-dns-zones
+        is required. Optional domain_id/service_id are forwarded when present. DirectAdmin
+        rows with null zone_id are not supported by upstream deletezone.
+      operationId: DeleteDnsZone
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeleteDnsZoneRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteDnsZoneResponseContent"
+          description: DeleteDnsZone 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - DNS
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
+  /dns/edit-rdns-record:
+    post:
+      description: Updates the hostname and optional TTL of a PTR (rDNS) record owned
+        by the authenticated client. The record_id remains valid after the call.
+      operationId: EditRdnsRecord
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EditRdnsRecordRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EditRdnsRecordResponseContent"
+          description: EditRdnsRecord 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - DNS
   /dns/edit-record:
     post:
       description: "Edits a DNS record in a zone. Legacy callers pass zone_id only\
@@ -897,7 +1168,10 @@ paths:
       - DNS
   /dns/list-zones:
     post:
-      description: Lists DNS zones belonging to the authenticated client.
+      description: "Lists DNS zones belonging to the authenticated client. Use each\
+        \ row's ids on later calls: domain_id preferred; zone_id for dns_manager record/zone\
+        \ mutations; hosting_id as service_id when domain_id is null (hosting-only\
+        \ zone)."
       operationId: ListDnsZones
       responses:
         "200":
@@ -972,11 +1246,199 @@ paths:
       - name: New
         color: "#5aa7fa"
         position: before
+  /domain/add-dnssec-record:
+    post:
+      description: Adds a DNSSEC DS record for an owned domain on supported registrars.
+      operationId: AddDnssecRecord
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddDnssecRecordRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AddDnssecRecordResponseContent"
+          description: AddDnssecRecord 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Domains
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
+  /domain/add-redirect:
+    post:
+      description: "Creates or updates HTTP redirect configuration for an owned domain.\
+        \ Upstream may create a DNS zone and point @/www A records at the redirector.\
+        \ If conflicting A records exist, retry with override=true after confirming\
+        \ via get-redirect-details."
+      operationId: AddDomainRedirect
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddDomainRedirectRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AddDomainRedirectResponseContent"
+          description: AddDomainRedirect 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidStateErrorResponseContent"
+          description: InvalidStateError 409 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Domains
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
   /domain/check-availability:
     post:
-      description: "Checks domain name availability for a single domain or a comma-separated\
-        \ batch. Exactly one of domain or domains must be provided. Returns pricing,\
-        \ suggestions, and register_url scoped to the requested currency."
+      description: "Use to check availability/pricing for known domain names. Pass\
+        \ exactly one of domain or domains (comma-separated, max 20); API rejects\
+        \ both omitted or both set. Optional currency (default ZAR). Returns availability,\
+        \ prices, and an external register_url. Prefer suggest_domains for name ideas."
       operationId: CheckDomainAvailability
       requestBody:
         content:
@@ -1008,6 +1470,274 @@ paths:
               schema:
                 $ref: "#/components/schemas/ForbiddenErrorResponseContent"
           description: ForbiddenError 403 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Domains
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
+  /domain/delete-dnssec-record:
+    post:
+      description: Removes a DNSSEC DS record from an owned domain on supported registrars.
+      operationId: DeleteDnssecRecord
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeleteDnssecRecordRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteDnssecRecordResponseContent"
+          description: DeleteDnssecRecord 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Domains
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
+  /domain/delete-private-nameserver:
+    post:
+      description: Deletes a private/child nameserver glue host for an owned domain.
+      operationId: DeletePrivateNameserver
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeletePrivateNameserverRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeletePrivateNameserverResponseContent"
+          description: DeletePrivateNameserver 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Domains
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
+  /domain/delete-redirect:
+    post:
+      description: Removes redirect configuration for an owned domain from the redirector
+        service. DNS records and zones are not modified.
+      operationId: DeleteDomainRedirect
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeleteDomainRedirectRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeleteDomainRedirectResponseContent"
+          description: DeleteDomainRedirect 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
         "422":
           content:
             application/json:
@@ -1164,6 +1894,96 @@ paths:
               schema:
                 $ref: "#/components/schemas/GetDomainContactsResponseContent"
           description: GetDomainContacts 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Domains
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
+  /domain/get-redirect-details:
+    post:
+      description: Retrieves redirect configuration and DNS readiness flags for an
+        owned domain.
+      operationId: GetDomainRedirectDetails
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GetDomainRedirectDetailsRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetDomainRedirectDetailsResponseContent"
+          description: GetDomainRedirectDetails 200 response
         "400":
           content:
             application/json:
@@ -1480,6 +2300,265 @@ paths:
       - name: New
         color: "#5aa7fa"
         position: before
+  /domain/list-redirects:
+    post:
+      description: Lists configured domain redirects for the authenticated client.
+      operationId: ListDomainRedirects
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListDomainRedirectsResponseContent"
+          description: ListDomainRedirects 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Domains
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
+  /domain/modify-private-nameserver:
+    post:
+      description: Modifies a private/child nameserver. Provide at least one of new_nameserver
+        or new_ip_address. Some registrars (COZA/COCCA) require new_ip_address and
+        reject hostname changes.
+      operationId: ModifyPrivateNameserver
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ModifyPrivateNameserverRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ModifyPrivateNameserverResponseContent"
+          description: ModifyPrivateNameserver 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Domains
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
+  /domain/register-private-nameserver:
+    post:
+      description: Registers a private/child nameserver (glue host) under an owned
+        domain. Requires available_features.private_nameservers on get-domain. Distinct
+        from update-nameservers.
+      operationId: RegisterPrivateNameserver
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterPrivateNameserverRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisterPrivateNameserverResponseContent"
+          description: RegisterPrivateNameserver 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Domains
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
   /domain/save-domain-required-data:
     post:
       description: "Saves additional registrar field values for a pending domain.\
@@ -1572,8 +2651,8 @@ paths:
         position: before
   /domain/suggest:
     post:
-      description: Generates AI-powered domain name suggestions from a natural-language
-        description. Returns suggested domains with availability status and pricing.
+      description: "Use for domain name ideas from a description. For specific domains,\
+        \ use check_domain_availability."
       operationId: SuggestDomains
       requestBody:
         content:
@@ -1765,6 +2844,97 @@ paths:
               schema:
                 $ref: "#/components/schemas/UpdateDomainSettingsResponseContent"
           description: UpdateDomainSettings 200 response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestErrorResponseContent"
+          description: BadRequestError 400 response
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorizedErrorResponseContent"
+          description: UnauthorizedError 401 response
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ForbiddenErrorResponseContent"
+          description: ForbiddenError 403 response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResourceNotFoundErrorResponseContent"
+          description: ResourceNotFoundError 404 response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponseContent"
+          description: ValidationError 422 response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TooManyRequestsErrorResponseContent"
+          description: TooManyRequestsError 429 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServiceErrorResponseContent"
+          description: InternalServiceError 500 response
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceUnavailableErrorResponseContent"
+          description: ServiceUnavailableError 503 response
+          headers:
+            Retry-After:
+              description: Number of seconds to wait before retrying
+              explode: false
+              schema:
+                description: Number of seconds to wait before retrying
+                format: int32
+                type: integer
+              style: simple
+      tags:
+      - Domains
+      x-badges:
+      - name: New
+        color: "#5aa7fa"
+        position: before
+  /domain/update-lock-status:
+    post:
+      description: "Sets the registrar transfer lock for an owned domain. When the\
+        \ account has 2FA enabled, upstream may return 403 until two_fa_code (or two_fa_backup)\
+        \ is supplied."
+      operationId: UpdateDomainLockStatus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateDomainLockStatusRequestContent"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateDomainLockStatusResponseContent"
+          description: UpdateDomainLockStatus 200 response
         "400":
           content:
             application/json:
@@ -6246,8 +7416,9 @@ components:
             is directadmin
           type: string
         service_id:
-          description: Optional WHMCS hosting service id from list-dns-zones hosting_id.
-            Not forwarded on DirectAdmin mutations.
+          description: WHMCS hosting service id — pass list-dns-zones hosting_id.
+            Use when domain_id is null (hosting-only). Not forwarded on DirectAdmin
+            record mutations.
           format: int32
           type: integer
         backend:
@@ -6284,6 +7455,135 @@ components:
           $ref: "#/components/schemas/OperationStatus"
         data:
           $ref: "#/components/schemas/DnsRecordMutationData"
+      required:
+      - data
+      - status
+      type: object
+    AddDnssecRecordRequestContent:
+      example:
+        domain_id: domain_id
+        key_tag: 5248
+        digest_type: 38
+        digest: digest
+        alg: 154
+      properties:
+        domain_id:
+          description: Domain service id - must be sent as a string
+          type: string
+        key_tag:
+          description: DNSSEC key tag (0-65535)
+          format: int32
+          maximum: 65535
+          minimum: 0
+          type: integer
+        alg:
+          description: DNSSEC algorithm (1-255)
+          format: int32
+          maximum: 255
+          minimum: 1
+          type: integer
+        digest_type:
+          description: DNSSEC digest type (1-255)
+          format: int32
+          maximum: 255
+          minimum: 1
+          type: integer
+        digest:
+          description: Hex digest; spaces are stripped upstream
+          type: string
+      required:
+      - alg
+      - digest
+      - digest_type
+      - domain_id
+      - key_tag
+      type: object
+    AddDnssecRecordResponseContent:
+      example:
+        data:
+          records:
+          - key_tag: 0
+            digest_type: 1
+            digest: digest
+            alg: 6
+          - key_tag: 0
+            digest_type: 1
+            digest: digest
+            alg: 6
+          message: message
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/DnssecMutationData"
+      required:
+      - data
+      - status
+      type: object
+    AddDomainRedirectData:
+      example:
+        domain: domain
+        message: message
+        type: type
+        url: url
+      properties:
+        message:
+          type: string
+        domain:
+          description: Domain name when returned by upstream
+          type: string
+        url:
+          description: Redirect target URL when returned by upstream
+          type: string
+        type:
+          description: "Redirect type when returned by upstream (e.g. 301, 302)"
+          type: string
+      required:
+      - message
+      type: object
+    AddDomainRedirectRequestContent:
+      example:
+        domain_id: domain_id
+        address: address
+        override: true
+        type: type
+        url: url
+      properties:
+        domain_id:
+          description: Domain service id - must be sent as a string
+          type: string
+        url:
+          description: Redirect target URL (absolute http(s) URL)
+          type: string
+        type:
+          description: "Redirect type: 301, 302, permanent, or temporary"
+          type: string
+        address:
+          description: Optional redirector address override (passed through when present)
+          type: string
+        override:
+          description: "When true, force-replace conflicting @/www A records that\
+            \ do not point at the redirector"
+          type: boolean
+      required:
+      - domain_id
+      - type
+      - url
+      type: object
+    AddDomainRedirectResponseContent:
+      example:
+        data:
+          domain: domain
+          message: message
+          type: type
+          url: url
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/AddDomainRedirectData"
       required:
       - data
       - status
@@ -7210,16 +8510,14 @@ components:
         currency: currency
       properties:
         domain:
-          description: "A single domain name to look up, e.g. \"example.co.za\". Required\
-            \ unless domains is provided."
+          description: Optional single FQDN. Use instead of domains.
           type: string
         domains:
-          description: Comma-separated list of domain names for a batch check. Required
-            unless domain is provided.
+          description: Optional comma-separated FQDNs (1–20). Use instead of domain.
           type: string
         currency:
-          description: "Currency for pricing. Accepts ISO code, symbol, country name,\
-            \ or numeric ID. Defaults to ZAR."
+          description: "Optional; default ZAR. Preferred: ZAR, USD, NGN, KES, GHS,\
+            \ EUR, EGP."
           type: string
       type: object
     CheckDomainAvailabilityResponseContent:
@@ -7410,6 +8708,70 @@ components:
           $ref: "#/components/schemas/OperationStatus"
         data:
           $ref: "#/components/schemas/VpsSimpleActionResponseData"
+      required:
+      - data
+      - status
+      type: object
+    CreateDnsZoneRequestContent:
+      example:
+        domain_id: domain_id
+        domain_name: domain_name
+        relid: 1
+        zone_ip: zone_ip
+        service_id: 0
+        template_id: 5
+        type: 6
+      properties:
+        domain_id:
+          description: Domain service id - must be sent as a string
+          type: string
+        zone_ip:
+          description: Apex A record IPv4 for the new zone. Required by DNS Manager
+            create.
+          type: string
+        domain_name:
+          description: Zone domain name (FQDN). Optional; upstream resolves from domain_id
+            when omitted.
+          type: string
+        service_id:
+          description: WHMCS hosting service id — pass list-dns-zones / create-candidates
+            hosting_id (or relid for HOSTING) as service_id. Helps DirectAdmin create
+            routing when hosting is linked.
+          format: int32
+          type: integer
+        type:
+          description: "Zone type from list-dns-create-candidates: 0=OTHER, 1=DOMAIN,\
+            \ 2=HOSTING, 3=ADDON. Optional; upstream defaults from eligible packages."
+          format: int32
+          type: integer
+        relid:
+          description: Related service id matching the zone type (from list-dns-create-candidates
+            relid). Optional with type; for HOSTING/ADDON often the same value sent
+            as service_id.
+          format: int32
+          type: integer
+        template_id:
+          description: Optional DNS template id to apply after zone creation
+          format: int32
+          type: integer
+      required:
+      - domain_id
+      - zone_ip
+      type: object
+    CreateDnsZoneResponseContent:
+      example:
+        data:
+          domain_id: domain_id
+          zone_id: zone_id
+          domain_name: domain_name
+          backend: dns_manager
+          message: message
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/DnsZoneMutationData"
       required:
       - data
       - status
@@ -8386,8 +9748,9 @@ components:
             is directadmin
           type: string
         service_id:
-          description: Optional WHMCS hosting service id from list-dns-zones hosting_id.
-            Not forwarded on DirectAdmin mutations.
+          description: WHMCS hosting service id — pass list-dns-zones hosting_id.
+            Use when domain_id is null (hosting-only). Not forwarded on DirectAdmin
+            record mutations.
           format: int32
           type: integer
         backend:
@@ -8424,6 +9787,150 @@ components:
           $ref: "#/components/schemas/OperationStatus"
         data:
           $ref: "#/components/schemas/DnsRecordMutationData"
+      required:
+      - data
+      - status
+      type: object
+    DeleteDnsZoneRequestContent:
+      example:
+        domain_id: domain_id
+        zone_id: zone_id
+        service_id: 0
+      properties:
+        zone_id:
+          description: DNS Manager zone id from list-dns-zones. Required by upstream
+            deletezone.
+          type: string
+        domain_id:
+          description: Optional domain id from list-dns-zones when available.
+          type: string
+        service_id:
+          description: Optional hosting service id (list-dns-zones hosting_id) when
+            available.
+          format: int32
+          type: integer
+      required:
+      - zone_id
+      type: object
+    DeleteDnsZoneResponseContent:
+      example:
+        data:
+          domain_id: domain_id
+          zone_id: zone_id
+          domain_name: domain_name
+          backend: dns_manager
+          message: message
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/DnsZoneMutationData"
+      required:
+      - data
+      - status
+      type: object
+    DeleteDnssecRecordRequestContent:
+      example:
+        domain_id: domain_id
+        key_tag: 5248
+        digest_type: 38
+        digest: digest
+        alg: 154
+      properties:
+        domain_id:
+          description: Domain service id - must be sent as a string
+          type: string
+        key_tag:
+          description: DNSSEC key tag (0-65535)
+          format: int32
+          maximum: 65535
+          minimum: 0
+          type: integer
+        alg:
+          description: DNSSEC algorithm (1-255)
+          format: int32
+          maximum: 255
+          minimum: 1
+          type: integer
+        digest_type:
+          description: DNSSEC digest type (1-255)
+          format: int32
+          maximum: 255
+          minimum: 1
+          type: integer
+        digest:
+          description: Hex digest identifying the DS record to remove
+          type: string
+      required:
+      - alg
+      - digest
+      - digest_type
+      - domain_id
+      - key_tag
+      type: object
+    DeleteDnssecRecordResponseContent:
+      example:
+        data:
+          records:
+          - key_tag: 0
+            digest_type: 1
+            digest: digest
+            alg: 6
+          - key_tag: 0
+            digest_type: 1
+            digest: digest
+            alg: 6
+          message: message
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/DnssecMutationData"
+      required:
+      - data
+      - status
+      type: object
+    DeleteDomainRedirectData:
+      example:
+        deleted: true
+        domain: domain
+        message: message
+      properties:
+        message:
+          type: string
+        deleted:
+          description: True when upstream confirmed deletion
+          type: boolean
+        domain:
+          description: Domain name when returned by upstream
+          type: string
+      required:
+      - message
+      type: object
+    DeleteDomainRedirectRequestContent:
+      example:
+        domain_id: domain_id
+      properties:
+        domain_id:
+          description: Domain service id - must be sent as a string
+          type: string
+      required:
+      - domain_id
+      type: object
+    DeleteDomainRedirectResponseContent:
+      example:
+        data:
+          deleted: true
+          domain: domain
+          message: message
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/DeleteDomainRedirectData"
       required:
       - data
       - status
@@ -8514,6 +10021,37 @@ components:
           $ref: "#/components/schemas/OperationStatus"
         data:
           $ref: "#/components/schemas/VpsSimpleActionResponseData"
+      required:
+      - data
+      - status
+      type: object
+    DeletePrivateNameserverRequestContent:
+      example:
+        domain_id: domain_id
+        nameserver: nameserver
+      properties:
+        domain_id:
+          description: Domain service id - must be sent as a string
+          type: string
+        nameserver:
+          description: Child nameserver hostname to delete
+          type: string
+      required:
+      - domain_id
+      - nameserver
+      type: object
+    DeletePrivateNameserverResponseContent:
+      example:
+        data:
+          nameserver: nameserver
+          ip_address: ip_address
+          message: message
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/PrivateNameserverMutationData"
       required:
       - data
       - status
@@ -8800,16 +10338,21 @@ components:
         type_key: type_key
       properties:
         zone_id:
-          description: DNS zone identifier
+          description: DNS Manager zone id (or DirectAdmin index id). Required for
+            dns_manager record mutations and delete-zone. Often null on DirectAdmin
+            — use domain_id (+ service_id from hosting_id) instead.
           type: string
         domain_id:
-          description: Domain service id when the zone is tied to a domain
+          description: Domain id. Preferred identity when present; required for DirectAdmin
+            get-zone/record/delete-zone when the row is a registered domain.
           type: string
         domain_name:
-          description: Zone domain name (FQDN)
+          description: Zone domain name (FQDN). Send as domain_name on manage POSTs.
           type: string
         hosting_id:
-          description: Linked hosting service id; omitted when no hosting is linked
+          description: "Hosting service id. Pass as service_id on create-zone/delete-zone\
+            \ (and record mutations when needed) when domain_id is null, or to help\
+            \ DirectAdmin routing."
           format: int32
           type: integer
         type:
@@ -8817,7 +10360,8 @@ components:
           format: int32
           type: integer
         type_key:
-          description: "Zone type key (e.g. other, domain, hosting, addon)"
+          description: "Zone type key (e.g. other, domain, hosting, addon). Indicates\
+            \ which id fields are populated; does not change URLs."
           type: string
         package_name:
           description: Product or package name for the zone
@@ -8831,6 +10375,55 @@ components:
           $ref: "#/components/schemas/DnsBackend"
       required:
       - has_dns_manager_zone
+      type: object
+    DnsZoneMutationData:
+      description: Result of create-dns-zone or delete-dns-zone
+      example:
+        domain_id: domain_id
+        zone_id: zone_id
+        domain_name: domain_name
+        backend: dns_manager
+        message: message
+      properties:
+        message:
+          description: Status message indicating the result
+          type: string
+        zone_id:
+          description: DNS zone identifier when returned by upstream
+          type: string
+        domain_id:
+          description: Domain service id when returned by upstream
+          type: string
+        domain_name:
+          description: Zone domain name (FQDN) when returned by upstream
+          type: string
+        backend:
+          $ref: "#/components/schemas/DnsBackend"
+      required:
+      - message
+      type: object
+    DnssecMutationData:
+      example:
+        records:
+        - key_tag: 0
+          digest_type: 1
+          digest: digest
+          alg: 6
+        - key_tag: 0
+          digest_type: 1
+          digest: digest
+          alg: 6
+        message: message
+      properties:
+        message:
+          type: string
+        records:
+          description: DNSSEC DS records after mutation when returned by upstream
+          items:
+            $ref: "#/components/schemas/DnssecRecordInfo"
+          type: array
+      required:
+      - message
       type: object
     DnssecRecordInfo:
       description: A DNSSEC DS record
@@ -9511,6 +11104,85 @@ components:
       - period
       - price
       type: object
+    DomainRedirectConflictingRecord:
+      description: Conflicting A record that blocks redirect setup without override=true
+      example:
+        line: 0
+        name: name
+        type: type
+        value: value
+      properties:
+        line:
+          description: Zone line / record id when present
+          format: int32
+          type: integer
+        name:
+          description: "Record name (e.g. @, www, or FQDN)"
+          type: string
+        type:
+          description: Record type (typically A)
+          type: string
+        value:
+          description: Record IP value when present
+          type: string
+      type: object
+    DomainRedirectDnsStatus:
+      description: DNS readiness flags for domain redirect setup
+      example:
+        override_required: true
+        has_a_record: true
+        zone_missing: true
+        conflicting_records:
+        - line: 0
+          name: name
+          type: type
+          value: value
+        - line: 0
+          name: name
+          type: type
+          value: value
+      properties:
+        zone_missing:
+          description: True when the domain has no DNS zone yet
+          type: boolean
+        has_a_record:
+          description: True when @ and www A records point at the redirector
+          type: boolean
+        override_required:
+          description: True when conflicting @/www A records require override=true
+            on add-redirect
+          type: boolean
+        conflicting_records:
+          description: Conflicting A records that would be replaced when override=true
+          items:
+            $ref: "#/components/schemas/DomainRedirectConflictingRecord"
+          type: array
+      type: object
+    DomainRedirectInfo:
+      description: A configured domain HTTP redirect
+      example:
+        domain_id: domain_id
+        address: address
+        domain: domain
+        type: type
+        url: url
+      properties:
+        domain_id:
+          description: Domain service id
+          type: string
+        domain:
+          description: Domain name
+          type: string
+        url:
+          description: Redirect target URL
+          type: string
+        type:
+          description: "Redirect type (e.g. 301, 302, permanent, temporary)"
+          type: string
+        address:
+          description: Optional redirector address override
+          type: string
+      type: object
     DomainRequiredFields:
       additionalProperties:
         type: string
@@ -9790,8 +11462,9 @@ components:
             is directadmin
           type: string
         service_id:
-          description: Optional WHMCS hosting service id from list-dns-zones hosting_id.
-            Not forwarded on DirectAdmin mutations.
+          description: WHMCS hosting service id — pass list-dns-zones hosting_id.
+            Use when domain_id is null (hosting-only). Not forwarded on DirectAdmin
+            record mutations.
           format: int32
           type: integer
         backend:
@@ -9831,6 +11504,79 @@ components:
       required:
       - data
       - status
+      type: object
+    EditRdnsRecordRequestContent:
+      example:
+        record_id: 1
+        hostname: hostname
+        ttl: 52089
+      properties:
+        record_id:
+          description: ID of the PTR record to update
+          format: int32
+          minimum: 1
+          type: integer
+        hostname:
+          description: Updated PTR target hostname
+          type: string
+        ttl:
+          description: "Time-to-live in seconds. When omitted, upstream keeps the\
+            \ existing TTL; clamped to [30, 86400] when set"
+          format: int32
+          maximum: 86400
+          minimum: 30
+          type: integer
+      required:
+      - hostname
+      - record_id
+      type: object
+    EditRdnsRecordResponseContent:
+      example:
+        data:
+          record:
+            sub: sub
+            hostname: hostname
+            relid: 5
+            clientid: 2
+            ip: ip
+            packageid: 7
+            name: name
+            from: from
+            id: 0
+            type: 1
+            ttl: 6
+            serverid: 5
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/EditRdnsRecordResponseData"
+      required:
+      - data
+      - status
+      type: object
+    EditRdnsRecordResponseData:
+      description: Response data for the edit-rdns-record operation
+      example:
+        record:
+          sub: sub
+          hostname: hostname
+          relid: 5
+          clientid: 2
+          ip: ip
+          packageid: 7
+          name: name
+          from: from
+          id: 0
+          type: 1
+          ttl: 6
+          serverid: 5
+      properties:
+        record:
+          $ref: "#/components/schemas/RdnsRecord"
+      required:
+      - record
       type: object
     EmptyData:
       description: Empty object for operations that don't return data
@@ -10658,6 +12404,92 @@ components:
       required:
       - domain
       - message
+      type: object
+    GetDomainRedirectDetailsData:
+      example:
+        domain_id: domain_id
+        address: address
+        domain: domain
+        dns:
+          override_required: true
+          has_a_record: true
+          zone_missing: true
+          conflicting_records:
+          - line: 0
+            name: name
+            type: type
+            value: value
+          - line: 0
+            name: name
+            type: type
+            value: value
+        message: message
+        type: type
+        url: url
+      properties:
+        message:
+          type: string
+        domain_id:
+          description: Domain service id
+          type: string
+        domain:
+          description: Domain name
+          type: string
+        url:
+          description: Redirect target URL when configured
+          type: string
+        type:
+          description: Redirect type when configured
+          type: string
+        address:
+          description: Optional redirector address override
+          type: string
+        dns:
+          $ref: "#/components/schemas/DomainRedirectDnsStatus"
+      required:
+      - message
+      type: object
+    GetDomainRedirectDetailsRequestContent:
+      example:
+        domain_id: domain_id
+      properties:
+        domain_id:
+          description: Domain service id - must be sent as a string
+          type: string
+      required:
+      - domain_id
+      type: object
+    GetDomainRedirectDetailsResponseContent:
+      example:
+        data:
+          domain_id: domain_id
+          address: address
+          domain: domain
+          dns:
+            override_required: true
+            has_a_record: true
+            zone_missing: true
+            conflicting_records:
+            - line: 0
+              name: name
+              type: type
+              value: value
+            - line: 0
+              name: name
+              type: type
+              value: value
+          message: message
+          type: type
+          url: url
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/GetDomainRedirectDetailsData"
+      required:
+      - data
+      - status
       type: object
     GetDomainRequestContent:
       example:
@@ -11760,6 +13592,68 @@ components:
       - data
       - status
       type: object
+    ListDomainRedirectsData:
+      example:
+        offset: 6
+        redirects:
+        - domain_id: domain_id
+          address: address
+          domain: domain
+          type: type
+          url: url
+        - domain_id: domain_id
+          address: address
+          domain: domain
+          type: type
+          url: url
+        limit: 0
+        message: message
+      properties:
+        message:
+          type: string
+        redirects:
+          items:
+            $ref: "#/components/schemas/DomainRedirectInfo"
+          type: array
+        limit:
+          description: Pagination limit
+          format: int32
+          type: integer
+        offset:
+          description: Pagination offset
+          format: int32
+          type: integer
+      required:
+      - message
+      - redirects
+      type: object
+    ListDomainRedirectsResponseContent:
+      example:
+        data:
+          offset: 6
+          redirects:
+          - domain_id: domain_id
+            address: address
+            domain: domain
+            type: type
+            url: url
+          - domain_id: domain_id
+            address: address
+            domain: domain
+            type: type
+            url: url
+          limit: 0
+          message: message
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/ListDomainRedirectsData"
+      required:
+      - data
+      - status
+      type: object
     ListDomainsData:
       description: List domains response data
       example:
@@ -12779,6 +14673,77 @@ components:
       - data
       - status
       type: object
+    ModifyPrivateNameserverData:
+      example:
+        new_nameserver: new_nameserver
+        nameserver: nameserver
+        message: message
+        new_ip_address: new_ip_address
+        old_ip_address: old_ip_address
+      properties:
+        message:
+          description: Status message indicating the result
+          type: string
+        nameserver:
+          description: Existing nameserver hostname that was modified
+          type: string
+        new_nameserver:
+          description: New hostname when a rename was requested
+          type: string
+        old_ip_address:
+          description: Previous glue IP when supplied
+          type: string
+        new_ip_address:
+          description: New glue IP when supplied
+          type: string
+      required:
+      - message
+      type: object
+    ModifyPrivateNameserverRequestContent:
+      example:
+        domain_id: domain_id
+        new_nameserver: new_nameserver
+        nameserver: nameserver
+        new_ip_address: new_ip_address
+        old_ip_address: old_ip_address
+      properties:
+        domain_id:
+          description: Domain service id - must be sent as a string
+          type: string
+        nameserver:
+          description: Existing child nameserver hostname to modify
+          type: string
+        new_nameserver:
+          description: New hostname; unsupported for some registrars (COZA/COCCA)
+          type: string
+        old_ip_address:
+          description: Current glue IP when the registrar requires it
+          type: string
+        new_ip_address:
+          description: New glue IPv4 or IPv6 address
+          type: string
+      required:
+      - domain_id
+      - nameserver
+      type: object
+    ModifyPrivateNameserverResponseContent:
+      example:
+        data:
+          new_nameserver: new_nameserver
+          nameserver: nameserver
+          message: message
+          new_ip_address: new_ip_address
+          old_ip_address: old_ip_address
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/ModifyPrivateNameserverData"
+      required:
+      - data
+      - status
+      type: object
     MountIsoRequestContent:
       example:
         iso: iso
@@ -13470,6 +15435,24 @@ components:
       - message
       - tasks
       type: object
+    PrivateNameserverMutationData:
+      example:
+        nameserver: nameserver
+        ip_address: ip_address
+        message: message
+      properties:
+        message:
+          description: Status message indicating the result
+          type: string
+        nameserver:
+          description: Child nameserver hostname
+          type: string
+        ip_address:
+          description: Glue IP address when returned (register)
+          type: string
+      required:
+      - message
+      type: object
     RdnsAvailableItem:
       description: One service the client can manage PTRs for
       example:
@@ -13635,6 +15618,42 @@ components:
           $ref: "#/components/schemas/OperationStatus"
         data:
           $ref: "#/components/schemas/VpsSimpleActionResponseData"
+      required:
+      - data
+      - status
+      type: object
+    RegisterPrivateNameserverRequestContent:
+      example:
+        domain_id: domain_id
+        nameserver: nameserver
+        ip_address: ip_address
+      properties:
+        domain_id:
+          description: Domain service id - must be sent as a string
+          type: string
+        nameserver:
+          description: Full child nameserver hostname (e.g. ns1.example.com)
+          type: string
+        ip_address:
+          description: Glue IPv4 or IPv6 address for the nameserver
+          type: string
+      required:
+      - domain_id
+      - ip_address
+      - nameserver
+      type: object
+    RegisterPrivateNameserverResponseContent:
+      example:
+        data:
+          nameserver: nameserver
+          ip_address: ip_address
+          message: message
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/PrivateNameserverMutationData"
       required:
       - data
       - status
@@ -14360,8 +16379,8 @@ components:
             \ \"my coffee shop\""
           type: string
         currency:
-          description: "Currency for pricing. Accepts ISO code, symbol, country name,\
-            \ or numeric ID. Defaults to ZAR."
+          description: "Optional; default ZAR. Preferred: ZAR, USD, NGN, KES, GHS,\
+            \ EUR, EGP."
           type: string
       required:
       - prompt
@@ -14577,6 +16596,70 @@ components:
           $ref: "#/components/schemas/OperationStatus"
         data:
           $ref: "#/components/schemas/UpdateDomainContactsData"
+      required:
+      - data
+      - status
+      type: object
+    UpdateDomainLockStatusData:
+      example:
+        lock_status: lock_status
+        domain: domain
+        requested_status: true
+        message: message
+      properties:
+        message:
+          description: Status message indicating the result
+          type: string
+        domain:
+          description: Domain name (FQDN)
+          type: string
+        lock_status:
+          description: "Applied lock state as reported after the update (e.g. locked,\
+            \ unlocked)"
+          type: string
+        requested_status:
+          description: Boolean lock value that was requested
+          type: boolean
+      required:
+      - message
+      type: object
+    UpdateDomainLockStatusRequestContent:
+      example:
+        domain_id: domain_id
+        two_fa_backup: two_fa_backup
+        lock_status: true
+        two_fa_code: two_fa_code
+      properties:
+        domain_id:
+          description: Domain service id - must be sent as a string
+          type: string
+        lock_status:
+          description: "True to lock (prevent transfer), false to unlock"
+          type: boolean
+        two_fa_code:
+          description: OTP from email/TOTP when upstream returns 403 two-factor required;
+            forwarded as 2fa_code
+          type: string
+        two_fa_backup:
+          description: Backup 2FA code when OTP is unavailable; forwarded as 2fa_backup
+          type: string
+      required:
+      - domain_id
+      - lock_status
+      type: object
+    UpdateDomainLockStatusResponseContent:
+      example:
+        data:
+          lock_status: lock_status
+          domain: domain
+          requested_status: true
+          message: message
+        status: success
+      properties:
+        status:
+          $ref: "#/components/schemas/OperationStatus"
+        data:
+          $ref: "#/components/schemas/UpdateDomainLockStatusData"
       required:
       - data
       - status

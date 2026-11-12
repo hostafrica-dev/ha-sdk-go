@@ -27,7 +27,7 @@ type DeleteDnsRecordRequestContent struct {
 	ZoneId *string `json:"zone_id,omitempty"`
 	// WHMCS domain id from list-dns-zones; required when backend is directadmin
 	DomainId *string `json:"domain_id,omitempty"`
-	// Optional WHMCS hosting service id from list-dns-zones hosting_id. Not forwarded on DirectAdmin mutations.
+	// WHMCS hosting service id — pass list-dns-zones hosting_id. Use when domain_id is null (hosting-only). Not forwarded on DirectAdmin record mutations.
 	ServiceId *int32 `json:"service_id,omitempty"`
 	Backend *DnsBackend `json:"backend,omitempty"`
 	Record DnsRecordMutationRecord `json:"record"`

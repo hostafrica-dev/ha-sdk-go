@@ -5,10 +5,13 @@ All URIs are relative to *https://api.hostafrica.com*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**AddDnsRecord**](DNSAPI.md#AddDnsRecord) | **Post** /dns/add-record | 
+[**CreateDnsZone**](DNSAPI.md#CreateDnsZone) | **Post** /dns/create-zone | 
 [**CreateRdnsRecord**](DNSAPI.md#CreateRdnsRecord) | **Post** /dns/create-rdns-record | 
 [**DeleteDnsRecord**](DNSAPI.md#DeleteDnsRecord) | **Post** /dns/delete-record | 
+[**DeleteDnsZone**](DNSAPI.md#DeleteDnsZone) | **Post** /dns/delete-zone | 
 [**DeleteRdnsRecord**](DNSAPI.md#DeleteRdnsRecord) | **Post** /dns/delete-rdns-record | 
 [**EditDnsRecord**](DNSAPI.md#EditDnsRecord) | **Post** /dns/edit-record | 
+[**EditRdnsRecord**](DNSAPI.md#EditRdnsRecord) | **Post** /dns/edit-rdns-record | 
 [**GetDnsZoneDetails**](DNSAPI.md#GetDnsZoneDetails) | **Post** /dns/get-zone | 
 [**ListDnsCreateCandidates**](DNSAPI.md#ListDnsCreateCandidates) | **Post** /dns/list-create-candidates | 
 [**ListDnsZones**](DNSAPI.md#ListDnsZones) | **Post** /dns/list-zones | 
@@ -67,6 +70,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**AddDnsRecordResponseContent**](AddDnsRecordResponseContent.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## CreateDnsZone
+
+> CreateDnsZoneResponseContent CreateDnsZone(ctx).CreateDnsZoneRequestContent(createDnsZoneRequestContent).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/hostafrica/ha-sdk-go"
+)
+
+func main() {
+	createDnsZoneRequestContent := *openapiclient.NewCreateDnsZoneRequestContent("DomainId_example", "ZoneIp_example") // CreateDnsZoneRequestContent | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DNSAPI.CreateDnsZone(context.Background()).CreateDnsZoneRequestContent(createDnsZoneRequestContent).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DNSAPI.CreateDnsZone``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `CreateDnsZone`: CreateDnsZoneResponseContent
+	fmt.Fprintf(os.Stdout, "Response from `DNSAPI.CreateDnsZone`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateDnsZoneRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **createDnsZoneRequestContent** | [**CreateDnsZoneRequestContent**](CreateDnsZoneRequestContent.md) |  | 
+
+### Return type
+
+[**CreateDnsZoneResponseContent**](CreateDnsZoneResponseContent.md)
 
 ### Authorization
 
@@ -214,6 +283,72 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## DeleteDnsZone
+
+> DeleteDnsZoneResponseContent DeleteDnsZone(ctx).DeleteDnsZoneRequestContent(deleteDnsZoneRequestContent).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/hostafrica/ha-sdk-go"
+)
+
+func main() {
+	deleteDnsZoneRequestContent := *openapiclient.NewDeleteDnsZoneRequestContent("ZoneId_example") // DeleteDnsZoneRequestContent | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DNSAPI.DeleteDnsZone(context.Background()).DeleteDnsZoneRequestContent(deleteDnsZoneRequestContent).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DNSAPI.DeleteDnsZone``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `DeleteDnsZone`: DeleteDnsZoneResponseContent
+	fmt.Fprintf(os.Stdout, "Response from `DNSAPI.DeleteDnsZone`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteDnsZoneRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **deleteDnsZoneRequestContent** | [**DeleteDnsZoneRequestContent**](DeleteDnsZoneRequestContent.md) |  | 
+
+### Return type
+
+[**DeleteDnsZoneResponseContent**](DeleteDnsZoneResponseContent.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## DeleteRdnsRecord
 
 > DeleteRdnsRecordResponseContent DeleteRdnsRecord(ctx).DeleteRdnsRecordRequestContent(deleteRdnsRecordRequestContent).Execute()
@@ -331,6 +466,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**EditDnsRecordResponseContent**](EditDnsRecordResponseContent.md)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## EditRdnsRecord
+
+> EditRdnsRecordResponseContent EditRdnsRecord(ctx).EditRdnsRecordRequestContent(editRdnsRecordRequestContent).Execute()
+
+
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/hostafrica/ha-sdk-go"
+)
+
+func main() {
+	editRdnsRecordRequestContent := *openapiclient.NewEditRdnsRecordRequestContent(int32(123), "Hostname_example") // EditRdnsRecordRequestContent | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DNSAPI.EditRdnsRecord(context.Background()).EditRdnsRecordRequestContent(editRdnsRecordRequestContent).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DNSAPI.EditRdnsRecord``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `EditRdnsRecord`: EditRdnsRecordResponseContent
+	fmt.Fprintf(os.Stdout, "Response from `DNSAPI.EditRdnsRecord`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiEditRdnsRecordRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **editRdnsRecordRequestContent** | [**EditRdnsRecordRequestContent**](EditRdnsRecordRequestContent.md) |  | 
+
+### Return type
+
+[**EditRdnsRecordResponseContent**](EditRdnsRecordResponseContent.md)
 
 ### Authorization
 

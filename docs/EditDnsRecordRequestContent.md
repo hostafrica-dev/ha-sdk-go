@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **DomainName** | Pointer to **string** | DNS zone domain name (FQDN); optional for dns_manager when zone_id is provided. Not forwarded on DirectAdmin mutations. | [optional] 
 **ZoneId** | Pointer to **string** | DNS zone identifier from list-dns-zones or get-dns-zone-details; required for dns_manager / legacy callers | [optional] 
 **DomainId** | Pointer to **string** | WHMCS domain id from list-dns-zones; required when backend is directadmin | [optional] 
-**ServiceId** | Pointer to **int32** | Optional WHMCS hosting service id from list-dns-zones hosting_id. Not forwarded on DirectAdmin mutations. | [optional] 
+**ServiceId** | Pointer to **int32** | WHMCS hosting service id — pass list-dns-zones hosting_id. Use when domain_id is null (hosting-only). Not forwarded on DirectAdmin record mutations. | [optional] 
 **Backend** | Pointer to [**DnsBackend**](DnsBackend.md) |  | [optional] 
 **Record** | [**DnsRecordMutationRecord**](DnsRecordMutationRecord.md) |  | 
 

@@ -21,17 +21,17 @@ var _ MappedNullable = &DnsZoneInfo{}
 
 // DnsZoneInfo A DNS zone owned by the authenticated client
 type DnsZoneInfo struct {
-	// DNS zone identifier
+	// DNS Manager zone id (or DirectAdmin index id). Required for dns_manager record mutations and delete-zone. Often null on DirectAdmin — use domain_id (+ service_id from hosting_id) instead.
 	ZoneId *string `json:"zone_id,omitempty"`
-	// Domain service id when the zone is tied to a domain
+	// Domain id. Preferred identity when present; required for DirectAdmin get-zone/record/delete-zone when the row is a registered domain.
 	DomainId *string `json:"domain_id,omitempty"`
-	// Zone domain name (FQDN)
+	// Zone domain name (FQDN). Send as domain_name on manage POSTs.
 	DomainName *string `json:"domain_name,omitempty"`
-	// Linked hosting service id; omitted when no hosting is linked
+	// Hosting service id. Pass as service_id on create-zone/delete-zone (and record mutations when needed) when domain_id is null, or to help DirectAdmin routing.
 	HostingId *int32 `json:"hosting_id,omitempty"`
 	// Zone type: 0=OTHER, 1=DOMAIN, 2=HOSTING, 3=ADDON
 	Type *int32 `json:"type,omitempty"`
-	// Zone type key (e.g. other, domain, hosting, addon)
+	// Zone type key (e.g. other, domain, hosting, addon). Indicates which id fields are populated; does not change URLs.
 	TypeKey *string `json:"type_key,omitempty"`
 	// Product or package name for the zone
 	PackageName *string `json:"package_name,omitempty"`
